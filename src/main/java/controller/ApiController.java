@@ -15,7 +15,7 @@ import net.oschina.zwlzwl376.jfinal.plugin.collerbind.Coller;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Record;
 
-@Coller(value = { "/api" }, path = "api")
+@Coller(value = { "/api" }, views = "api")
 public class ApiController extends Controller {
 
 	public void index() {
