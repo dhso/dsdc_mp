@@ -40,22 +40,7 @@
 	</profiles>
 	<repositories>
 		<repository>
-			<id>public</id>
-			<name>Public Repositories</name>
-			<url>http://ims-maven-repo/nexus/content/groups/public</url>
-		</repository>
-		<repository>
-			<id>oschina</id>
-			<name>oschina Repositories</name>
-			<url>http://maven.oschina.net/content/groups/public/</url>
-		</repository>
-		<repository>
-			<id>3rd party</id>
-			<name>3rd party</name>
-			<url>http://ims-maven-repo/nexus/content/repositories/thirdparty</url>
-		</repository>
-		<repository>
-			<id>minws-public-repository</id>
+			<id>minws public repository</id>
 			<name>Public Repositories</name>
 			<url>http://maven.minws.com/nexus/content/groups/public</url>
 		</repository>
