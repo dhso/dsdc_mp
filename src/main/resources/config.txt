@@ -1,0 +1,7 @@
+#数据库配置
+web.jdbcDriver = ${web.jdbcDriver}
+web.jdbcUrl = ${web.jdbcUrl}?useUnicode=true&characterEncoding=utf-8
+web.jdbcUser = ${web.jdbcUser}
+web.jdbcPassword = ${web.jdbcPassword}
+#开发模式
+devMode = ${devMode}
