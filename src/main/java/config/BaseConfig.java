@@ -1,5 +1,6 @@
 package config;
 
+import net.dreamlu.event.EventPlugin;
 import net.oschina.zwlzwl376.jfinal.plugin.collerbind.AutoCollerBindPlugin;
 import net.oschina.zwlzwl376.jfinal.plugin.tablebind.AutoTableBindPlugin;
 
@@ -38,7 +39,9 @@ public class BaseConfig extends JFinalConfig {
 
 	public void configPlugin(Plugins me) {
 		// 配置数据库连接池插件
-		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("web.jdbcUrl"), PropKit.get("web.jdbcUser"), PropKit.get("web.jdbcPassword"), PropKit.get("web.jdbcDriver"));
+		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("web.jdbcUrl"),
+				PropKit.get("web.jdbcUser"), PropKit.get("web.jdbcPassword"),
+				PropKit.get("web.jdbcDriver"));
 		druidPlugin.setFilters("mergeStat,wall");
 		me.add(druidPlugin);
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
@@ -46,6 +49,11 @@ public class BaseConfig extends JFinalConfig {
 		// 自动表绑定插件
 		AutoTableBindPlugin tables = new AutoTableBindPlugin("model");
 		tables.start(arp);
+		// 事件驱动插件
+		EventPlugin ep = new EventPlugin();
+		ep.async();
+		ep.scanPackage("listener");
+		me.add(ep);
 	}
 
 	public void configInterceptor(Interceptors me) {
