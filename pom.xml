@@ -21,7 +21,7 @@
 				<devMode>true</devMode>
 				<log4j.rootLogger>DEBUG, stdout</log4j.rootLogger>
 				<web.jdbcDriver>com.mysql.jdbc.Driver</web.jdbcDriver>
-				<web.jdbcUrl>jdbc:mysql://192.168.23.2:3306/api</web.jdbcUrl>
+				<web.jdbcUrl>jdbc:mysql://192.168.23.4:3306/api</web.jdbcUrl>
 				<web.jdbcUser>root</web.jdbcUser>
 				<web.jdbcPassword>mysql4root</web.jdbcPassword>
 			</properties>
@@ -158,6 +158,17 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 			<version>4.5.2</version>
+		</dependency>
+		<!-- smartqq -->
+		<dependency>
+			<groupId>com.scienjus</groupId>
+			<artifactId>smartqq</artifactId>
+			<version>299496e</version>
+		</dependency>
+		<dependency>
+			<groupId>net.dongliu</groupId>
+			<artifactId>requests</artifactId>
+			<version>2.1.5</version>
 		</dependency>
 	</dependencies>
 	<build>

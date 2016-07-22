@@ -27,4 +27,9 @@ public class ApiController extends Controller {
 		renderJson(users);
 	}
 
+	public void qq() {
+		WebQQController webqq = new WebQQController();
+		renderText("ok");
+	}
+
 }
