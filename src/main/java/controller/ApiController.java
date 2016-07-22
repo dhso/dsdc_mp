@@ -26,4 +26,5 @@ public class ApiController extends Controller {
 		EventKit.postEvent(new ApiEvent(users));
 		renderJson(users);
 	}
+
 }
