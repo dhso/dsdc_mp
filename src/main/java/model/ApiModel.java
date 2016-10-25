@@ -9,11 +9,11 @@ package model;
 
 import java.util.List;
 
-import net.oschina.zwlzwl376.jfinal.plugin.tablebind.Table;
-
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
+
+import frame.plugin.tablebind.Table;
 
 @SuppressWarnings("serial")
 @Table("shiro_users")

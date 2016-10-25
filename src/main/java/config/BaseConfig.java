@@ -1,8 +1,6 @@
 package config;
 
 import net.dreamlu.event.EventPlugin;
-import net.oschina.zwlzwl376.jfinal.plugin.collerbind.AutoCollerBindPlugin;
-import net.oschina.zwlzwl376.jfinal.plugin.tablebind.AutoTableBindPlugin;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -19,6 +17,12 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
 import com.jfinal.render.FreeMarkerRender;
 
+import frame.plugin.collerbind.RoutesScanner;
+import frame.plugin.freemarker.BlockDirective;
+import frame.plugin.freemarker.ExtendsDirective;
+import frame.plugin.freemarker.OverrideDirective;
+import frame.plugin.tablebind.TablesScanner;
+
 public class BaseConfig extends JFinalConfig {
 
 	@SuppressWarnings("unused")
@@ -33,8 +37,8 @@ public class BaseConfig extends JFinalConfig {
 	public void configRoute(Routes me) {
 		this.routes = me;
 		// 自动路由绑定插件
-		AutoCollerBindPlugin abp = new AutoCollerBindPlugin("controller");
-		abp.start(me);
+		RoutesScanner rs = new RoutesScanner("controller");
+		rs.start(me);
 	}
 
 	public void configPlugin(Plugins me) {
@@ -47,13 +51,13 @@ public class BaseConfig extends JFinalConfig {
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
 		me.add(arp);
 		// 自动表绑定插件
-		AutoTableBindPlugin tables = new AutoTableBindPlugin("model");
-		tables.start(arp);
+		TablesScanner ts = new TablesScanner("model");
+		//ts.start(arp);
 		// 事件驱动插件
 		EventPlugin ep = new EventPlugin();
 		ep.async();
 		ep.scanPackage("listener");
-		me.add(ep);
+		ep.start();
 	}
 
 	public void configInterceptor(Interceptors me) {
@@ -70,5 +74,8 @@ public class BaseConfig extends JFinalConfig {
 	public void afterJFinalStart() {
 		super.afterJFinalStart();
 		FreeMarkerRender.getConfiguration().setClassicCompatible(true);
+		FreeMarkerRender.getConfiguration().setSharedVariable("block", new BlockDirective());
+		FreeMarkerRender.getConfiguration().setSharedVariable("override", new OverrideDirective());
+		FreeMarkerRender.getConfiguration().setSharedVariable("extends", new ExtendsDirective());
 	}
 }
