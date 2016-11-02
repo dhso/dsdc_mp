@@ -17,5 +17,9 @@ public class MainController extends Controller {
 	public void index() {
 		render("index.html");
 	}
+	
+	public void getMenu(){
+		renderJson();
+	}
 
 }

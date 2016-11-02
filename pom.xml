@@ -24,6 +24,7 @@
 				<web.jdbcUrl>jdbc:mysql://192.168.1.204:3306/testing</web.jdbcUrl>
 				<web.jdbcUser>root</web.jdbcUser>
 				<web.jdbcPassword>frame.plugin.quartz</web.jdbcPassword>
+				<remote.service.url>http://192.168.1.204:8088/yzts_wms</remote.service.url>
 			</properties>
 		</profile>
 		<profile>
@@ -35,6 +36,7 @@
 				<web.jdbcUrl>jdbc:mysql://192.168.23.2:3306/api</web.jdbcUrl>
 				<web.jdbcUser>root</web.jdbcUser>
 				<web.jdbcPassword>mysql4root</web.jdbcPassword>
+				<remote.service.url>http://192.168.1.204:8088/yzts_wms</remote.service.url>
 			</properties>
 		</profile>
 	</profiles>
@@ -67,6 +69,11 @@
 			<groupId>net.dreamlu</groupId>
 			<artifactId>JFinal-event</artifactId>
 			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.dreampie</groupId>
+			<artifactId>resty-route</artifactId>
+			<version>1.3.0-SNAPSHOT</version>
 		</dependency>
 		<!-- dom4j -->
 		<dependency>
