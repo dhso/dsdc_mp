@@ -40,45 +40,16 @@ body {
 	border-top: 1px #ccc solid;
 }
 
-.nav-item {
-	cursor: pointer;
-}
-
 .logo {
 	height: 40px;
 	font-size: 26px;
 	line-height: 40px;
 }
 
-.system-icon {
-	position: absolute;
-	top: 0;
-	right: 0;
-	height: 30px;
-	padding: 5px;
-	line-height: 30px;
-	color: #666;
-	cursor: pointer;
-	font-size: 14px;
-}
-
 .login-info {
 	position: absolute;
-	bottom: 10px;
-	left: 10px;
-}
-
-.system-icon span {
-	margin-right: 10px;
-	border: 1px transparent solid;
-	padding: 5px 9px;
-	border-radius: 2px;
-}
-
-.system-icon span:hover {
-	color: #fff;
-	border: 1px #ccc solid;
-	background-color: #393D49;
+	top: 10px;
+	right: 10px;
 }
 
 .main-menu {
@@ -93,7 +64,7 @@ body {
 }
 
 .main-menu * {
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .main-menu li {
@@ -101,8 +72,10 @@ body {
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
-	width: 100px;
+	min-width: 20px;
+	padding : 0 5px;
 	text-align: center;
+	cursor: pointer;
 }
 
 .main-menu li span {
@@ -136,6 +109,7 @@ body {
 	display: block;
 	position: relative;
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 .sub-menu li span {
