@@ -90,16 +90,18 @@ function subMenuClickListener() {
 				$(this).addClass('active');
 			});
 }
-// tip
+
 function hovertip(dom, text, direction, color) {
-	dom.mouseover(function() {
+	dom.hover(function() {
 		$tip(text, this, direction, color);
+	}, function() {
+		layer.closeAll('tips');
 	});
 }
+// tip
 function $tip(text, dom, direction, color) {
 	layer.tips(text, dom, {
-		tips : [ direction ? direction : 3, color ? color : '#393D49' ],
-		time : 1000
+		tips : [ direction ? direction : 3, color ? color : '#393D49' ]
 	});
 }
 
