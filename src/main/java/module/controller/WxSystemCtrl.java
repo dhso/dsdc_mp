@@ -41,12 +41,14 @@ public class WxSystemCtrl extends Controller {
 	public void signin() {
 		if ("GET".equalsIgnoreCase(this.getRequest().getMethod().toUpperCase())) {
 			forwardAction(LOGIN_PAGE);
-		} else if ("POST".equalsIgnoreCase(this.getRequest().getMethod().toUpperCase())) {
+		} else if ("POST".equalsIgnoreCase(this.getRequest().getMethod()
+				.toUpperCase())) {
 			String username = getPara("username");
 			String password = getPara("password");
-			Boolean rememberMe = "on".equalsIgnoreCase(getPara("rememberMe", "off"));
+			String rememberMe = getPara("rememberMe");
 			Subject currentUser = SecurityUtils.getSubject();
-			UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+			UsernamePasswordToken token = new UsernamePasswordToken(username,
+					password, "on".equalsIgnoreCase(rememberMe));
 			try {
 				currentUser.login(token);
 				redirect(getCookie("_redrictUrl", LOGIN_SUCCESS));

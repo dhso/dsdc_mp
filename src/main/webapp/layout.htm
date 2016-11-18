@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta name="viewport" content="user-scalable=0, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<link rel="shortcut icon" type="image/x-icon" href="${baseUrl}/static/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="${baseUrl}/static/lib/easyui/themes/material/easyui.css">
+	<title><@block name="title"></@block></title>
+	<@block name="outCss"></@block>
+	<style type="text/css">
+	<@block name="inCss"></@block>
+	</style>
+	<script type="text/javascript">
+		var baseUrl = '${baseUrl}';
+	</script>
+</head>
+<body>
+	<@block name="body"></@block>
+	
+	<script type="text/javascript" src="${baseUrl}/static/lib/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="${baseUrl}/static/lib/easyui/jquery.easyui.min.js"></script>
+	<@block name="outJs"></@block>
+	<script type="text/javascript">
+		<@block name="inJs"></@block>
+	</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 <ehcache name="shiro" updateCheck="false" monitoring="autodetect"
 	dynamicConfig="true">
-	<diskStore path="java.io.tmpdir/resty-ehcache" />
+	<diskStore path="java.io.tmpdir/${project.name}/ehcache" />
 
     <!--
 	以下属性是必须的：

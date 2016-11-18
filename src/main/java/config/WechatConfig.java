@@ -1,9 +1,11 @@
 /**
-  * Copyright (c) 2015-2016, Javen Zhou  (javenlife@126.com).
+ * Copyright (c) 2015-2016, Javen Zhou  (javenlife@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 package config;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -17,7 +19,7 @@ import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.druid.DruidStatViewHandler;
+import com.jfinal.plugin.druid.IDruidStatViewAuth;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.IErrorRenderFactory;
@@ -25,10 +27,12 @@ import com.jfinal.render.RedirectRender;
 import com.jfinal.render.Render;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 
+import frame.handler.DruidStatViewHandler;
 import frame.plugin.collerbind.RoutesScanner;
 import frame.plugin.freemarker.BlockDirective;
 import frame.plugin.freemarker.ExtendsDirective;
 import frame.plugin.freemarker.OverrideDirective;
+import frame.plugin.shiro.ShiroKit;
 import frame.plugin.shiro.core.ShiroInterceptor;
 import frame.plugin.shiro.core.ShiroPlugin;
 import frame.plugin.shiro.freemarker.ShiroTags;
@@ -68,13 +72,14 @@ public class WechatConfig extends JFinalConfig {
 		// 添加shiro支持
 		me.add(new ShiroPlugin(routes));
 		// 添加缓存支持
-		me.add(new EhCachePlugin(WechatConfig.class.getClassLoader().getResource("ehcache-model.xml")));
+		me.add(new EhCachePlugin(WechatConfig.class.getClassLoader()
+				.getResource("ehcache-model.xml")));
 		// 配置数据库连接池插件
-		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbc.url"), PropKit.get("jdbc.user"), PropKit.get("jdbc.password"), PropKit.get("jdbc.driver"));
+		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbc.url"),
+				PropKit.get("jdbc.user"), PropKit.get("jdbc.password"),
+				PropKit.get("jdbc.driver"));
 		druidPlugin.setFilters("mergeStat,wall");
-		me.add(druidPlugin);
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		me.add(arp);
 		// 自动表绑定插件
 		TablesScanner ts = new TablesScanner("module.model");
 		ts.start(arp);
@@ -90,17 +95,26 @@ public class WechatConfig extends JFinalConfig {
 	public void configHandler(Handlers me) {
 		me.add(new UrlSkipHandler(".*/static/.*", false));
 		me.add(new ContextPathHandler("baseUrl"));
-		me.add(new DruidStatViewHandler("/druid"));
+		me.add(new DruidStatViewHandler("druid", new IDruidStatViewAuth() {
+			@Override
+			public boolean isPermitted(HttpServletRequest request) {
+				return ShiroKit.isAuthenticated();
+			}
+		}));
 
 	}
 
 	public void afterJFinalStart() {
 		super.afterJFinalStart();
 		FreeMarkerRender.getConfiguration().setClassicCompatible(true);
-		FreeMarkerRender.getConfiguration().setSharedVariable("shiro", new ShiroTags());
-		FreeMarkerRender.getConfiguration().setSharedVariable("block", new BlockDirective());
-		FreeMarkerRender.getConfiguration().setSharedVariable("override", new OverrideDirective());
-		FreeMarkerRender.getConfiguration().setSharedVariable("extends", new ExtendsDirective());
+		FreeMarkerRender.getConfiguration().setSharedVariable("shiro",
+				new ShiroTags());
+		FreeMarkerRender.getConfiguration().setSharedVariable("block",
+				new BlockDirective());
+		FreeMarkerRender.getConfiguration().setSharedVariable("override",
+				new OverrideDirective());
+		FreeMarkerRender.getConfiguration().setSharedVariable("extends",
+				new ExtendsDirective());
 	}
 
 }

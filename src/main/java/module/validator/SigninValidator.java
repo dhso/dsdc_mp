@@ -7,11 +7,13 @@
  */
 package module.validator;
 
+import module.controller.WxSystemCtrl;
+
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
 
 public class SigninValidator extends Validator {
-	
+
 	protected void validate(Controller c) {
 		if ("POST".equalsIgnoreCase(c.getRequest().getMethod().toUpperCase())) {
 			validateRequiredString("password", "errorMsg", "请输入密码");
@@ -20,8 +22,9 @@ public class SigninValidator extends Validator {
 	}
 
 	protected void handleError(Controller c) {
-		c.setAttr("username", c.getPara("username", ""));
-		c.forwardAction("/security/login");
+		c.setAttr("username", c.getPara("username"));
+		c.setAttr("rememberMe", c.getPara("rememberMe"));
+		c.forwardAction(WxSystemCtrl.LOGIN_PAGE);
 		return;
 	}
 }
