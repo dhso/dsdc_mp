@@ -1,163 +1,192 @@
-body {
-	font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;
+body, html {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", tahoma, arial, simsun, "宋体";
+}
+.weui_navbar+.weui_tab_bd {
+    padding: 50px 5px 60px 5px;
+    background-color: #f5f5f5;
+}
+.weui-photo-browser-modal {
+    z-index: 999;
+}
+.weui_navbar {
+    line-height: 2rem;
+    height: 2rem;
+    background-color: #6ABD78;
+    color: #fff;
+}
+.weui-photo-browser-modal .photo-container img {
+    margin: 0 auto;
+}
+.weui_tabbar:before {
+    border-top: 1px solid #ccc;
+}
+.navbar_left {
+    flex: 1;
+}
+.navbar_center {
+    flex: 3;
+    text-align: center;
+}
+.navbar_right {
+    flex: 1;
 }
 
-.welcome-loading {
-	position: absolute;
-	z-index: 1000;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	background: #fff url('../img/loading.gif') no-repeat center;
+/*chat*/
+.aui-chat {
+    width: 100%;
+    height: 100%;
 }
-
-.lay-top {
-	height: 60px;
-	padding: 10px;
-	border-bottom: 5px solid #5FB878;
+.aui-chat .aui-chat-item {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    display: block;
 }
-
-.lay-left {
-	width: 150px;
+.aui-chat .aui-chat-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.6rem;
+    color: #757575;
 }
-
-.lay-main {
-	
+.aui-chat .aui-chat-left {
+    float: left;
 }
-
-.lay-tab {
-	
+.aui-chat .aui-chat-right {
+    float: right;
 }
-
-.lay-bottom {
-	height: 16px;
-	padding: 2px;
-	text-align: center;
-	line-height: 16px;
-	text-shadow: 2px 0 6px #ccc;
-	font-size: 12px;
-	border-top: 1px #ccc solid;
+.aui-chat .aui-chat-media {
+    display: inline-block;
+    max-width: 2rem;
 }
-
-.logo {
-	height: 40px;
-	font-size: 26px;
-	line-height: 40px;
+.aui-chat .aui-chat-media img {
+    width: 100%;
+    border-radius: 50%;
 }
-
-.login-info {
-	position: absolute;
-	top: 10px;
-	right: 10px;
+.aui-chat .aui-chat-inner {
+    position: relative;
+    overflow: hidden;
+    display: inherit;
 }
-
-.main-menu {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	padding: 0;
-	background: none;
-	color: #c2c2c2;
-	font-size: 0;
-	box-sizing: border-box !important;
+.aui-chat .aui-chat-arrow {
+    content: '';
+    position: absolute;
+    width: 0.6rem;
+    height: 0.6rem;
+    top: 0.2rem;
+    -webkit-transform-origin: 50% 50% 0;
+    transform-origin: 50% 50% 0;
+    background-color: transparent;
 }
-
-.main-menu * {
-	font-size: 12px;
+.aui-chat .aui-chat-left .aui-chat-arrow {
+    background-image: -webkit-linear-gradient(45deg, #CCE6DE, #CCE6DE 50%, transparent 50%);
+    background-image: linear-gradient(45deg, #CCE6DE, #CCE6DE 50%, transparent 50%);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    left: -0.25rem;
 }
-
-.main-menu li {
-	line-height: 50px;
-	position: relative;
-	display: inline-block;
-	vertical-align: middle;
-	min-width: 20px;
-	padding : 0 5px;
-	text-align: center;
-	cursor: pointer;
+.aui-chat .aui-chat-right .aui-chat-arrow {
+    background-image: -webkit-linear-gradient(45deg, #ffffff, #ffffff 50%, transparent 50%);
+    background-image: linear-gradient(45deg, #ffffff, #ffffff 50%, transparent 50%);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+    right: -0.25rem;
 }
-
-.main-menu li span {
-	display: block;
-	color: #666;
-	transition: all .3s;
-	-webkit-transition: all .3s;
+.aui-chat .aui-chat-content {
+    color: #212121;
+    font-size: 0.7rem;
+    border-radius: 0.2rem;
+    min-height: 1rem;
+    position: relative;
+    padding: 0.5rem;
+    max-width: 80%;
+    word-break: break-all;
+    word-wrap: break-word;
 }
-
-.main-menu li:hover span,.main-menu li.active span {
-	color: #000;
-	outline: 0;
+.aui-chat .aui-chat-content img {
+    max-width: 100%;
+    display: block;
 }
-
-.main-menu li.active:after,.main-menu li:hover:after {
-	content: '';
-	position: absolute;
-	top: auto;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 5px;
-	background-color: #393D49;
-	transition: all .2s;
-	-webkit-transition: all .2s;
-	left: 0;
+.aui-chat .aui-chat-status {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
 }
-
-.sub-menu li {
-	line-height: 40px;
-	display: block;
-	position: relative;
-	vertical-align: middle;
-	cursor: pointer;
+.aui-chat .aui-chat-name {
+    width: 100%;
+    position: relative;
+    font-size: 0.6rem;
+    color: #757575;
+    margin-bottom: 0.25rem;
 }
-
-.sub-menu li span {
-	display: block;
-	padding: 0 20px;
-	color: #c2c2c2;
-	transition: all .3s;
-	-webkit-transition: all .3s;
-	font-size: 14px;
+.aui-chat .aui-chat-left .aui-chat-name {
+    left: 0.5rem;
 }
-
-.sub-menu li:hover span,.sub-menu li.active span {
-	color: #fff;
-	background-color: #4E5465;
-	outline: 0;
+.aui-chat .aui-chat-left .aui-chat-status {
+    left: 0.5rem;
+    float: left;
 }
-
-.sub-menu li.active:after,.sub-menu li:hover:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 5px;
-	height: 100%;
-	background-color: #5FB878;
-	transition: all .2s;
-	-webkit-transition: all .2s;
+.aui-chat .aui-chat-left .aui-chat-media {
+    width: 2rem;
+    float: left;
 }
-/*easyui*/
-.accordion {
-	background-color: #2B2E37;
+.aui-chat .aui-chat-left .aui-chat-inner {
+    max-width: 70%;
 }
-
-.accordion .accordion-header,.accordion .accordion-header-selected {
-	background-color: #2B2E37;
-	border: none;
-	padding: 10px 5px;
+.aui-chat .aui-chat-left .aui-chat-content {
+    background-color: #CCE6DE;
+    float: left;
+    left: 0.5rem;
 }
-
-.accordion .panel-title,.accordion .accordion-header-selected .panel-title
-	{
-	color: #fff;
-	font-weight: normal;
-	font-size: 14px;
-	padding-left: 15px;
+.aui-chat .aui-chat-right .aui-chat-media {
+    width: 2rem;
+    float: right;
 }
-
-.accordion .panel-body {
-	background-color: #393D49;
-	border: none;
+.aui-chat .aui-chat-right .aui-chat-inner {
+    float: right;
+    max-width: 70%;
+}
+.aui-chat .aui-chat-right .aui-chat-name {
+    float: right;
+    right: 0.5rem;
+    text-align: right;
+}
+.aui-chat .aui-chat-right .aui-chat-content {
+    background-color: #ffffff;
+    right: 0.5rem;
+    float: right;
+}
+.aui-chat .aui-chat-right .aui-chat-status {
+    float: right;
+    right: 0.5rem;
+}
+.aui-chat-tool {
+    min-height: 2rem;
+}
+.aui-chat-tool .eaitWrap {
+    position: absolute;
+    right: 4rem;
+    left: 0;
+}
+.aui-chat-tool .editArea {
+    line-height: 1.4rem;
+    height: 1.4rem;
+    margin: 0.25rem;
+    padding: 0 0.25rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: none;
+    width: 100%;
+}
+.aui-chat-tool .sendBtn {
+    line-height: 1.4rem;
+    height: 1.4rem;
+    margin: 0.25rem;
+    position: absolute;
+    right: 0px;
 }

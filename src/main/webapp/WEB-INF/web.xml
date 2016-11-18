@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	id="WebApp_ID" version="2.5">
-	
-	<!-- DruidWebStatFilter -->
+	version="2.5">
+
+	<display-name>Archetype Created Web Application</display-name>
+
+	<!--druid 数据源监控 -->
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -17,30 +18,64 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- ShiroFilter -->
-	<!-- <listener> <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class> 
-		</listener> <filter> <filter-name>ShiroFilter</filter-name> <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class> 
-		</filter> <filter-mapping> <filter-name>ShiroFilter</filter-name> <url-pattern>/*</url-pattern> 
-		</filter-mapping> -->
-	<!-- JfinalFilter -->
+	<filter>
+		<filter-name>RestyFilter</filter-name>
+		<filter-class>cn.dreampie.route.RestyFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>/**/*.html,/**/*.js,/**/*.map,/**/*.woff,/**/*.woff,/**/*.ttf,/**/*.gif,/**/*.jpg,/**/*.png,/**/*.css,/**/*.ico,/druid/**</param-value>
+		</init-param>
+		<init-param>
+			<param-name>configClass</param-name>
+			<param-value>config.ApiConfig</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>RestyFilter</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping>
 
-	<!-- JfinalFilter -->
 	<filter>
 		<filter-name>JfinalFilter</filter-name>
 		<filter-class>com.jfinal.core.JFinalFilter</filter-class>
 		<init-param>
 			<param-name>configClass</param-name>
-			<param-value>config.BaseConfig</param-value>
+			<param-value>config.WechatConfig</param-value>
 		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>JfinalFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<init-param>
+			<param-name>loginUsername</param-name>
+			<param-value>admin</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>loginPassword</param-name>
+			<param-value>admin</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>

@@ -1,153 +1,157 @@
-var timeout = 1;
-$.parser.onComplete = function() {
-	$(".welcome-loading").fadeOut("slow", function() {
-		$(this).remove();
-	});
-};
-var menuDate = [ {
-	'id' : 1,
-	'name' : '仓库信息',
-	'sub' : [ {
-		'id' : 11,
-		'name' : '仓库管理',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	}, {
-		'id' : 12,
-		'name' : '仓库增加',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	}, {
-		'id' : 13,
-		'name' : '仓库删除',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	} ]
-}, {
-	'id' : 2,
-	'name' : '人力资源',
-	'sub' : [ {
-		'id' : 21,
-		'name' : '人力管理',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	}, {
-		'id' : 22,
-		'name' : '人力增加',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	}, {
-		'id' : 23,
-		'name' : '人力删除',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	} ]
-}, {
-	'id' : 3,
-	'name' : '系统设置',
-	'sub' : [ {
-		'id' : 31,
-		'name' : '系统管理',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	}, {
-		'id' : 32,
-		'name' : '系统更新',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	}, {
-		'id' : 33,
-		'name' : '系统报修',
-		'icon' : 'icon-archive',
-		'href' : '/ck'
-	} ]
-} ];
+var robotName = 'DataGuru',
+  robotAvatar = 'static/img/robot.jpg',
+  userName = 'Andy Li',
+  userAvatar = 'static/img/andyli.png',
+  photoBrowser;
 
-$(document).ready(function() {
-	initSubMenu(menuDate);
-	subMenuClickListener();
-	hovertip($('.main-menu li').has('.icon-bell'), '消息提醒', 1);
-	hovertip($('.main-menu li').has('.icon-off'), '退出登录', 1);
+$(function() {
+  //FastClick
+  FastClick.attach(document.body);
+  //chat images click listener
+  $('.aui-chat').on('click', '.aui-chat-content img', function() {
+    var items = [],
+      item = {};
+    item.image = $(this).attr('src');
+    item.caption = $(this).attr('alt');
+    items.push(item);
+    showPic(items);
+  });
+  //chat link click listener
+  $('.aui-chat').on('click', '[data-action="getLinkContent"]', function() {
+	  clickLink(1,userName,$(this).text(),$(this).attr('data-id'));
+  });
+  //send button click listener
+  $('.sendBtn').on('click', function() {
+    //send message
+    sendMsgExt(userAvatar, userName, 'text', $('.editArea').val());
+    askRobot(1,userName,$('.editArea').val());
+    //receive message
+//    switch ($('.editArea').val()) {
+//      case '1':
+//        recvMsgExt(robotAvatar, robotName, 'text', 'What do you want to know about the segments?<br>[11] List all the category of your segments.');
+//        break;
+//      case '11':
+//        recvMsgExt(robotAvatar, robotName, 'image', 'developing', 'static/img/developing.jpg');
+//        break;
+//      case '2':
+//        recvMsgExt(robotAvatar, robotName, 'text', 'What the partner info do you want to know?<br>[21] List all the category of your segments.');
+//        break;
+//      case '21':
+//        recvMsgExt(robotAvatar, robotName, 'image', 'developing', 'static/img/developing.jpg');
+//        break;
+//      default:
+//        recvMsgExt(robotAvatar, robotName, 'text', 'Hello, I’m DataGuru. What I can help?<br>[1] Segment Consulting<br>[2] Partner Consulting<br>Reply the number of your question. Like “1”.');
+//    }
+    //empty edit area
+    $('.editArea').val('');
+  });
+  //1 timestamp
+  timeMsg({
+    text: new Date().format('yyyy-MM-dd hh:mm:ss')
+  });
+  //2 welcome
+  recvMsgExt(robotAvatar, robotName, [{
+	  msgType :  "text",
+	  text : "Hello, I’m DataGuru. What I can help?"
+  }]);
+
+
 });
-function initSubMenu(data) {
-	$.each(data, function(index, item) {
-		laytpl($('#sub_menu_tpl').html()).render(item.sub, function(html) {
-			$('.lay-left .easyui-accordion').accordion('add', {
-				title : item.name,
-				content : '<ul class="sub-menu">' + html + '</ul>'
-			});
-		});
-	});
-	$('.lay-left .easyui-accordion').accordion('select', 0);
-}
-function subMenuClickListener() {
-	$('.sub-menu li').live(
-			'click',
-			function() {
-				$tab.create($('.lay-tab'), $(this).attr('data-id'), $(this)
-						.find('cite').text(), $(this).attr('data-href'));
-				$('.sub-menu li').removeClass('active');
-				$(this).addClass('active');
-			});
+
+function showPic(items) {
+  photoBrowser = $.photoBrowser({
+    items: items
+  });
+  photoBrowser.open();
 }
 
-function hovertip(dom, text, direction, color) {
-	dom.hover(function() {
-		$tip(text, this, direction, color);
-	}, function() {
-		layer.closeAll('tips');
-	});
-}
-// tip
-function $tip(text, dom, direction, color) {
-	layer.tips(text, dom, {
-		tips : [ direction ? direction : 3, color ? color : '#393D49' ]
-	});
+function sendMsg(data) {
+  laytpl($('#sendMsg').html()).render(data, function(html) {
+    $('.aui-chat').append(html);
+    scrollToMsg();
+  });
 }
 
-// 标签页
-var $tab = {
-	create : function(tabDom, id, title, url) {
-		if (tabDom.tabs('exists', title)) {
-			tabDom.tabs('select', title);
-			return;
-		}
-		$progress.show('加载中', '正在加载中，请耐心等待...');
-		tabDom.tabs('add', {
-			id : 'tab_' + id,
-			title : title,
-			href : url,
-			closable : true,
-			extractor : function(data) {
-				var res = JSON.parse(data);
-				consoloe.log(res);
-			},
-			onLoad : function() {
-				$progress.close();
-			}
-		});
-	}
-};
-// loading进度条
-var $progress = {
-	show : function(title, text) {
-		parent.$.messager.progress({
-			title : title,
-			text : text
-		});
-		setTimeout(function() {
-			$progress.close();
-		}, timeout * 1000);
-	},
-	close : function() {
-		parent.$.messager.progress('close');
-	}
-};
-// IE8 console.log() 未定义错误
-window.console = window.console
-		|| (function() {
-			var c = {};
-			c.log = c.warn = c.debug = c.info = c.error = c.time = c.dir = c.profile = c.clear = c.exception = c.trace = c.assert = function() {
-			};
-			return c;
-		})();
+function sendMsgExt(_avatar, _userName, _msgType, _text, _image) {
+  var data = {
+    avatar: _avatar,
+    userName: _userName,
+    msgType: _msgType,
+    text: _text,
+    image: _image
+  };
+  sendMsg(data);
+}
+
+function recvMsg(data) {
+  laytpl($('#recvMsg').html()).render(data, function(html) {
+    $('.aui-chat').append(html);
+    scrollToMsg();
+  });
+}
+
+function recvMsgExt(_avatar, _userName, _answer) {
+  var data = {
+    avatar: _avatar,
+    userName: _userName,
+    answer:_answer
+  };
+  setTimeout(function(){
+    recvMsg(data)
+  }, 800);
+}
+
+function timeMsg(data) {
+  laytpl($('#timeMsg').html()).render(data, function(html) {
+    $('.aui-chat').append(html);
+    scrollToMsg();
+  });
+}
+
+function scrollToMsg(speed) {
+  if (!speed) speed = 300;
+  $('.scroll_page').animate({
+    scrollTop: $('.scroll_page').scrollHeight()
+  }, speed);
+}
+Date.prototype.format = function(format) {
+  var o = {
+    "M+": this.getMonth() + 1, //month
+    "d+": this.getDate(), //day
+    "h+": this.getHours(), //hour
+    "m+": this.getMinutes(), //minute
+    "s+": this.getSeconds(), //second
+    "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+    "S": this.getMilliseconds() //millisecond
+  }
+  if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(format))
+      format = format.replace(RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] :
+        ("00" + o[k]).substr(("" + o[k]).length));
+  return format;
+}
+
+function askRobot(_userId,_userName,_question){
+	$.post('api/qas/question',{
+    	userId:_userId,
+    	userName:_userName,
+    	question:_question
+    },function(res){
+    	if(res && res.answer){
+    		recvMsgExt(robotAvatar, robotName, res.answer);
+    	}
+    });
+}
+function clickLink(_userId,_userName,_question,_id){
+	$.post('api/qas/question/id/'+_id,{
+		userId:_userId,
+    	userName:_userName,
+    	question:_question
+    },function(res){
+    	if(res && res.answer){
+    		recvMsgExt(robotAvatar, robotName, res.answer);
+    	}
+    });
+}

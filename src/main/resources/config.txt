@@ -1,8 +1,15 @@
-#数据库配置
-web.jdbcDriver = ${web.jdbcDriver}
-web.jdbcUrl = ${web.jdbcUrl}?useUnicode=true&characterEncoding=utf-8
-web.jdbcUser = ${web.jdbcUser}
-web.jdbcPassword = ${web.jdbcPassword}
-remote.service.url = ${remote.service.url}
-#开发模式
 devMode = ${devMode}
+
+#数据库配置
+jdbc.driver = ${db.default.driver}
+jdbc.url = ${db.default.url}
+jdbc.user = ${db.default.user}
+jdbc.password = ${db.default.password}
+
+#微信配置
+wx.url=http://oraybang.wicp.net/jfsys/wechat
+wx.token=apphui
+wx.appId = wx396714621dc72788
+wx.appSecret = e5adb6d4b8326ead8bfe27dfe92a2738
+wx.encryptMessage = false
+wx.encodingAesKey = ASDFGHJKL

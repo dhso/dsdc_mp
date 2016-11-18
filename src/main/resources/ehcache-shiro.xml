@@ -3,12 +3,11 @@
 	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false"
 	monitoring="autodetect" dynamicConfig="true" name="ehcache-shiro">
 
-	<diskStore path="java.io.tmpdir/ehcache-shiro" />
+	<diskStore path="${ehcache.DiskStore}" />
 
 	<defaultCache maxElementsInMemory="10000" eternal="false"
 		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
-		diskPersistent="false" diskExpiryThreadIntervalSeconds="120">
-	</defaultCache>
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="120" />
 
 	<cache name="myRealm.authorizationCache" maxElementsInMemory="10000"
 		overflowToDisk="true" eternal="true" timeToLiveSeconds="0"
@@ -22,13 +21,8 @@
 		diskExpiryThreadIntervalSeconds="600">
 	</cache>
 
-	<cache name="shiro-kickout-session" maxElementsInMemory="10000"
-		eternal="true" diskPersistent="true" overflowToDisk="true"
-		diskExpiryThreadIntervalSeconds="600">
-	</cache>
-
 	<!-- 登录记录缓存 锁定10分钟 -->
-	<cache name="shiro-passwordRetryCache" maxEntriesLocalHeap="2000"
+	<cache name="passwordRetryCache" maxEntriesLocalHeap="2000"
 		eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="0"
 		overflowToDisk="false" statistics="true">
 	</cache>
