@@ -79,7 +79,9 @@ public class WechatConfig extends JFinalConfig {
 				PropKit.get("jdbc.user"), PropKit.get("jdbc.password"),
 				PropKit.get("jdbc.driver"));
 		druidPlugin.setFilters("mergeStat,wall");
+		me.add(druidPlugin);
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		me.add(arp);
 		// 自动表绑定插件
 		TablesScanner ts = new TablesScanner("module.model");
 		ts.start(arp);

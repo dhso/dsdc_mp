@@ -1,29 +1,70 @@
 <@override name="title">登录</@override>
+<@override name="outCss">
+<link rel="stylesheet" type="text/css" href="${baseUrl}/static/lib/bgstretcher/bgstretcher.css">
+</@override>
 <@override name="inCss">
-#win_login{
+.login-form{
+	filter:alpha(opacity=50);  
+	-moz-opacity:0.95;  
+	-khtml-opacity: 0.95;  
+	opacity: 0.95;
+	left: auto!important;
+    right: 10%;
+}
+.login-form ~ .window-shadow{
+	background: transparent;
+	left: auto!important;
+    right: 10%;
+}
+.login-form .panel-body{
 	padding: 10px;
     width: 218px!important;
 }
-#win_login .textbox,#win_login .switchbutton{
-	margin-bottom:10px;
+.login-form .panel-body .textbox,.login-form .panel-body .switchbutton{
+	margin-bottom:20px;
+}
+.submit-btn{
+	margin-top: 20px;
+}
+.error-msg{
+	color:red;
+	text-align:right;
+}
+.rememberMe-label{
+	vertical-align: text-bottom;
+    font-size: 13px;
+    margin-left: 10px;
+    line-height: 26px;
+ }
+.ad .bgstretcher{
+ 	border-radius:10px;
+}
+.ad img{
+	width: 100%!important;
+    height: 100%!important;
 }
 </@override>
 <@override name="body">
+<div class="ad"></div>
 <div id="win_login">
 <form action="${baseUrl}/wechat/system/signin" method="post">
-	<p>${errorMsg}</p>
+	<p class="error-msg">${errorMsg}</p>
 	<input id="username" name="username" type="text">
 	<input id="password" name="password" type="text">
-	<input id="rememberMe" name="rememberMe" type="checkbox">
-	<a id="submit"></a>
+	<input id="rememberMe" name="rememberMe" type="checkbox"><span class="rememberMe-label">记住我</span>
+	<a id="submit" class="submit-btn"></a>
 </form>
 </div>
 
+
+</@override>
+<@override name="outJs">
+	<script type="text/javascript" src="${baseUrl}/static/lib/bgstretcher/jquery-bgstretcher-3.3.0.min.js"></script>
 </@override>
 <@override name="inJs">
 $('#win_login').window({
     width:240,
-    height:420,
+    height:300,
     title:' ',
     collapsible:false,
     minimizable:false,
@@ -31,7 +72,7 @@ $('#win_login').window({
     draggable:false,
     resizable:false,
     closable:false,
-    left:80
+    cls:'login-form'
     
 });
 $('#username').textbox({
@@ -71,6 +112,18 @@ $(document).ready(function() {
 	}
 	$(window).on('beforeunload', function() {
 		return '关闭或刷新页面可能导致操作丢失，请确认！';
+	});
+	$(".ad").css({
+		'position':'relative',
+		'height':$('.window-shadow').height()-10,
+		'top':$('.window-shadow').position().top - 3,
+		'left': '10%',
+		'width':540
+	})
+	$(".ad").bgStretcher({
+	    images: ["https://img.alicdn.com/tps/TB1plbcMVXXXXcUXFXXXXXXXXXX-900-700.jpg", "https://img.alicdn.com/tps/TB1JzT0OXXXXXcfXFXXXXXXXXXX-900-700.png"],
+	    slideShow: true,
+        transitionEffect: "fade"
 	});
 });
 </@override>

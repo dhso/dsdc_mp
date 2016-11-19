@@ -14,7 +14,7 @@ import frame.kit.RecordKit;
 import frame.plugin.tablebind.Table;
 
 @SuppressWarnings("serial")
-@Table(value = "shiro_users")
+@Table("shiro_users")
 public class ShiroModel extends Model<ShiroModel> {
 	public static final ShiroModel dao = new ShiroModel();
 

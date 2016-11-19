@@ -11,7 +11,7 @@ import frame.kit.RecordKit;
 import frame.plugin.tablebind.Table;
 
 @SuppressWarnings("serial")
-@Table(value = "sys_config")
+@Table("sys_config")
 public class ConfModel extends Model<ConfModel> {
 	public static final ConfModel dao = new ConfModel();
 
