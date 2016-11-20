@@ -13,7 +13,7 @@ import frame.plugin.collerbind.Coller;
 /**
  * @author hadong
  */
-@Coller(value = { "/wechat" }, path = "wechat")
+@Coller(value = { "/" }, path = "wechat")
 public class WxIndexCtrl extends Controller {
 	public void index(){
 		setAttr("test", "这里是测试...");

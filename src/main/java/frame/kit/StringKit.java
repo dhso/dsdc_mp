@@ -16,9 +16,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
@@ -272,14 +270,15 @@ public class StringKit extends StringUtils {
 	 * 
 	 * @param is
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, String> convertStreamToJsonMap(InputStream is) throws JsonParseException, JsonMappingException, IOException {
+	public static Map<String, String> convertStreamToJsonMap(InputStream is) throws UnsupportedEncodingException {
 		String jsonStr = convertStreamToString(is);
-		Map<String, String> maps = new ObjectMapper().readValue(jsonStr, Map.class);
+		Map<String, String> maps = new JSONObject().getObject(jsonStr, Map.class);
 		return maps;
 	}
 

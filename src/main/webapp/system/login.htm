@@ -47,12 +47,12 @@
 <@override name="body">
 <div class="ad"></div>
 <div id="win_login">
-<form action="${baseUrl}/wechat/system/signin" method="post">
+<form action="${baseUrl}/wx/system/signin" method="post">
 	<p class="error-msg">${errorMsg}</p>
 	<input id="username" name="username" type="text">
 	<input id="password" name="password" type="text">
 	<input id="rememberMe" name="rememberMe" type="checkbox"><span class="rememberMe-label">记住我</span>
-	<a id="submit" class="submit-btn"></a>
+	<button id="submit" class="submit-btn" type="submit"></button>
 </form>
 </div>
 
@@ -65,7 +65,7 @@
 $('#win_login').window({
     width:240,
     height:300,
-    title:' ',
+    noheader:true,
     collapsible:false,
     minimizable:false,
     maximizable:false,
@@ -77,7 +77,7 @@ $('#win_login').window({
 });
 $('#username').textbox({
 	height:26,
-    iconCls:'icon-man',
+    iconCls:'icon-user',
     iconAlign:'right',
     value:'${username}',
     width:'100%',
@@ -98,21 +98,14 @@ $('#rememberMe').switchbutton({
 });
 $('#submit').linkbutton({
     width: '100%',
-    text:'登录',
-    onClick:function(){
-    	$(window).unbind('beforeunload');
-		$('form').submit();
-    }
+    text:'登录'
 });
 $(document).ready(function() {
-	if (!$("#username").val()) {
-		$("#username").focus();
+	if (!$('[name="username"]').val()) {
+		$('[name="username"]').prev('input').focus();
 	} else {
-		$("#password").focus();
+		$('[name="password"]').prev('input').focus();
 	}
-	$(window).on('beforeunload', function() {
-		return '关闭或刷新页面可能导致操作丢失，请确认！';
-	});
 	$(".ad").css({
 		'position':'relative',
 		'height':$('.window-shadow').height()-10,

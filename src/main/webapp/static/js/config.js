@@ -1,5 +1,10 @@
+initLayout();
 processLoading();
 $(function(){
+	$(window).on('beforeunload', function() {
+		return '关闭或刷新页面可能导致操作丢失，请确认！';
+	});
+	
 	init_menu();
 });
 //初始化布局
@@ -9,6 +14,9 @@ function processLoading(){
 			$(this).remove();
 		});
 	}
+}
+function initLayout(){
+	
 }
 //初始化menus
 function init_menu(){

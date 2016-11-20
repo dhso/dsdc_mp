@@ -26,13 +26,11 @@ public class DruidStatViewHandler extends Handler {
 		});
 	}
 
-	public DruidStatViewHandler(String visitPath,
-			IDruidStatViewAuth druidStatViewAuth) {
+	public DruidStatViewHandler(String visitPath, IDruidStatViewAuth druidStatViewAuth) {
 		if (StrKit.isBlank(visitPath))
 			throw new IllegalArgumentException("visitPath can not be blank");
 		if (druidStatViewAuth == null)
-			throw new IllegalArgumentException(
-					"druidStatViewAuth can not be null");
+			throw new IllegalArgumentException("druidStatViewAuth can not be null");
 
 		visitPath = visitPath.trim();
 		if (!visitPath.startsWith("/"))
@@ -41,8 +39,7 @@ public class DruidStatViewHandler extends Handler {
 		this.auth = druidStatViewAuth;
 	}
 
-	public void handle(String target, HttpServletRequest request,
-			HttpServletResponse response, boolean[] isHandled) {
+	public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 		String contextPath = request.getContextPath();
 		if (contextPath == null) { // root context
 			contextPath = "";
@@ -52,8 +49,7 @@ public class DruidStatViewHandler extends Handler {
 
 			if (target.equals(visitPath) && !target.endsWith("/index.html")) {
 				target = contextPath + target;
-				HandlerKit.redirect(target += "/index.html", request, response,
-						isHandled);
+				HandlerKit.redirect(target += "/index.html", request, response, isHandled);
 				return;
 			}
 
@@ -63,7 +59,7 @@ public class DruidStatViewHandler extends Handler {
 				throw new RuntimeException(e);
 			}
 		} else {
-			next.handle(target, request, response, isHandled);
+			nextHandler.handle(target, request, response, isHandled);
 		}
 	}
 
@@ -75,9 +71,7 @@ public class DruidStatViewHandler extends Handler {
 			return auth.isPermitted(request);
 		}
 
-		public void service(HttpServletRequest request,
-				HttpServletResponse response) throws ServletException,
-				IOException {
+		public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String contextPath = request.getContextPath();
 			// String servletPath = request.getServletPath();
 			String requestURI = request.getRequestURI();
@@ -101,14 +95,10 @@ public class DruidStatViewHandler extends Handler {
 			}
 
 			if ("/submitLogin".equals(path)) {
-				String usernameParam = request
-						.getParameter(PARAM_NAME_USERNAME);
-				String passwordParam = request
-						.getParameter(PARAM_NAME_PASSWORD);
-				if (username.equals(usernameParam)
-						&& password.equals(passwordParam)) {
-					request.getSession().setAttribute(SESSION_USER_KEY,
-							username);
+				String usernameParam = request.getParameter(PARAM_NAME_USERNAME);
+				String passwordParam = request.getParameter(PARAM_NAME_PASSWORD);
+				if (username.equals(usernameParam) && password.equals(passwordParam)) {
+					request.getSession().setAttribute(SESSION_USER_KEY, username);
 					response.getWriter().print("success");
 				} else {
 					response.getWriter().print("error");
@@ -121,9 +111,8 @@ public class DruidStatViewHandler extends Handler {
 					&& !("/login.html".equals(path) //
 							|| path.startsWith("/css")//
 							|| path.startsWith("/js") //
-					|| path.startsWith("/img"))) {
-				if (contextPath == null || contextPath.equals("")
-						|| contextPath.equals("/")) {
+							|| path.startsWith("/img"))) {
+				if (contextPath == null || contextPath.equals("") || contextPath.equals("/")) {
 					response.sendRedirect("/druid/login.html");
 				} else {
 					if ("".equals(path)) {
@@ -136,8 +125,7 @@ public class DruidStatViewHandler extends Handler {
 			}
 
 			if ("".equals(path)) {
-				if (contextPath == null || contextPath.equals("")
-						|| contextPath.equals("/")) {
+				if (contextPath == null || contextPath.equals("") || contextPath.equals("/")) {
 					response.sendRedirect("/druid/index.html");
 				} else {
 					response.sendRedirect("druid/index.html");
@@ -152,8 +140,7 @@ public class DruidStatViewHandler extends Handler {
 
 			if (path.indexOf(".json") >= 0) {
 				String fullUrl = path;
-				if (request.getQueryString() != null
-						&& request.getQueryString().length() > 0) {
+				if (request.getQueryString() != null && request.getQueryString().length() > 0) {
 					fullUrl += "?" + request.getQueryString();
 				}
 				response.getWriter().print(process(fullUrl));

@@ -30,7 +30,7 @@ import module.model.ShiroModel;
 /**
  * @author hadong
  */
-@Coller(value = { "/wechat/config" }, path = "config")
+@Coller(value = { "/wx/config" }, path = "config")
 public class WxConfCtrl extends Controller {
 	@RequiresAuthentication
 	public void index() {

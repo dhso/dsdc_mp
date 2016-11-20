@@ -9,6 +9,7 @@ import org.ansj.splitWord.analysis.DicAnalysis;
 
 import cn.dreampie.common.util.properties.Proper;
 import cn.dreampie.route.annotation.API;
+import cn.dreampie.route.annotation.GET;
 import cn.dreampie.route.annotation.POST;
 import frame.kit.ListKit;
 import resource.ApiResource;
@@ -20,11 +21,11 @@ import resource.qas.model.QasWord;
 /**
  * Created by hadong on 15-1-22.
  */
-@API("/qas")
+@API("/question")
 public class QasResource extends ApiResource {
 
 	@SuppressWarnings({ "unchecked", "serial" })
-	@POST("/question")
+	@POST("/")
 	public QasMsg Question() {
 		QasMsg qasMsg = getModelParams(QasMsg.class);
 		Result result = DicAnalysis.parse(qasMsg.getQuestion()).recognition(FilterRecognitions.preRecognition());
@@ -61,8 +62,8 @@ public class QasResource extends ApiResource {
 		return qasMsg;
 	}
 
-	@POST("/question/id/:id")
-	public QasMsg QuestionById(Long id) {
+	@POST("/id/:id")
+	public QasMsg PostQuestionById(Long id) {
 		QasMsg qasMsg = getModelParams(QasMsg.class);
 		QasWord qasWord = QasWord.dao.getKeyById(id);
 		Answer answer = new Answer();
@@ -71,5 +72,11 @@ public class QasResource extends ApiResource {
 		answerList.add(answer);
 		qasMsg.setAnswer(answerList);
 		return qasMsg;
+	}
+	
+	@GET("/id/:id")
+	public QasWord GetQuestionById(Long id) {
+		QasWord qasWord = QasWord.dao.getKeyById(id);
+		return qasWord;
 	}
 }

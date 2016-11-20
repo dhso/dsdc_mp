@@ -2924,3 +2924,7 @@
 .datagrid-footer td {
   border-style: solid;
 }
+/*add by hadong*/
+.icon-user {
+  background: url('images/user.png') no-repeat center center;
+}

@@ -19,12 +19,12 @@ import module.validator.SigninValidator;
 /**
  * @author hadong
  */
-@Coller(value = { "/wechat/system" }, path = "system")
+@Coller(value = { "/wx/system" }, path = "system")
 public class WxSystemCtrl extends Controller {
-	public static String LOGIN_PAGE = "/wechat/system/login";
-	public static String LOGIN_SUCCESS = "/wechat/config";
-	public static String SYSTEM_NOT_FOUND = "/wechat/system/err404";
-	public static String SYSTEM_ERROR = "/wechat/system/err500";
+	public static String SYSTEM_LOGIN_PAGE = "/wx/system/login";
+	public static String SYSTEM_LOGIN_SUCCESS = "/wx/config";
+	public static String SYSTEM_NOT_FOUND = "/wx/system/err404";
+	public static String SYSTEM_ERROR = "/wx/system/err500";
 
 	// 默认登录页面
 	public void index() {
@@ -40,18 +40,16 @@ public class WxSystemCtrl extends Controller {
 	@Before(SigninValidator.class)
 	public void signin() {
 		if ("GET".equalsIgnoreCase(this.getRequest().getMethod().toUpperCase())) {
-			forwardAction(LOGIN_PAGE);
-		} else if ("POST".equalsIgnoreCase(this.getRequest().getMethod()
-				.toUpperCase())) {
+			forwardAction(SYSTEM_LOGIN_PAGE);
+		} else if ("POST".equalsIgnoreCase(this.getRequest().getMethod().toUpperCase())) {
 			String username = getPara("username");
 			String password = getPara("password");
 			String rememberMe = getPara("rememberMe");
 			Subject currentUser = SecurityUtils.getSubject();
-			UsernamePasswordToken token = new UsernamePasswordToken(username,
-					password, "on".equalsIgnoreCase(rememberMe));
+			UsernamePasswordToken token = new UsernamePasswordToken(username, password, "on".equalsIgnoreCase(rememberMe));
 			try {
 				currentUser.login(token);
-				redirect(getCookie("_redrictUrl", LOGIN_SUCCESS));
+				redirect(getCookie("_redrictUrl", SYSTEM_LOGIN_SUCCESS));
 			} catch (Exception e) {
 				// 登录失败
 				String esn = e.getClass().getSimpleName();
@@ -74,7 +72,7 @@ public class WxSystemCtrl extends Controller {
 				}
 				setAttr("username", username);
 				setAttr("rememberMe", rememberMe);
-				forwardAction(LOGIN_PAGE);
+				forwardAction(SYSTEM_LOGIN_PAGE);
 			}
 		}
 
@@ -84,7 +82,7 @@ public class WxSystemCtrl extends Controller {
 	public void signout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		redirect(getCookie("_redrictUrl", LOGIN_PAGE));
+		redirect(SYSTEM_LOGIN_PAGE);
 	}
 
 	public void err401() {
