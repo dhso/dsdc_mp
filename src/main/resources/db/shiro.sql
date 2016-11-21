@@ -57,3 +57,29 @@ CREATE TABLE `shiro_urls_type` (
   PRIMARY KEY (`url_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
+
+
+INSERT INTO `shiro_users` (`id`, `username`, `password`, `salt`, `locked`) VALUES
+	(1, 'admin', '8e7a4a6bad4f685bd9da4f78b5f76f9f', 'shiro', 0),
+	(2, 'user', 'b5435b43cca8783d13515ecaa3c28a6c', 'shiro', 0);
+	
+INSERT INTO `shiro_roles` (`id`, `role`, `description`, `available`) VALUES
+	(1, 'admin', 'admin', 1),
+	(2, 'user', 'user', 1);
+
+INSERT INTO `shiro_permissions` (`id`, `permission`, `description`, `available`) VALUES
+	(1, 'cms:article:edit', NULL, 1),
+	(2, 'cms:article:add', NULL, 1),
+	(3, 'cms:article:delete', NULL, 1),
+	(4, 'cms:setting:edit', NULL, 1);
+	
+INSERT INTO `shiro_roles_permissions` (`role_id`, `permission_id`) VALUES
+	(1, 1),
+	(1, 2),
+	(1, 3),
+	(1, 4),
+	(2, 2);
+
+INSERT INTO `shiro_users_roles` (`user_id`, `role_id`) VALUES
+	(1, 1),
+	(2, 2);
