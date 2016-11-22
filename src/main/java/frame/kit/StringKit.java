@@ -464,4 +464,14 @@ public class StringKit extends StringUtils {
 		}
 		return realPath;
 	}
+
+	/**
+	 * 处理sql单引号
+	 * 
+	 * @param sql
+	 * @return
+	 */
+	public static String sqlSafe(String sql) {
+		return sql.replace("'", "\"");
+	}
 }

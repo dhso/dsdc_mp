@@ -122,8 +122,8 @@ public class ConfModel extends Model<ConfModel> {
 	 * 
 	 * @return
 	 */
-	public List<Record> findAllQAS() {
-		return Db.find("select * from qas_words");
+	public List<Record> findAllQAContent() {
+		return Db.find("select * from qa_content");
 	}
 
 	/**
@@ -133,8 +133,8 @@ public class ConfModel extends Model<ConfModel> {
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Record> findAllQASPage(Integer pageNumber, Integer pageSize) {
-		return Db.paginate(pageNumber, pageSize, "select *", "from qas_words");
+	public Page<Record> findAllQAContentPage(Integer pageNumber, Integer pageSize) {
+		return Db.paginate(pageNumber, pageSize, "select *", "from qa_content");
 	}
 
 	/**
@@ -143,9 +143,9 @@ public class ConfModel extends Model<ConfModel> {
 	 * @param list
 	 * @return
 	 */
-	public void insertQAS(List<?> list) {
+	public void insertQAContent(List<?> list) {
 		List<Record> recordList = RecordKit.list2RecordList(list);
-		Db.batch("insert into qas_words(wod_question,wod_answer,wod_type) values (?,?,?)", "wod_question,wod_answer,wod_type", recordList, recordList.size());
+		Db.batch("insert into qa_content(qac_question,qac_answer,qac_type) values (?,?,?)", "qac_question,qac_answer,qac_type", recordList, recordList.size());
 	}
 
 	/**
@@ -153,9 +153,9 @@ public class ConfModel extends Model<ConfModel> {
 	 * 
 	 * @param list
 	 */
-	public void updateQAS(List<?> list) {
+	public void updateQAContent(List<?> list) {
 		List<Record> recordList = RecordKit.list2RecordList(list);
-		Db.batch("update qas_words set wod_question = ?,wod_answer = ?,wod_type=? where wod_id = ?", "wod_question,wod_answer,wod_type,wod_id", recordList, recordList.size());
+		Db.batch("update qa_content set qac_question = ?,qac_answer = ?,qac_type=? where qac_id = ?", "qac_question,qac_answer,qac_type,qac_id", recordList, recordList.size());
 	}
 
 	/**
@@ -163,11 +163,62 @@ public class ConfModel extends Model<ConfModel> {
 	 * 
 	 * @param list
 	 */
-	public void deleteQAS(List<?> list) {
+	public void deleteQAContent(List<?> list) {
 		List<Record> recordList = RecordKit.list2RecordList(list);
-		Db.batch("delete from qas_words where wod_id = ?", "wod_id", recordList, recordList.size());
+		Db.batch("delete from qa_content where qac_id = ?", "qac_id", recordList, recordList.size());
 	}
-	
+
+	/**
+	 * 获取所有配置分类信息
+	 * 
+	 * @return
+	 */
+	public List<Record> findAllQAType() {
+		return Db.find("select * from qa_type");
+	}
+
+	/**
+	 * 分页获取所有配置分类信息
+	 * 
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Record> findAllQATypePage(Integer pageNumber, Integer pageSize) {
+		return Db.paginate(pageNumber, pageSize, "select *", "from qa_type");
+	}
+
+	/**
+	 * 批量添加配置分类
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public void insertQAType(List<?> list) {
+		List<Record> recordList = RecordKit.list2RecordList(list);
+		Db.batch("insert into qa_type(qat_name) values (?)", "qat_name", recordList, recordList.size());
+	}
+
+	/**
+	 * 批量更新配置分类
+	 * 
+	 * @param list
+	 */
+	public void updateQAType(List<?> list) {
+		List<Record> recordList = RecordKit.list2RecordList(list);
+		Db.batch("update qa_type set qat_name = ? where qat_id = ?", "qat_name,qat_id", recordList, recordList.size());
+	}
+
+	/**
+	 * 批量删除配置分类
+	 * 
+	 * @param list
+	 */
+	public void deleteQAType(List<?> list) {
+		List<Record> recordList = RecordKit.list2RecordList(list);
+		Db.batch("delete from qa_type where qat_id = ?", "qat_id", recordList, recordList.size());
+	}
+
 	/**
 	 * 通过key获取value
 	 * 

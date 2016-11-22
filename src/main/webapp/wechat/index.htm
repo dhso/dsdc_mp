@@ -8,7 +8,7 @@
         <meta name="description" content="Acxiom DataGuru Robot">
         <link rel="stylesheet" href="${baseUrl}/static/lib/weui/weui.min.css">
         <link rel="stylesheet" href="${baseUrl}/static/lib/weui/jquery-weui.css">
-        <link rel="stylesheet" href="${baseUrl}/static/css/qas.css">
+        <link rel="stylesheet" href="${baseUrl}/static/css/qa.css">
     </head>
     <body ontouchstart>
         <div class="weui_tab">
@@ -39,7 +39,7 @@
                 <div class="aui-chat-name">{{d.userName}}</div>
                 <div class="aui-chat-content">
                     <div class="aui-chat-arrow"></div>
-                    {{# switch(d.msgType) { case 'text': }}
+                    {{# switch(d.type) { case 'text': }}
                     {{d.text}}
                     {{# break; case 'image': }}
                     <img src="{{d.text}}">
@@ -61,7 +61,7 @@
                 <div class="aui-chat-content">
                     <div class="aui-chat-arrow"></div>
 {{# for(var i = 0, len = d.answer.length; i < len; i++){ }}
-                    {{# switch(d.answer[i].msgType) { case 'text': }}
+                    {{# switch(d.answer[i].type) { case 'text': }}
                     {{d.answer[i].text}}<br>
                     {{# break; case 'image': }}
                     <img src="{{d.answer[i].text}}"><br>
@@ -91,6 +91,6 @@
         <script src="${baseUrl}/static/lib/weui/jquery-weui.js"></script>
         <script src="${baseUrl}/static/js/swiper.js"></script>
         <script src="${baseUrl}/static/lib/lay/laytpl.js"></script>
-        <script src="${baseUrl}/static/js/qas.js"></script>
+        <script src="${baseUrl}/static/js/qa.js"></script>
     </body>
 </html>

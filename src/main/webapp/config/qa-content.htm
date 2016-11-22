@@ -1,15 +1,43 @@
-<table id="qas_table"></table>
+<table id="qa_content_table"></table>
 <script type="text/javascript" src="${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js"></script>
 <script>
 	(function(divId){
+		var qa_type_data;
+		$.ajaxSetup({
+			async:false
+		});
+		$.post( baseUrl+'/wx/config/qatype_get', {
+	    	pagination:0
+		}, function(data) {
+			qa_type_data = data;
+		});
+	    
+		var qa_type_editor = {
+	            type:'combobox',
+	            options:{
+	                valueField:'qat_id',
+	                textField:'qat_name',
+	                data:qa_type_data
+	            }
+	        };
+		var qa_type_formatter = function(value,row,index){
+			$.each(qa_type_data,function(index,element){
+				if(element.qat_id == value){
+					value = element.qat_name;
+					return;
+				}
+			});
+	        return value;
+	    };
+	    
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/qas_get',
+		    url:baseUrl+'/wx/config/qacontent_get',
 		    columns:[[
-		        {field:'checkbox',checkbox:true},
-		        {field:'wod_id',title:'ID',width:35},
-		        {field:'wod_question',title:'问题',width:250,editor:'text'},
-		        {field:'wod_answer',title:'回答',width:250,editor:'text'},
-		        {field:'wod_type',title:'类型',width:150,editor:'text'}
+				{field:'checkbox',checkbox:true},
+		        {field:'qac_id',title:'ID',width:35},
+		        {field:'qac_question',title:'问题',width:250,editor:'text'},
+		        {field:'qac_answer',title:'回答',width:250,editor:'text'},
+		        {field:'qac_type',title:'类型',width:150,formatter:qa_type_formatter,editor:qa_type_editor}
 		    ]],
 		    queryParams:{
 		    	pagination:1
@@ -41,10 +69,10 @@
 					}
 			},'-']
 	    });
-		
+
 		function addRow(){
 			endEdit();
-			$(divId).datagrid('appendRow',{});
+			$(divId).datagrid('appendRow',{is_iframe:'0'});
 	    }
 		
 		function delRow(){
@@ -60,7 +88,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/qas_save", {
+			$.post(baseUrl+"/wx/config/qacontent_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)
@@ -84,5 +112,5 @@
 		function refreshTable() {
 			$(divId).datagrid('reload');
 		}
-	})('#qas_table');
+	})('#qa_content_table');
 </script>

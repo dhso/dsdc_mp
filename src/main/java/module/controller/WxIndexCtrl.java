@@ -16,6 +16,6 @@ import frame.plugin.collerbind.Coller;
 @Coller(value = { "/" }, path = "wechat")
 public class WxIndexCtrl extends Controller {
 	public void index(){
-		render("qas.htm");
+		render("index.htm");
 	}
 }

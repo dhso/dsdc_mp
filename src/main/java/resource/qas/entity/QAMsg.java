@@ -3,7 +3,7 @@ package resource.qas.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class QasMsg implements Serializable {
+public class QAMsg implements Serializable {
 
 	private static final long serialVersionUID = -4590203165906906571L;
 	private Long userId;
@@ -11,10 +11,10 @@ public class QasMsg implements Serializable {
 	private String question;
 	private List<Answer> answer;
 
-	public QasMsg() {
+	public QAMsg() {
 	}
 
-	public QasMsg(Long userId, String userName, String question, List<Answer> answer) {
+	public QAMsg(Long userId, String userName, String question, List<Answer> answer) {
 		this.userId = userId;
 		this.userName = userName;
 		this.question = question;

@@ -9,15 +9,15 @@ public class Answer implements Serializable {
 
 	private static final long serialVersionUID = -4590203165906906571L;
 	private Long id = 0L;
-	private String msgType;
+	private String type;
 	private String text;
 
 	public Answer() {
 	}
 
-	public Answer(Long id, String text, String msgType) {
+	public Answer(Long id, String text, String type) {
 		this.id = id;
-		this.msgType = msgType;
+		this.type = type;
 		this.text = text;
 	}
 
@@ -29,12 +29,12 @@ public class Answer implements Serializable {
 		this.id = id;
 	}
 
-	public String getMsgType() {
-		return msgType;
+	public String getType() {
+		return type;
 	}
 
-	public void setMsgType(String msgType) {
-		this.msgType = msgType;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getText() {

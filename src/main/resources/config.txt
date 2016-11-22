@@ -7,9 +7,9 @@ jdbc.user = ${db.default.user}
 jdbc.password = ${db.default.password}
 
 #微信配置
-wx.url=http://oraybang.wicp.net/jfsys/wechat
-wx.token=apphui
-wx.appId = wx396714621dc72788
-wx.appSecret = e5adb6d4b8326ead8bfe27dfe92a2738
-wx.encryptMessage = false
-wx.encodingAesKey = ASDFGHJKL
+wx.url=http://robot.minws.com/wx/msg
+wx.token=send92Ro
+wx.appId = wx171b02edbee01d0c
+wx.appSecret = fb08c375eac0f9973e64c4a2ee7f7687
+wx.encryptMessage=false
+wx.encodingAesKey=yx1pTRsY9J5C8atSfepknZLXYHvkfiQ4YRnp4dysHwo

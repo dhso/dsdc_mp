@@ -1,23 +1,23 @@
 <div class="easyui-layout" data-options="fit:true">
     <div data-options="region:'south',title:'密码生成器',height:65,border:false,iconCls:'fa fa-key'" style="padding:5px;">
-		<label for="_pw_tool_password">密码: <input class="easyui-textbox" id="_pw_tool_password" data-options="height:22,width:80"></label>
-		<label for="_pw_tool_salt">盐值: <input class="easyui-textbox" id="_pw_tool_salt" data-options="height:22,width:80"></label>
+		<label for="pw_tool_password">密码: <input class="easyui-textbox" id="pw_tool_password" data-options="height:22,width:80"></label>
+		<label for="pw_tool_salt">盐值: <input class="easyui-textbox" id="pw_tool_salt" data-options="height:22,width:80"></label>
 		<a href="javascript:generation();" class="easyui-linkbutton" data-options="iconCls:'fa fa-hand-o-right',height:22">生成</a>
-		<input class="easyui-textbox" id="_pw_tool_result" data-options="height:22,width:265">
+		<input class="easyui-textbox" id="pw_tool_result" data-options="height:22,width:265">
     </div>
 	<div data-options="region:'center',border:false">
-    	<table id="_sys_user_table"></table>
+    	<table id="user_table"></table>
 	</div>
 </div>
 
-<script type="text/javascript" src="${baseUrl}/static/easyui/ext/datagrid-cellediting.js"></script>
+<script type="text/javascript" src="${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js"></script>
 <script>
 (function(divId){
 	var role_data;
 	$.ajaxSetup({
 		async:false
 	});
-	$.post( baseUrl+'/system/role/get', {
+	$.post( baseUrl+'/wx/config/role_get', {
     	pagination:0
 	}, function(data) {
 		role_data = data;
@@ -47,7 +47,7 @@
     };
     
 	$(divId).datagrid({
-	    url:baseUrl+'/system/user/get',
+	    url:baseUrl+'/wx/config/user_get',
 	    columns:[[
 			{field:'checkbox',checkbox:true},
 	        {field:'id',title:'ID',width:35},
@@ -107,7 +107,7 @@
 		var insertRows = $(divId).datagrid('getChanges', 'inserted');
 		var updateRows = $(divId).datagrid('getChanges', 'updated');
 		var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-		$.post(baseUrl+"/system/user/save", {
+		$.post(baseUrl+"/wx/config/user_save", {
 			inserted : JSON.stringify(insertRows),
 			updated : JSON.stringify(updateRows),
 			deleted : JSON.stringify(deleteRows)
@@ -132,17 +132,17 @@
 		$(divId).datagrid('reload');
 	}
 	
-})('#_sys_user_table');
+})('#user_table');
 
 function generation(){
-	$('#_pw_tool_result').textbox('setValue','正在生成...');
-	var password = $('#_pw_tool_password').textbox('getValue');
-	var salt = $('#_pw_tool_salt').textbox('getValue');
-	$.post( baseUrl+'/system/user/create/password', {
+	$('#pw_tool_result').textbox('setValue','正在生成...');
+	var password = $('#pw_tool_password').textbox('getValue');
+	var salt = $('#pw_tool_salt').textbox('getValue');
+	$.post( baseUrl+'/wx/config/password_create', {
 		password:password,
 		salt:salt
 	}, function(data) {
-		$('#_pw_tool_result').textbox('setValue',data);
+		$('#pw_tool_result').textbox('setValue',data);
 	});
 }
 </script>

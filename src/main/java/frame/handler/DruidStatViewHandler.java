@@ -106,7 +106,12 @@ public class DruidStatViewHandler extends Handler {
 				return;
 			}
 
-			if (isRequireAuth() && !ContainsUser(request) && !("/login.html".equals(path) || path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/img"))) {
+			if (isRequireAuth() //
+					&& !ContainsUser(request)//
+					&& !("/login.html".equals(path) //
+							|| path.startsWith("/css")//
+							|| path.startsWith("/js") //
+							|| path.startsWith("/img"))) {
 				if (contextPath == null || contextPath.equals("") || contextPath.equals("/")) {
 					response.sendRedirect("/druid/login.html");
 				} else {

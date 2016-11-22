@@ -308,38 +308,75 @@ public class WxConfCtrl extends Controller {
 	}
 	
 	@RequiresAuthentication
-	public void qas() {
-		render("qas-word.htm");
+	public void qacontent() {
+		render("qa-content.htm");
 	}
 	
 	@RequiresAuthentication
-	public void qas_get() {
+	public void qacontent_get() {
 		Integer pageNumber = getParaToInt("page", 1);
 		Integer pageSize = getParaToInt("rows", 10);
 		Integer pagination = getParaToInt("pagination", 0);
 		if (pagination == 0) {
-			List<Record> qasWordsList = ConfModel.dao.findAllQAS();
-			renderJson(qasWordsList);
+			List<Record> qasList = ConfModel.dao.findAllQAContent();
+			renderJson(qasList);
 		} else {
-			Page<Record> qasWordsPage = ConfModel.dao.findAllQASPage(pageNumber, pageSize);
-			renderJson(new DataGrid(String.valueOf(qasWordsPage.getTotalRow()), qasWordsPage.getList()));
+			Page<Record> qasPage = ConfModel.dao.findAllQAContentPage(pageNumber, pageSize);
+			renderJson(new DataGrid(String.valueOf(qasPage.getTotalRow()), qasPage.getList()));
 		}
 	}
 	
 	@RequiresAuthentication
 	@Before(Tx.class)
-	public void qas_save() {
+	public void qacontent_save() {
 		JSONArray insertedJson = JSON.parseArray(getPara("inserted"));
 		JSONArray updatedJson = JSON.parseArray(getPara("updated"));
 		JSONArray deletedJson = JSON.parseArray(getPara("deleted"));
 		if (insertedJson.size() > 0) {
-			ConfModel.dao.insertQAS(insertedJson);
+			ConfModel.dao.insertQAContent(insertedJson);
 		}
 		if (updatedJson.size() > 0) {
-			ConfModel.dao.updateQAS(updatedJson);
+			ConfModel.dao.updateQAContent(updatedJson);
 		}
 		if (deletedJson.size() > 0) {
-			ConfModel.dao.deleteQAS(deletedJson);
+			ConfModel.dao.deleteQAContent(deletedJson);
+		}
+		renderJson(new Message("200", "success", "保存成功！"));
+	}
+	
+	@RequiresAuthentication
+	public void qatype() {
+		render("qa-type.htm");
+	}
+	
+	@RequiresAuthentication
+	public void qatype_get() {
+		Integer pageNumber = getParaToInt("page", 1);
+		Integer pageSize = getParaToInt("rows", 10);
+		Integer pagination = getParaToInt("pagination", 0);
+		if (pagination == 0) {
+			List<Record> configTypesList = ConfModel.dao.findAllQAType();
+			renderJson(configTypesList);
+		} else {
+			Page<Record> QATypesPage = ConfModel.dao.findAllQATypePage(pageNumber, pageSize);
+			renderJson(new DataGrid(String.valueOf(QATypesPage.getTotalRow()), QATypesPage.getList()));
+		}
+	}
+	
+	@RequiresAuthentication
+	@Before(Tx.class)
+	public void qatype_save() {
+		JSONArray insertedJson = JSON.parseArray(getPara("inserted"));
+		JSONArray updatedJson = JSON.parseArray(getPara("updated"));
+		JSONArray deletedJson = JSON.parseArray(getPara("deleted"));
+		if (insertedJson.size() > 0) {
+			ConfModel.dao.insertQAType(insertedJson);
+		}
+		if (updatedJson.size() > 0) {
+			ConfModel.dao.updateQAType(updatedJson);
+		}
+		if (deletedJson.size() > 0) {
+			ConfModel.dao.deleteQAType(deletedJson);
 		}
 		renderJson(new Message("200", "success", "保存成功！"));
 	}

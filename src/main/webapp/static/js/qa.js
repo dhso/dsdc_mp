@@ -1,4 +1,4 @@
-var robotName = 'DataGuru',
+var robotName = 'Abby',
   robotAvatar = 'static/img/robot.jpg',
   userName = 'Andy Li',
   userAvatar = 'static/img/andyli.png',
@@ -25,23 +25,6 @@ $(function() {
     //send message
     sendMsgExt(userAvatar, userName, 'text', $('.editArea').val());
     askRobot(1,userName,$('.editArea').val());
-    //receive message
-//    switch ($('.editArea').val()) {
-//      case '1':
-//        recvMsgExt(robotAvatar, robotName, 'text', 'What do you want to know about the segments?<br>[11] List all the category of your segments.');
-//        break;
-//      case '11':
-//        recvMsgExt(robotAvatar, robotName, 'image', 'developing', 'static/img/developing.jpg');
-//        break;
-//      case '2':
-//        recvMsgExt(robotAvatar, robotName, 'text', 'What the partner info do you want to know?<br>[21] List all the category of your segments.');
-//        break;
-//      case '21':
-//        recvMsgExt(robotAvatar, robotName, 'image', 'developing', 'static/img/developing.jpg');
-//        break;
-//      default:
-//        recvMsgExt(robotAvatar, robotName, 'text', 'Hello, I’m DataGuru. What I can help?<br>[1] Segment Consulting<br>[2] Partner Consulting<br>Reply the number of your question. Like “1”.');
-//    }
     //empty edit area
     $('.editArea').val('');
   });
@@ -51,8 +34,8 @@ $(function() {
   });
   //2 welcome
   recvMsgExt(robotAvatar, robotName, [{
-	  msgType :  "text",
-	  text : "Hello, I’m DataGuru. What I can help?"
+	  type :  "text",
+	  text : "Hello, I\'m DataGuru. What can I help you?"
   }]);
 
 
@@ -72,11 +55,11 @@ function sendMsg(data) {
   });
 }
 
-function sendMsgExt(_avatar, _userName, _msgType, _text, _image) {
+function sendMsgExt(_avatar, _userName, _type, _text, _image) {
   var data = {
     avatar: _avatar,
     userName: _userName,
-    msgType: _msgType,
+    type: _type,
     text: _text,
     image: _image
   };
@@ -96,9 +79,7 @@ function recvMsgExt(_avatar, _userName, _answer) {
     userName: _userName,
     answer:_answer
   };
-  setTimeout(function(){
-    recvMsg(data)
-  }, 800);
+  recvMsg(data);
 }
 
 function timeMsg(data) {

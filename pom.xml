@@ -32,9 +32,9 @@
 				<log.rootLogger>DEBUG, stdout</log.rootLogger>
 				<devMode>true</devMode>
 				<cacheEnabled>false</cacheEnabled>
-				<db.default.url>127.0.0.1:3306/dataguru_robot</db.default.url>
-				<db.default.user>root</db.default.user>
-				<db.default.password>root</db.default.password>
+				<db.default.url>10.201.14.231:3306/dataguru_robot</db.default.url>
+				<db.default.user>cny</db.default.user>
+				<db.default.password>qwer1234</db.default.password>
 				<db.default.dialect>mysql</db.default.dialect>
 				<db.default.driver>com.mysql.jdbc.Driver</db.default.driver>
 			</properties>
@@ -59,6 +59,11 @@
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
 			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>jfinal-weixin</artifactId>
+			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -167,6 +172,11 @@
 			<groupId>org.ansj</groupId>
 			<artifactId>ansj_seg</artifactId>
 			<version>5.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nlpcn</groupId>
+			<artifactId>nlp-lang</artifactId>
+			<version>1.7.1</version>
 		</dependency>
 	</dependencies>
 

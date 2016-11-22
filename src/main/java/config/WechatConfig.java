@@ -25,6 +25,7 @@ import com.jfinal.render.FreeMarkerRender;
 import com.jfinal.render.IErrorRenderFactory;
 import com.jfinal.render.RedirectRender;
 import com.jfinal.render.Render;
+import com.jfinal.weixin.sdk.api.ApiConfigKit;
 
 import frame.handler.DruidStatViewHandler;
 import frame.plugin.collerbind.RoutesScanner;
@@ -45,6 +46,7 @@ public class WechatConfig extends JFinalConfig {
 		// 加载配置
 		PropKit.use("config.txt");
 		me.setDevMode(PropKit.getBoolean("devMode", false));
+		ApiConfigKit.setDevMode(me.getDevMode());
 		// 设置错误模板
 		me.setErrorView(401, WxSystemCtrl.SYSTEM_LOGIN_PAGE);
 		me.setErrorView(403, WxSystemCtrl.SYSTEM_LOGIN_PAGE);
