@@ -1,31 +1,22 @@
-initLayout();
-processLoading();
+$.parser.onComplete = function(){
+	$("#loading").fadeOut("slow",function(){
+		$(this).remove();
+	});
+}
 $(function(){
 	$(window).on('beforeunload', function() {
 		return '关闭或刷新页面可能导致操作丢失，请确认！';
 	});
-	
-	init_menu();
+	initMenu();
 });
-//初始化布局
-function processLoading(){
-	$.parser.onComplete = function(){
-		$("#loading").fadeOut("slow",function(){
-			$(this).remove();
-		});
-	}
-}
-function initLayout(){
-	
-}
 //初始化menus
-function init_menu(){
-	$.post(baseUrl + '/wechat/config/menu',{type_id: 'wechat'},function(arry){
+function initMenu(){
+	$.get(baseUrl + '/wx/config/menu_get',function(arry){
 		$.each(arry,function(index,element){
-			addAccordion('#_menu_accordion',element.url_type_name,element.url_type_icon,'<div id="_menu_accordion_'+element.url_type_id+'" class="easyui-menu" data-options="inline:true,fit:true,itemHeight:30" style="width:100%"></div>');
-			addMenu($('#_menu_accordion_'+element.url_type_id),element.text,element.icon,element.url,element.is_iframe);
+			addAccordion('#menu_accordion',element.url_type_name,element.url_type_icon,'<div id="menu_accordion_'+element.url_type_id+'" class="easyui-menu" data-options="inline:true,fit:true,itemHeight:30" style="width:100%"></div>');
+			addMenu('#menu_accordion_'+element.url_type_id,element.text,element.icon,element.url,element.is_iframe);
 		});
-		$('#_menu_accordion').accordion({
+		$('#menu_accordion').accordion({
 			selected:0
 		});
 	});
@@ -34,11 +25,11 @@ function init_menu(){
 //添加accordion
 function addAccordion(divId, title,iconCls, content) {
 	//取出重复accordion
-	if($(divId).accordion('getPanel','&nbsp;'+title)){
+	if($(divId).accordion('getPanel',title)){
 		return false;
 	}
 	$(divId).accordion('add', {
-		title : '&nbsp;'+title,
+		title : title,
 		iconCls:iconCls,
 		content : content
 	});
@@ -49,7 +40,7 @@ function addMenu(divId, text,iconCls, url,is_iframe) {
 		text: text,
 		iconCls: iconCls,
 		onclick: function(){
-			addTabPanel('#_main_tab',text,url,is_iframe);
+			addTabPanel('#main_tab',text,url,is_iframe);
 		}
 	});
 }

@@ -134,7 +134,7 @@ Date.prototype.format = function(format) {
 }
 
 function askRobot(_userId,_userName,_question){
-	$.post('api/qas/question',{
+	$.post('api/question/',{
     	userId:_userId,
     	userName:_userName,
     	question:_question
@@ -145,7 +145,7 @@ function askRobot(_userId,_userName,_question){
     });
 }
 function clickLink(_userId,_userName,_question,_id){
-	$.post('api/qas/question/id/'+_id,{
+	$.post('api/question/id/'+_id,{
 		userId:_userId,
     	userName:_userName,
     	question:_question

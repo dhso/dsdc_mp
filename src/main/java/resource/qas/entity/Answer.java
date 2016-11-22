@@ -11,21 +11,13 @@ public class Answer implements Serializable {
 	private Long id = 0L;
 	private String msgType;
 	private String text;
-	private String image;
-	private String table;
 
 	public Answer() {
 	}
 
-	public void setTextAnswer(Long id, String text) {
+	public Answer(Long id, String text, String msgType) {
 		this.id = id;
-		this.msgType = "text";
-		this.text = text;
-	}
-	
-	public void setLinkAnswer(Long id, String text) {
-		this.id = id;
-		this.msgType = "link";
+		this.msgType = msgType;
 		this.text = text;
 	}
 
@@ -51,22 +43,6 @@ public class Answer implements Serializable {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public String getTable() {
-		return table;
-	}
-
-	public void setTable(String table) {
-		this.table = table;
 	}
 
 }

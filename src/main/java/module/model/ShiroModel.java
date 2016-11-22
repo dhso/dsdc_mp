@@ -50,7 +50,7 @@ public class ShiroModel extends Model<ShiroModel> {
 	 * @return
 	 */
 	public List<Record> findAllRole() {
-		return Db.find("select sr.*,GROUP_CONCAT(srp.permission_id) permission_ids from shiro_roles sr left join shiro_roles_permissions srp on srp.role_id = sr.id GROUP BY sr.id");
+		return Db.find("select sr.*,GROUP_CONCAT(CAST(srp.permission_id AS char)) permission_ids from shiro_roles sr left join shiro_roles_permissions srp on srp.role_id = sr.id GROUP BY sr.id");
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class ShiroModel extends Model<ShiroModel> {
 	 * @return
 	 */
 	public Page<Record> findAllRolePage(Integer pageNumber, Integer pageSize) {
-		return Db.paginate(pageNumber, pageSize, "select sr.*,GROUP_CONCAT(srp.permission_id) permission_ids", "from shiro_roles sr left join shiro_roles_permissions srp on srp.role_id = sr.id GROUP BY sr.id");
+		return Db.paginate(pageNumber, pageSize, "select sr.*,GROUP_CONCAT(CAST(srp.permission_id AS char)) permission_ids", "from shiro_roles sr left join shiro_roles_permissions srp on srp.role_id = sr.id GROUP BY sr.id");
 	}
 
 	/**

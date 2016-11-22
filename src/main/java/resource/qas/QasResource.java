@@ -9,7 +9,6 @@ import org.ansj.splitWord.analysis.DicAnalysis;
 
 import cn.dreampie.common.util.properties.Proper;
 import cn.dreampie.route.annotation.API;
-import cn.dreampie.route.annotation.GET;
 import cn.dreampie.route.annotation.POST;
 import frame.kit.ListKit;
 import resource.ApiResource;
@@ -24,7 +23,6 @@ import resource.qas.model.QasWord;
 @API("/question")
 public class QasResource extends ApiResource {
 
-	@SuppressWarnings({ "unchecked", "serial" })
 	@POST("/")
 	public QasMsg Question() {
 		QasMsg qasMsg = getModelParams(QasMsg.class);
@@ -35,17 +33,12 @@ public class QasResource extends ApiResource {
 		List<Answer> answerList = new ArrayList<Answer>();
 		// not found
 		if (qasWords.isEmpty()) {
-			answerList.add(new Answer() {
-				{
-					setTextAnswer(0L, Proper.get("qas.str.notfound"));
-				}
-			});
+			answerList.add(new Answer(0L, Proper.get("qas.str.notfound"), "text"));
 		}
 		// only one
 		if (qasWords.size() == 1) {
 			for (QasWord qasWord : qasWords) {
-				Answer answer = new Answer();
-				answer.setTextAnswer(qasWord.get("wod_id", Long.class), qasWord.get("wod_answer", String.class));
+				Answer answer = new Answer(qasWord.get("wod_id", Long.class), qasWord.get("wod_answer", String.class), qasWord.get("wod_type", String.class));
 				answerList.add(answer);
 			}
 		}
@@ -53,8 +46,7 @@ public class QasResource extends ApiResource {
 		if (qasWords.size() > 1) {
 
 			for (QasWord qasWord : qasWords) {
-				Answer answer = new Answer();
-				answer.setLinkAnswer(qasWord.get("wod_id", Long.class), qasWord.get("wod_question", String.class));
+				Answer answer = new Answer(qasWord.get("wod_id", Long.class), qasWord.get("wod_question", String.class), "link");
 				answerList.add(answer);
 			}
 		}
@@ -66,17 +58,11 @@ public class QasResource extends ApiResource {
 	public QasMsg PostQuestionById(Long id) {
 		QasMsg qasMsg = getModelParams(QasMsg.class);
 		QasWord qasWord = QasWord.dao.getKeyById(id);
-		Answer answer = new Answer();
-		answer.setTextAnswer(qasWord.get("wod_id", Long.class), qasWord.get("wod_answer", String.class));
+		Answer answer = new Answer(qasWord.get("wod_id", Long.class), qasWord.get("wod_answer", String.class), qasWord.get("wod_type", String.class));
 		List<Answer> answerList = new ArrayList<Answer>();
 		answerList.add(answer);
 		qasMsg.setAnswer(answerList);
 		return qasMsg;
 	}
-	
-	@GET("/id/:id")
-	public QasWord GetQuestionById(Long id) {
-		QasWord qasWord = QasWord.dao.getKeyById(id);
-		return qasWord;
-	}
+
 }

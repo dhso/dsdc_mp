@@ -13,29 +13,27 @@ body {
 	left: 0px;
 	width: 100%;
 	height: 100%;
-	background: #dedede;
+	background: #f5f5f5;
 	text-align: center;
 	padding-top: 10%;
 }
-#nav_bar{
-border-bottom: 1px solid #ddd;
+
+#nav_bar {
+	border-bottom: 1px solid #ddd;
 }
-#menu_accordion{
+
+#menu_accordion {
 	border-right: 1px solid #ddd;
 }
-#status_bar{
+
+#status_bar {
 	border-top: 1px solid #ddd;
 }
-#_menu_accordion .menu-item {
-	border-bottom: 1px solid #dedede;
-	border-top: 1px solid #fff;
+
+#menu_accordion .menu-item {
+	border-bottom: 1px solid #ddd;
 }
 
-#_menu_accordion .menu-line {
-	border-left: 1px solid #dedede;
-	border-right: 1px solid #fff;
-}
-
-#_status_bar {
-	background-color: #f3f3f3;
+#status_bar {
+	background-color: #f5f5f5;
 }

@@ -306,4 +306,41 @@ public class WxConfCtrl extends Controller {
 		}
 		renderJson(new Message("200", "success", "保存成功！"));
 	}
+	
+	@RequiresAuthentication
+	public void qas() {
+		render("qas-word.htm");
+	}
+	
+	@RequiresAuthentication
+	public void qas_get() {
+		Integer pageNumber = getParaToInt("page", 1);
+		Integer pageSize = getParaToInt("rows", 10);
+		Integer pagination = getParaToInt("pagination", 0);
+		if (pagination == 0) {
+			List<Record> qasWordsList = ConfModel.dao.findAllQAS();
+			renderJson(qasWordsList);
+		} else {
+			Page<Record> qasWordsPage = ConfModel.dao.findAllQASPage(pageNumber, pageSize);
+			renderJson(new DataGrid(String.valueOf(qasWordsPage.getTotalRow()), qasWordsPage.getList()));
+		}
+	}
+	
+	@RequiresAuthentication
+	@Before(Tx.class)
+	public void qas_save() {
+		JSONArray insertedJson = JSON.parseArray(getPara("inserted"));
+		JSONArray updatedJson = JSON.parseArray(getPara("updated"));
+		JSONArray deletedJson = JSON.parseArray(getPara("deleted"));
+		if (insertedJson.size() > 0) {
+			ConfModel.dao.insertQAS(insertedJson);
+		}
+		if (updatedJson.size() > 0) {
+			ConfModel.dao.updateQAS(updatedJson);
+		}
+		if (deletedJson.size() > 0) {
+			ConfModel.dao.deleteQAS(deletedJson);
+		}
+		renderJson(new Message("200", "success", "保存成功！"));
+	}
 }

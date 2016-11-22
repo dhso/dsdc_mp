@@ -46,8 +46,8 @@
 				<devMode>false</devMode>
 				<cacheEnabled>true</cacheEnabled>
 				<db.default.url>127.0.0.1:3306/dataguru_robot</db.default.url>
-				<db.default.user>root</db.default.user>
-				<db.default.password>root</db.default.password>
+				<db.default.user>ECS01_MYSQL</db.default.user>
+				<db.default.password>ECS01_MYSQL</db.default.password>
 				<db.default.dialect>mysql</db.default.dialect>
 				<db.default.driver>com.mysql.jdbc.Driver</db.default.driver>
 			</properties>
@@ -121,12 +121,12 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.0.13</version>
+			<version>1.0.26</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.34</version>
+			<version>5.1.40</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

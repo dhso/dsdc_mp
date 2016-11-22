@@ -1,20 +1,20 @@
 CREATE TABLE `shiro_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `permission` varchar(100) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `available` tinyint(1) DEFAULT '0',
+  `permission_desc` varchar(100) DEFAULT NULL,
+  `available` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_permissions_permission` (`permission`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `shiro_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role` varchar(100) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `available` tinyint(1) DEFAULT '0',
+  `role_desc` varchar(100) DEFAULT NULL,
+  `available` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_roles_role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `shiro_roles_permissions` (
   `role_id` int(11) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `shiro_users` (
   `locked` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_users_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `shiro_urls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -48,14 +48,14 @@ CREATE TABLE `shiro_urls` (
   `url_order` int(11) NOT NULL,
   `is_iframe` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `shiro_urls_type` (
   `url_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `url_type_name` varchar(50) NOT NULL,
   `url_type_icon` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`url_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -63,11 +63,11 @@ INSERT INTO `shiro_users` (`id`, `username`, `password`, `salt`, `locked`) VALUE
 	(1, 'admin', '8e7a4a6bad4f685bd9da4f78b5f76f9f', 'shiro', 0),
 	(2, 'user', 'b5435b43cca8783d13515ecaa3c28a6c', 'shiro', 0);
 	
-INSERT INTO `shiro_roles` (`id`, `role`, `description`, `available`) VALUES
+INSERT INTO `shiro_roles` (`id`, `role`, `role_desc`, `available`) VALUES
 	(1, 'admin', 'admin', 1),
 	(2, 'user', 'user', 1);
 
-INSERT INTO `shiro_permissions` (`id`, `permission`, `description`, `available`) VALUES
+INSERT INTO `shiro_permissions` (`id`, `permission`, `permission_desc`, `available`) VALUES
 	(1, 'cms:article:edit', NULL, 1),
 	(2, 'cms:article:add', NULL, 1),
 	(3, 'cms:article:delete', NULL, 1),

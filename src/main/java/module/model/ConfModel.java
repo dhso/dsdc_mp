@@ -118,6 +118,57 @@ public class ConfModel extends Model<ConfModel> {
 	}
 
 	/**
+	 * 获取所有配置分类信息
+	 * 
+	 * @return
+	 */
+	public List<Record> findAllQAS() {
+		return Db.find("select * from qas_words");
+	}
+
+	/**
+	 * 分页获取所有配置分类信息
+	 * 
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Record> findAllQASPage(Integer pageNumber, Integer pageSize) {
+		return Db.paginate(pageNumber, pageSize, "select *", "from qas_words");
+	}
+
+	/**
+	 * 批量添加配置分类
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public void insertQAS(List<?> list) {
+		List<Record> recordList = RecordKit.list2RecordList(list);
+		Db.batch("insert into qas_words(wod_question,wod_answer,wod_type) values (?,?,?)", "wod_question,wod_answer,wod_type", recordList, recordList.size());
+	}
+
+	/**
+	 * 批量更新配置分类
+	 * 
+	 * @param list
+	 */
+	public void updateQAS(List<?> list) {
+		List<Record> recordList = RecordKit.list2RecordList(list);
+		Db.batch("update qas_words set wod_question = ?,wod_answer = ?,wod_type=? where wod_id = ?", "wod_question,wod_answer,wod_type,wod_id", recordList, recordList.size());
+	}
+
+	/**
+	 * 批量删除配置分类
+	 * 
+	 * @param list
+	 */
+	public void deleteQAS(List<?> list) {
+		List<Record> recordList = RecordKit.list2RecordList(list);
+		Db.batch("delete from qas_words where wod_id = ?", "wod_id", recordList, recordList.size());
+	}
+	
+	/**
 	 * 通过key获取value
 	 * 
 	 * @param cfg_key

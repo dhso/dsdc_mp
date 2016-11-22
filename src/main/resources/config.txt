@@ -2,7 +2,7 @@ devMode = ${devMode}
 
 #数据库配置
 jdbc.driver = ${db.default.driver}
-jdbc.url = jdbc:mysql://${db.default.url}
+jdbc.url = jdbc:mysql://${db.default.url}?useUnicode=true&characterEncoding=UTF-8
 jdbc.user = ${db.default.user}
 jdbc.password = ${db.default.password}
 

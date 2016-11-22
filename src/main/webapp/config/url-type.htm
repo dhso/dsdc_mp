@@ -1,9 +1,9 @@
-<table id="_sys_url_type_table"></table>
-<script type="text/javascript" src="${baseUrl}/static/easyui/ext/datagrid-cellediting.js"></script>
+<table id="urltype_table"></table>
+<script type="text/javascript" src="${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js"></script>
 <script>
 	(function(divId){
 		$(divId).datagrid({
-		    url:baseUrl+'/system/url_type/get',
+		    url:baseUrl+'/wx/config/urltype_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'url_type_id',title:'ID',width:35},
@@ -59,7 +59,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/system/url_type/save", {
+			$.post(baseUrl+"/wx/config/urltype_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)
@@ -83,5 +83,5 @@
 		function refreshTable() {
 			$(divId).datagrid('reload');
 		}
-	})('#_sys_url_type_table');
+	})('#urltype_table');
 </script>

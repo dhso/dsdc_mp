@@ -6,9 +6,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <meta name="description" content="Acxiom DataGuru Robot">
-        <link rel="stylesheet" href="static/lib/weui.min.css">
-        <link rel="stylesheet" href="static/css/jquery-weui.css">
-        <link rel="stylesheet" href="static/css/main.css">
+        <link rel="stylesheet" href="${baseUrl}/static/lib/weui/weui.min.css">
+        <link rel="stylesheet" href="${baseUrl}/static/lib/weui/jquery-weui.css">
+        <link rel="stylesheet" href="${baseUrl}/static/css/qas.css">
     </head>
     <body ontouchstart>
         <div class="weui_tab">
@@ -42,7 +42,7 @@
                     {{# switch(d.msgType) { case 'text': }}
                     {{d.text}}
                     {{# break; case 'image': }}
-                    <img src="{{d.image}}" alt="{{d.text}}">
+                    <img src="{{d.text}}">
                     {{# break; } }}
                 </div>
                 <div class="aui-chat-status">
@@ -64,9 +64,16 @@
                     {{# switch(d.answer[i].msgType) { case 'text': }}
                     {{d.answer[i].text}}<br>
                     {{# break; case 'image': }}
-                    <img src="{{d.answer[i].image}}" alt="{{d.answer[i].text}}"><br>
+                    <img src="{{d.answer[i].text}}"><br>
                     {{# break; case 'link': }}
-                   <a data-id="{{ d.answer[i].id }}" data-action="getLinkContent">{{ d.answer[i].text }}</a><br>
+<div class="weui_cells weui_cells_access">
+  <a class="weui_cell" data-id="{{ d.answer[i].id }}" data-action="getLinkContent">
+    <div class="weui_cell_bd weui_cell_primary">
+      <p>{{ d.answer[i].text }}</p>
+    </div>
+    <div class="weui_cell_ft"></div>
+  </a>
+</div>
                     {{# break;} }}
 {{# } }}
                 </div>
@@ -79,11 +86,11 @@
         <script id="timeMsg" type="text/tpl">
         <div class="aui-chat-header">{{ d.text }}</div>
         </script>
-        <script src="static/lib/jquery-2.1.4.js"></script>
-        <script src="static/lib/fastclick.js"></script>
-        <script src="static/js/jquery-weui.js"></script>
-        <script src="static/js/swiper.js"></script>
-        <script src="static/lib/laytpl.js"></script>
-        <script src="static/js/main.js"></script>
+        <script src="${baseUrl}/static/js/jquery-2.1.4.js"></script>
+        <script src="${baseUrl}/static/js/fastclick.js"></script>
+        <script src="${baseUrl}/static/lib/weui/jquery-weui.js"></script>
+        <script src="${baseUrl}/static/js/swiper.js"></script>
+        <script src="${baseUrl}/static/lib/lay/laytpl.js"></script>
+        <script src="${baseUrl}/static/js/qas.js"></script>
     </body>
 </html>
