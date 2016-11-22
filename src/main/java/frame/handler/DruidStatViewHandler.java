@@ -59,7 +59,7 @@ public class DruidStatViewHandler extends Handler {
 				throw new RuntimeException(e);
 			}
 		} else {
-			nextHandler.handle(target, request, response, isHandled);
+			next.handle(target, request, response, isHandled);
 		}
 	}
 
@@ -106,12 +106,7 @@ public class DruidStatViewHandler extends Handler {
 				return;
 			}
 
-			if (isRequireAuth() //
-					&& !ContainsUser(request)//
-					&& !("/login.html".equals(path) //
-							|| path.startsWith("/css")//
-							|| path.startsWith("/js") //
-							|| path.startsWith("/img"))) {
+			if (isRequireAuth() && !ContainsUser(request) && !("/login.html".equals(path) || path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/img"))) {
 				if (contextPath == null || contextPath.equals("") || contextPath.equals("/")) {
 					response.sendRedirect("/druid/login.html");
 				} else {
