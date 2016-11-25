@@ -11,6 +11,7 @@ import cn.dreampie.orm.Model;
 import cn.dreampie.orm.annotation.Table;
 import frame.kit.MapKit;
 import frame.kit.StringKit;
+import module.model.ConfModel;
 
 /**
  * Created by hadong on 15-1-19.
@@ -32,7 +33,7 @@ public class QA extends Model<QA> {
 				for (QA qasWordSortMap : sortMap.keySet()) {
 					if (qasWordSortMap.get("qac_id", Long.class) == qasWord.get("qac_id", Long.class)) {
 						sortMap.put(qasWordSortMap, sortMap.get(qasWordSortMap).intValue() + 1);
-						if (sortMap.get(qasWordSortMap) >= Proper.getInt("qa.hit")) {
+						if (sortMap.get(qasWordSortMap) >= Integer.valueOf(ConfModel.dao.findCfgValueByKey("qa.hit"))) {
 							betterMap.put(qasWordSortMap, sortMap.get(qasWordSortMap));
 						}
 						isExist = true;

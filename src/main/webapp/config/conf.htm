@@ -1,12 +1,12 @@
-<table id="_system_config_table"></table>
-<script type="text/javascript" src="${baseUrl}/static/easyui/ext/datagrid-cellediting.js"></script>
+<table id="config_table"></table>
+<script type="text/javascript" src="${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js"></script>
 <script>
 	(function(divId){
 		var cfg_type_data = [];
 		$.ajaxSetup({
 			async:false
 		});
-		$.post( baseUrl+'/system/config_type/get', {
+		$.post( baseUrl+'/wx/config/conftype_get', {
 	    	pagination:0
 		}, function(data) {
 			cfg_type_data = data;
@@ -32,7 +32,7 @@
 	    };
 	    
 		$(divId).datagrid({
-		    url:baseUrl+'/system/config/get',
+		    url:baseUrl+'/wx/config/conf_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'cfg_id',title:'ID',width:40},
@@ -43,6 +43,8 @@
 		    queryParams:{
 		    	pagination:1
 		    },
+		    pageSize:25,
+		    pageList:[25,50,75,100],
 		    pagination:true,
 		    pagePosition:'top'
 		}).datagrid('enableCellEditing');
@@ -89,7 +91,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/system/config/save", {
+			$.post(baseUrl+"/wx/config/conf_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)
@@ -113,5 +115,5 @@
 		function refreshTable() {
 			$(divId).datagrid('reload');
 		}
-	})('#_system_config_table');
+	})('#config_table');
 </script>

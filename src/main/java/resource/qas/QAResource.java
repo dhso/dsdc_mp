@@ -7,10 +7,10 @@ import java.util.List;
 import org.ansj.domain.Result;
 import org.ansj.splitWord.analysis.DicAnalysis;
 
-import cn.dreampie.common.util.properties.Proper;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.POST;
 import frame.kit.ListKit;
+import module.model.ConfModel;
 import resource.ApiResource;
 import resource.qas.entity.Answer;
 import resource.qas.entity.QAMsg;
@@ -32,7 +32,7 @@ public class QAResource extends ApiResource {
 		List<Answer> answerList = new ArrayList<Answer>();
 		// not found
 		if (qas.isEmpty()) {
-			answerList.add(new Answer(0L, Proper.get("qa.str.notfound"), "text"));
+			answerList.add(new Answer(0L, ConfModel.dao.findCfgValueByKey("qa.tip.notfound"), "text"));
 		}
 		// only one
 		if (qas.size() == 1) {
@@ -58,6 +58,16 @@ public class QAResource extends ApiResource {
 		QAMsg qasMsg = getModelParams(QAMsg.class);
 		QA qa = QA.dao.getKeyById(id);
 		Answer answer = new Answer(qa.get("qac_id", Long.class), qa.get("qac_answer", String.class), qa.get("qat_name", String.class));
+		List<Answer> answerList = new ArrayList<Answer>();
+		answerList.add(answer);
+		qasMsg.setAnswer(answerList);
+		return qasMsg;
+	}
+
+	@POST("/type/:type")
+	public QAMsg PostQuestionByType(String type) {
+		QAMsg qasMsg = getModelParams(QAMsg.class);
+		Answer answer = new Answer(0L, ConfModel.dao.findCfgValueByKey(type), "text");
 		List<Answer> answerList = new ArrayList<Answer>();
 		answerList.add(answer);
 		qasMsg.setAnswer(answerList);

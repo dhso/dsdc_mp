@@ -10,8 +10,8 @@
 		is optional, and using CacheManager.add(String cacheName) when its not present 
 		will throw CacheException The defaultCache has an implicit name "default" 
 		which is a reserved cache name. -->
-	<defaultCache maxEntriesLocalHeap="10000" eternal="false"
-		overflowToDisk="true" timeToIdleSeconds="20" timeToLiveSeconds="60">
+	<defaultCache maxEntriesLocalHeap="10000" eternal="true"
+		overflowToDisk="true" timeToIdleSeconds="20000" timeToLiveSeconds="60000">
 	</defaultCache>
 
 	<!-- 存放用户登录信息，过期时间 3600秒，用ehache替换session功能 -->

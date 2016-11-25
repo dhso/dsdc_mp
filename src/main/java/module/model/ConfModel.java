@@ -43,7 +43,7 @@ public class ConfModel extends Model<ConfModel> {
 	 */
 	public void insertConfig(List<?> list) {
 		List<Record> recordList = RecordKit.list2RecordList(list);
-		Db.batch("insert into sys_config(cfg_key,cfg_value,cfg_type_id) values (?,?,?)", "cfg_key,cfg_value,cfg_type_id order by sc.cfg_id asc", recordList, recordList.size());
+		Db.batch("insert into sys_config(cfg_key,cfg_value,cfg_type_id) values (?,?,?)", "cfg_key,cfg_value,cfg_type_id", recordList, recordList.size());
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class ConfModel extends Model<ConfModel> {
 	 * @param cfg_key
 	 * @return
 	 */
-	public String findCfgValue(String cfg_key) {
+	public String findCfgValueByKey(String cfg_key) {
 		return Db.findFirst("select * from sys_config where cfg_key = ?", cfg_key).getStr("cfg_value");
 	}
 }

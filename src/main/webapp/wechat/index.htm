@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acxiom DataGuru Robot</title>
+        <title>Acxiom DataGuru</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -14,7 +14,7 @@
         <div class="weui_tab">
             <div class="weui_navbar">
                 <div class="navbar_left"></div>
-                <div class="navbar_center">Acxiom DataGuru Robot</div>
+                <div class="navbar_center">Acxiom DataGuru</div>
                 <div class="navbar_right"></div>
             </div>
             <div class="weui_tab_bd scroll_page">
@@ -26,7 +26,7 @@
                 <div class="eaitWrap">
                     <input class="editArea" contenteditable="true">
                 </div>
-                <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary sendBtn">send</a>
+                <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary sendBtn">Send</a>
             </div>
         </div>
         
@@ -39,11 +39,7 @@
                 <div class="aui-chat-name">{{d.userName}}</div>
                 <div class="aui-chat-content">
                     <div class="aui-chat-arrow"></div>
-                    {{# switch(d.type) { case 'text': }}
                     {{d.text}}
-                    {{# break; case 'image': }}
-                    <img src="{{d.text}}">
-                    {{# break; } }}
                 </div>
                 <div class="aui-chat-status">
                     <i class="aui-iconfont aui-icon-info aui-text-danger"></i>
@@ -51,7 +47,7 @@
             </div>
         </div>
         </script>
-        <script id="recvMsg" type="text/tpl">
+        <script id="recvTextMsg" type="text/tpl">
         <div class="aui-chat-item aui-chat-left">
             <div class="aui-chat-media">
                 <img src="{{d.avatar}}">
@@ -60,22 +56,7 @@
                 <div class="aui-chat-name">{{d.userName}}</div>
                 <div class="aui-chat-content">
                     <div class="aui-chat-arrow"></div>
-{{# for(var i = 0, len = d.answer.length; i < len; i++){ }}
-                    {{# switch(d.answer[i].type) { case 'text': }}
-                    {{d.answer[i].text}}<br>
-                    {{# break; case 'image': }}
-                    <img src="{{d.answer[i].text}}"><br>
-                    {{# break; case 'link': }}
-<div class="weui_cells weui_cells_access">
-  <a class="weui_cell" data-id="{{ d.answer[i].id }}" data-action="getLinkContent">
-    <div class="weui_cell_bd weui_cell_primary">
-      <p>{{ d.answer[i].text }}</p>
-    </div>
-    <div class="weui_cell_ft"></div>
-  </a>
-</div>
-                    {{# break;} }}
-{{# } }}
+					{{d.answer.text}}
                 </div>
                 <div class="aui-chat-status aui-chat-status-refresh">
                     <i class="aui-iconfont aui-icon-correct aui-text-success"></i>
@@ -83,8 +64,56 @@
             </div>
         </div>
         </script>
+        <script id="recvImageMsg" type="text/tpl">
+        <div class="aui-chat-item aui-chat-left">
+            <div class="aui-chat-media">
+                <img src="{{d.avatar}}">
+            </div>
+            <div class="aui-chat-inner">
+                <div class="aui-chat-name">{{d.userName}}</div>
+                <div class="aui-chat-content">
+                    <div class="aui-chat-arrow"></div>
+                    <img src="{{d.answer.text}}"><br>
+                </div>
+                <div class="aui-chat-status aui-chat-status-refresh">
+                    <i class="aui-iconfont aui-icon-correct aui-text-success"></i>
+                </div>
+            </div>
+        </div>
+        </script>
+        <script id="recvIframeMsg" type="text/tpl">
+        <div class="aui-chat-item aui-chat-left">
+            <div class="aui-chat-media">
+                <img src="{{d.avatar}}">
+            </div>
+            <div class="aui-chat-inner">
+                <div class="aui-chat-name">{{d.userName}}</div>
+            </div>
+        </div>
+		<iframe class="chat-frame" src="{{d.answer.text}}">
+        </script>
+        <script id="recvChooseMsg" type="text/tpl">
+        <div class="aui-chat-item aui-chat-left">
+            <div class="aui-chat-media">
+                <img src="{{d.avatar}}">
+            </div>
+            <div class="aui-chat-inner">
+                <div class="aui-chat-name">{{d.userName}}</div>
+            </div>
+        </div>
+		<div class="weui_cells weui_cells_access chat-choose">
+		{{# for(var i = 0, len = d.answer.length; i < len; i++){ }}
+			<a class="weui_cell" data-id="{{ d.answer[i].id }}" data-action="getLinkContent">
+				<div class="weui_cell_bd weui_cell_primary">
+					<p>{{ d.answer[i].text }}</p>
+				</div>
+				<div class="weui_cell_ft"></div>
+			</a>
+		{{# } }}
+		</div>
+        </script>
         <script id="timeMsg" type="text/tpl">
-        <div class="aui-chat-header">{{ d.text }}</div>
+        	<div class="aui-chat-header">{{ d.text }}</div>
         </script>
         <script src="${baseUrl}/static/js/jquery-2.1.4.js"></script>
         <script src="${baseUrl}/static/js/fastclick.js"></script>

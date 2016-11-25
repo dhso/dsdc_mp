@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="${baseUrl}/static/lib/echarts/echarts.min.js"></script>
+</head>
+<body>
+	<div id="main" style="width:100%;height:240px;"></div>
+	<script type="text/javascript">
+		console.log();
+		
+		var myChart = echarts.init(document.getElementById('main'));
+		var option = {
+			    visualMap: {
+			        show: false,
+			        min: 80,
+			        max: 600,
+			        inRange: {
+			            colorLightness: [0, 1]
+			        }
+			    },
+			    title: {
+	                text: 'The top 10 segments with huge volume.'
+	            },
+			    series : [
+			        {
+			            name: 'segments',
+			            type: 'pie',
+			            radius: '55%',
+			            data:[
+			                {value:235, name:'One time \npurchaser(1)'},
+			                {value:274, name:'Fresher to \nSociety (20-25)'},
+			                {value:310, name:'Single / never \nmarried'},
+			                {value:335, name:'Average Transaction \nValue [450,600)'},
+			                {value:400, name:'Annual Spending \nAverage [350,1000)'}
+			            ],
+			            label: {
+			                normal: {
+			                    textStyle: {
+			                        color: '#000'
+			                    }
+			                }
+			            },
+			            labelLine: {
+			                normal: {
+			                    lineStyle: {
+			                    	color: '#000'
+			                    }
+			                }
+			            },
+			            itemStyle: {
+			                normal: {
+			                    color: '#c23531',
+			                    shadowBlur: 200,
+			                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+			                }
+			            }
+			        }
+			    ]
+			};
+		myChart.setOption(option);
+		window.onresize = function () {
+		    myChart.resize();
+		};
+	</script>
+</body>
+</html>
