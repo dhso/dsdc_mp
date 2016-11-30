@@ -29,7 +29,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<log.rootLogger>DEBUG, stdout</log.rootLogger>
+				<log.rootLogger>DEBUG,stdout</log.rootLogger>
 				<devMode>true</devMode>
 				<cacheEnabled>false</cacheEnabled>
 				<db.default.url>10.201.14.231:3306/dataguru_robot</db.default.url>
@@ -42,7 +42,7 @@
 		<profile>
 			<id>pro</id>
 			<properties>
-				<log.rootLogger>WARN</log.rootLogger>
+				<log.rootLogger>INFO,dailyRollingFile</log.rootLogger>
 				<devMode>false</devMode>
 				<cacheEnabled>true</cacheEnabled>
 				<db.default.url>127.0.0.1:3306/dataguru_robot</db.default.url>

@@ -1,0 +1,83 @@
+<table id="wx_user_table"></table>
+<script>
+	(function(divId) {
+		$.ajaxSetup({
+			async : false
+		});
+
+		$(divId).datagrid({
+			url : baseUrl + '/wx/config/wxuser_get',
+			columns : [ [ {
+				field : 'wc_openid',
+				title : 'OPENID',
+				width : 240
+			}, {
+				field : 'wc_nickname',
+				title : '昵称',
+				width : 80
+			}, {
+				field : 'wc_sex',
+				title : '性别',
+				width : 40
+			}, {
+				field : 'wc_city',
+				title : '城市',
+				width : 80
+			}, {
+				field : 'wc_country',
+				title : '国家',
+				width : 80
+			}, {
+				field : 'wc_province',
+				title : '省份',
+				width : 80
+			}, {
+				field : 'wc_language',
+				title : '语言',
+				width : 50
+			}, {
+				field : 'wc_headimgurl',
+				title : '头像',
+				width : 100
+			}, {
+				field : 'wc_subscribe_time',
+				title : '关注时间戳',
+				width : 100
+			}, {
+				field : 'wc_unionid',
+				title : 'UNIONID',
+				width : 240
+			}, {
+				field : 'wc_remark',
+				title : '备注',
+				width : 60
+			}, {
+				field : 'wc_groupid',
+				title : '分组',
+				width : 40
+			}, {
+				field : 'wc_subscribe',
+				title : '订阅',
+				width : 40
+			} ] ],
+			queryParams : {
+				pagination : 1
+			},
+			pageSize : 25,
+			pageList : [ 25, 50, 75, 100 ],
+			pagination : true,
+			pagePosition : 'top'
+		});
+
+		$(divId).datagrid('getPager').pagination(
+				{
+					displayMsg : '位置: {from} 到 {to} 行，共计 {total} 项',
+					layout : [ 'list', 'sep', 'first', 'prev', 'sep', 'links',
+							'sep', 'next', 'last', 'sep', 'refresh' ]
+				});
+
+		function refreshTable() {
+			$(divId).datagrid('reload');
+		}
+	})('#wx_user_table');
+</script>

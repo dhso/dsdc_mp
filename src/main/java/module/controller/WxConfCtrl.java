@@ -43,7 +43,7 @@ public class WxConfCtrl extends Controller {
 		List<Record> menus = ShiroModel.dao.findUrls(ShiroKit.who());
 		renderJson(menus);
 	}
-	
+
 	@RequiresAuthentication
 	public void role() {
 		render("role.htm");
@@ -238,7 +238,7 @@ public class WxConfCtrl extends Controller {
 		String newPassword = new SimpleHash("md5", password, ByteSource.Util.bytes(salt), 2).toHex();
 		renderText(newPassword);
 	}
-	
+
 	@RequiresAuthentication
 	public void conf() {
 		render("conf.htm");
@@ -269,12 +269,12 @@ public class WxConfCtrl extends Controller {
 		}
 		renderJson(new Message("200", "success", "保存成功！"));
 	}
-	
+
 	@RequiresAuthentication
 	public void conftype() {
 		render("conf-type.htm");
 	}
-	
+
 	@RequiresAuthentication
 	public void conftype_get() {
 		Integer pageNumber = getParaToInt("page", 1);
@@ -288,7 +288,7 @@ public class WxConfCtrl extends Controller {
 			renderJson(new DataGrid(String.valueOf(configTypesPage.getTotalRow()), configTypesPage.getList()));
 		}
 	}
-	
+
 	@RequiresAuthentication
 	@Before(Tx.class)
 	public void conftype_save() {
@@ -306,12 +306,12 @@ public class WxConfCtrl extends Controller {
 		}
 		renderJson(new Message("200", "success", "保存成功！"));
 	}
-	
+
 	@RequiresAuthentication
 	public void qacontent() {
 		render("qa-content.htm");
 	}
-	
+
 	@RequiresAuthentication
 	public void qacontent_get() {
 		Integer pageNumber = getParaToInt("page", 1);
@@ -325,7 +325,7 @@ public class WxConfCtrl extends Controller {
 			renderJson(new DataGrid(String.valueOf(qasPage.getTotalRow()), qasPage.getList()));
 		}
 	}
-	
+
 	@RequiresAuthentication
 	@Before(Tx.class)
 	public void qacontent_save() {
@@ -343,12 +343,12 @@ public class WxConfCtrl extends Controller {
 		}
 		renderJson(new Message("200", "success", "保存成功！"));
 	}
-	
+
 	@RequiresAuthentication
 	public void qatype() {
 		render("qa-type.htm");
 	}
-	
+
 	@RequiresAuthentication
 	public void qatype_get() {
 		Integer pageNumber = getParaToInt("page", 1);
@@ -362,7 +362,7 @@ public class WxConfCtrl extends Controller {
 			renderJson(new DataGrid(String.valueOf(QATypesPage.getTotalRow()), QATypesPage.getList()));
 		}
 	}
-	
+
 	@RequiresAuthentication
 	@Before(Tx.class)
 	public void qatype_save() {
@@ -379,5 +379,43 @@ public class WxConfCtrl extends Controller {
 			ConfModel.dao.deleteQAType(deletedJson);
 		}
 		renderJson(new Message("200", "success", "保存成功！"));
+	}
+
+	@RequiresAuthentication
+	public void wxuser() {
+		render("wx-user.htm");
+	}
+
+	@RequiresAuthentication
+	public void wxuser_get() {
+		Integer pageNumber = getParaToInt("page", 1);
+		Integer pageSize = getParaToInt("rows", 10);
+		Integer pagination = getParaToInt("pagination", 0);
+		if (pagination == 0) {
+			List<Record> wuList = ConfModel.dao.findAllWxUser();
+			renderJson(wuList);
+		} else {
+			Page<Record> wuPage = ConfModel.dao.findAllWxUserPage(pageNumber, pageSize);
+			renderJson(new DataGrid(String.valueOf(wuPage.getTotalRow()), wuPage.getList()));
+		}
+	}
+	
+	@RequiresAuthentication
+	public void wxquestion() {
+		render("wx-user-qa.htm");
+	}
+	
+	@RequiresAuthentication
+	public void wxuser_qa_get() {
+		Integer pageNumber = getParaToInt("page", 1);
+		Integer pageSize = getParaToInt("rows", 10);
+		Integer pagination = getParaToInt("pagination", 0);
+		if (pagination == 0) {
+			List<Record> wuList = ConfModel.dao.findAllWxUserQA();
+			renderJson(wuList);
+		} else {
+			Page<Record> wuPage = ConfModel.dao.findAllWxUserPageQA(pageNumber, pageSize);
+			renderJson(new DataGrid(String.valueOf(wuPage.getTotalRow()), wuPage.getList()));
+		}
 	}
 }

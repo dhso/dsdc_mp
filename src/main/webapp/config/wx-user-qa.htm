@@ -1,0 +1,47 @@
+<table id="wx_user_qa_table"></table>
+<script>
+	(function(divId) {
+		$.ajaxSetup({
+			async : false
+		});
+
+		$(divId).datagrid({
+			url : baseUrl + '/wx/config/wxuser_qa_get',
+			columns : [ [ {
+				field : 'wc_openid',
+				title : 'OPENID',
+				width : 240
+			}, {
+				field : 'wc_nickname',
+				title : '昵称',
+				width : 80
+			}, {
+				field : 'wq_question',
+				title : '问答内容',
+				width : 300
+			}, {
+				field : 'wq_create_dt',
+				title : '提交时间',
+				width : 80
+			} ] ],
+			queryParams : {
+				pagination : 1
+			},
+			pageSize : 25,
+			pageList : [ 25, 50, 75, 100 ],
+			pagination : true,
+			pagePosition : 'top'
+		});
+
+		$(divId).datagrid('getPager').pagination(
+				{
+					displayMsg : '位置: {from} 到 {to} 行，共计 {total} 项',
+					layout : [ 'list', 'sep', 'first', 'prev', 'sep', 'links',
+							'sep', 'next', 'last', 'sep', 'refresh' ]
+				});
+
+		function refreshTable() {
+			$(divId).datagrid('reload');
+		}
+	})('#wx_user_qa_table');
+</script>

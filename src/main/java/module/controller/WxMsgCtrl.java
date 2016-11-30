@@ -26,6 +26,8 @@ import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 import frame.kit.WeixinKit;
 import frame.plugin.collerbind.Coller;
 import module.model.ConfModel;
+import module.model.QuestionModel;
+import module.model.WechatModel;
 
 /**
  * @author hadong
@@ -44,12 +46,20 @@ public class WxMsgCtrl extends MsgControllerAdapter {
 
 	@Override
 	protected void processInFollowEvent(InFollowEvent inFollowEvent) {
+		String customerOpenId = inFollowEvent.getFromUserName().trim();
+		// 记录用户关注和取消关注
+		switch (inFollowEvent.getEvent()) {
+		case InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE:
+			WechatModel.dao.subscribe(customerOpenId, String.valueOf(inFollowEvent.getCreateTime()));
+			break;
+		case InFollowEvent.EVENT_INFOLLOW_UNSUBSCRIBE:
+			WechatModel.dao.unSubscribe(customerOpenId);
+			break;
+		}
 
 		OutTextMsg outMsg = new OutTextMsg(inFollowEvent);
 		// outMsg.setContent(ConfModel.dao.findCfgValueByKey("wx.tip.subscribe"));
 		// 如果为取消关注事件，将无法接收到传回的信息
-
-		String customerOpenId = inFollowEvent.getFromUserName().trim();
 
 		// 清空缓存
 		CacheKit.remove(MODEL_CACHE_NAME, customerOpenId);
@@ -104,23 +114,24 @@ public class WxMsgCtrl extends MsgControllerAdapter {
 					}
 
 				}
-				
+				// 记录消息
+				QuestionModel.dao.addQusetion(customerOpenId, sb.toString());
 				// 通知客服
 				CustomServiceApi.sendText("oNSykwgRjAHQ9tcqcJn9LLdawtcI", "有一条新数据咨询：\n" + sb.toString());
 				CustomServiceApi.sendText(ConfModel.dao.findCfgValueByKey("wx.cst.serviceaccount.openid"), "有一条新数据咨询：\n" + sb.toString());// TODO for test kf
-				
+
 				sb.append(" \n我现在去查询，有结果马上联系您，稍安勿躁 \n");
 				CustomServiceApi.sendText(customerOpenId, "这是您的数据需求：\n" + sb.toString());
 
 				// 清空缓存
 				CacheKit.remove(MODEL_CACHE_NAME, customerOpenId);
 				CacheKit.remove(MODEL_CACHE_NAME, "step_" + customerOpenId);
-				
+
 				// 转发到客服系统
 				OutTextMsg outMsg = new OutTextMsg(inTextMsg);
 				outMsg.setContent("Wait for you");
 				outMsg.setMsgType("transfer_customer_service");
-				render(outMsg); 
+				render(outMsg);
 				return;
 			} else {
 				// TODO

@@ -220,6 +220,26 @@ public class ConfModel extends Model<ConfModel> {
 	}
 
 	/**
+	 * 获取所有配置分类信息
+	 * 
+	 * @return
+	 */
+	public List<Record> findAllWxUser() {
+		return Db.find("select * from wx_customer");
+	}
+
+	/**
+	 * 分页获取所有配置分类信息
+	 * 
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Record> findAllWxUserPage(Integer pageNumber, Integer pageSize) {
+		return Db.paginate(pageNumber, pageSize, "select *", "from wx_customer");
+	}
+
+	/**
 	 * 通过key获取value
 	 * 
 	 * @param cfg_key
@@ -227,5 +247,25 @@ public class ConfModel extends Model<ConfModel> {
 	 */
 	public String findCfgValueByKey(String cfg_key) {
 		return Db.findFirst("select * from sys_config where cfg_key = ?", cfg_key).getStr("cfg_value");
+	}
+
+	/**
+	 * 获取客户的问答
+	 * 
+	 * @return
+	 */
+	public List<Record> findAllWxUserQA() {
+		return Db.find("select * from wx_question wq left join wx_customer wc on wq.wq_openid=wc.wc_openid");
+	}
+
+	/**
+	 * 分页获取客户问答
+	 * 
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Record> findAllWxUserPageQA(Integer pageNumber, Integer pageSize) {
+		return Db.paginate(pageNumber, pageSize, "select *", "from wx_question wq left join wx_customer wc on wq.wq_openid=wc.wc_openid");
 	}
 }

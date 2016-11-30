@@ -3,7 +3,7 @@
 	<contextName>${project.name}</contextName>
 	<!-- 声明变量 -->
 	<substitutionProperty name="log.base"
-		value="./logs/${project.name}" />
+		value="logs/${project.name}" />
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
