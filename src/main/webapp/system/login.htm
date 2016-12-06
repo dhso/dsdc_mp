@@ -3,18 +3,59 @@
 <link rel="stylesheet" type="text/css" href="${baseUrl}/static/lib/bgstretcher/bgstretcher.css">
 </@override>
 <@override name="inCss">
+a:focus {
+	outline-style:none;
+	-moz-outline-style: none;
+}
+.nav-container{
+	background-color:#22252a;
+}
+.nav{
+	background-color:#22252a;
+	color:#fff;
+	padding: 10px 10px 0 10px;
+	border: 0;
+	width:1024px!important;
+	margin:0 auto!important;
+}
+.nav .logo{
+    font-size: 28px;
+	margin-right: 50px;
+}
+.nav .l-btn-text{
+	color:#fff;
+	padding:10px;
+}
+.nav .l-btn-plain{
+    border-bottom:5px solid #22252a;
+	padding: 0
+}
+.nav .l-btn-plain:hover{
+	background: #22252a;
+    color: #fff;
+    border: 0;
+    border-bottom:5px solid #00C1DE;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+.container{
+	width:1024px;
+	height: 100%;
+	margin:0 auto!important;
+}
 .login-form{
 	filter:alpha(opacity=50);  
 	-moz-opacity:0.95;  
 	-khtml-opacity: 0.95;  
 	opacity: 0.95;
 	left: auto!important;
-    right: 10%;
+    right: 20%;
 }
 .login-form ~ .window-shadow{
 	background: transparent;
 	left: auto!important;
-    right: 10%;
+    right: 20%;
 }
 .login-form .panel-body{
 	padding: 10px;
@@ -43,19 +84,38 @@
 	width: 100%!important;
     height: 100%!important;
 }
+.footer{
+	bottom: 0;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
 </@override>
 <@override name="body">
-<div class="ad"></div>
-<div id="win_login">
-<form action="${baseUrl}/wx/system/signin" method="post">
-	<p class="error-msg">${errorMsg}</p>
-	<input id="username" name="username" type="text">
-	<input id="password" name="password" type="text">
-	<input id="rememberMe" name="rememberMe" type="checkbox"><span class="rememberMe-label">记住我</span>
-	<button id="submit" class="submit-btn" type="submit"></button>
-</form>
+<div class="easyui-panel nav" data-options="cls:'nav-container'">
+	<a class="logo">ACXIOM</a>
+	<a href="#" class="easyui-linkbutton" data-options="plain:true">安客诚官网</a>
+	<a href="#" class="easyui-linkbutton" data-options="plain:true">安客诚（中国）</a>
+	<a href="#" class="easyui-linkbutton" data-options="plain:true">帮助中心</a>
 </div>
-
+<div class="container">
+	<div class="ad"></div>
+	<div id="win_login">
+		<form action="${baseUrl}/wx/system/signin" method="post">
+			<p class="error-msg">${errorMsg}</p>
+			<input id="username" name="username" type="text">
+			<input id="password" name="password" type="text">
+			<input id="rememberMe" name="rememberMe" type="checkbox"><span class="rememberMe-label">记住我</span>
+			<button id="submit" class="submit-btn" type="submit"></button>
+		</form>
+	</div>
+</div>
+<div class="footer">
+	<p>&copy; ACXIOM 2016-2017</p>
+	<p>安客诚全球信息（南通）有限公司</p>
+</div>
 
 </@override>
 <@override name="outJs">
@@ -109,12 +169,11 @@ $(document).ready(function() {
 	$(".ad").css({
 		'position':'relative',
 		'height':$('.window-shadow').height()-10,
-		'top':$('.window-shadow').position().top - 3,
-		'left': '10%',
+		'top':$('.window-shadow').position().top - 55,
 		'width':540
 	})
 	$(".ad").bgStretcher({
-	    images: ["https://img.alicdn.com/tps/TB1plbcMVXXXXcUXFXXXXXXXXXX-900-700.jpg", "https://img.alicdn.com/tps/TB1JzT0OXXXXXcfXFXXXXXXXXXX-900-700.png"],
+	    images: ["https://img.alicdn.com/tps/TB1JzT0OXXXXXcfXFXXXXXXXXXX-900-700.png"],
 	    slideShow: true,
         transitionEffect: "fade"
 	});
