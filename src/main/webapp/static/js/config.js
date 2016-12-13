@@ -11,7 +11,7 @@ $(function(){
 });
 //初始化menus
 function initMenu(){
-	$.get(baseUrl + '/wx/config/menu_get',function(arry){
+	$.get(baseUrl + '/config/menu_get',function(arry){
 		$.each(arry,function(index,element){
 			addAccordion('#menu_accordion',element.url_type_name,element.url_type_icon,'<div id="menu_accordion_'+element.url_type_id+'" class="easyui-menu" data-options="inline:true,fit:true,itemHeight:30" style="width:100%"></div>');
 			addMenu('#menu_accordion_'+element.url_type_id,element.text,element.icon,element.url,element.is_iframe);

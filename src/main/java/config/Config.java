@@ -37,9 +37,9 @@ import frame.plugin.shiro.core.ShiroInterceptor;
 import frame.plugin.shiro.core.ShiroPlugin;
 import frame.plugin.shiro.freemarker.ShiroTags;
 import frame.plugin.tablebind.TablesScanner;
-import module.controller.WxSystemCtrl;
+import module.controller.SystemCtrl;
 
-public class WechatConfig extends JFinalConfig {
+public class Config extends JFinalConfig {
 	private Routes routes;
 
 	public void configConstant(Constants me) {
@@ -48,10 +48,10 @@ public class WechatConfig extends JFinalConfig {
 		me.setDevMode(PropKit.getBoolean("devMode", false));
 		ApiConfigKit.setDevMode(me.getDevMode());
 		// 设置错误模板
-		me.setErrorView(401, WxSystemCtrl.SYSTEM_LOGIN_PAGE);
-		me.setErrorView(403, WxSystemCtrl.SYSTEM_LOGIN_PAGE);
-		me.setErrorView(404, WxSystemCtrl.SYSTEM_NOT_FOUND);
-		me.setErrorView(500, WxSystemCtrl.SYSTEM_ERROR);
+		me.setErrorView(401, SystemCtrl.SYSTEM_LOGIN_PAGE);
+		me.setErrorView(403, SystemCtrl.SYSTEM_LOGIN_PAGE);
+		me.setErrorView(404, SystemCtrl.SYSTEM_NOT_FOUND);
+		me.setErrorView(500, SystemCtrl.SYSTEM_ERROR);
 		me.setErrorRenderFactory(new IErrorRenderFactory() {
 			@Override
 			public Render getRender(int errorCode, String view) {
@@ -71,7 +71,7 @@ public class WechatConfig extends JFinalConfig {
 		// 添加shiro支持
 		me.add(new ShiroPlugin(routes));
 		// 添加缓存支持
-		me.add(new EhCachePlugin(WechatConfig.class.getClassLoader().getResource("ehcache-model.xml")));
+		//me.add(new EhCachePlugin(Config.class.getClassLoader().getResource("ehcache.xml")));
 		// 配置数据库连接池插件
 		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbc.url"), PropKit.get("jdbc.user"), PropKit.get("jdbc.password"), PropKit.get("jdbc.driver"));
 		druidPlugin.setFilters("mergeStat,wall");

@@ -19,12 +19,12 @@ import module.validator.SigninValidator;
 /**
  * @author hadong
  */
-@Coller(value = { "/wx/system" }, path = "system")
-public class WxSystemCtrl extends Controller {
-	public static String SYSTEM_LOGIN_PAGE = "/wx/system/login";
-	public static String SYSTEM_LOGIN_SUCCESS = "/wx/config";
-	public static String SYSTEM_NOT_FOUND = "/wx/system/err404";
-	public static String SYSTEM_ERROR = "/wx/system/err500";
+@Coller(value = { "/system" }, path = "system")
+public class SystemCtrl extends Controller {
+	public static String SYSTEM_LOGIN_PAGE = "/system/login";
+	public static String SYSTEM_LOGIN_SUCCESS = "/config/index";
+	public static String SYSTEM_NOT_FOUND = "/system/err404";
+	public static String SYSTEM_ERROR = "/system/err500";
 
 	// 默认登录页面
 	public void index() {

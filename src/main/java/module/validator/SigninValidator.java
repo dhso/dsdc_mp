@@ -7,7 +7,7 @@
  */
 package module.validator;
 
-import module.controller.WxSystemCtrl;
+import module.controller.SystemCtrl;
 
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
@@ -24,7 +24,7 @@ public class SigninValidator extends Validator {
 	protected void handleError(Controller c) {
 		c.setAttr("username", c.getPara("username"));
 		c.setAttr("rememberMe", c.getPara("rememberMe"));
-		c.forwardAction(WxSystemCtrl.SYSTEM_LOGIN_PAGE);
+		c.forwardAction(SystemCtrl.SYSTEM_LOGIN_PAGE);
 		return;
 	}
 }

@@ -30,8 +30,8 @@ import module.model.ShiroModel;
 /**
  * @author hadong
  */
-@Coller(value = { "/wx/config" }, path = "config")
-public class WxConfCtrl extends Controller {
+@Coller(value = { "/config" }, path = "config")
+public class ConfigCtrl extends Controller {
 	@RequiresAuthentication
 	public void index() {
 		setAttr("role", ShiroModel.dao.findRole(ShiroKit.who()).getStr("role_desc"));
