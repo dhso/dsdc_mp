@@ -6,7 +6,7 @@
 		$.ajaxSetup({
 			async:false
 		});
-		$.post( baseUrl+'/wx/config/permission_get', {
+		$.post( baseUrl+'/config/permission_get', {
 	    	pagination:0
 		}, function(data) {
 			$.each(data,function(index,element){
@@ -47,7 +47,7 @@
 	    };
 	    
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/role_get',
+		    url:baseUrl+'/config/role_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'id',title:'ID',width:35},
@@ -106,7 +106,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/role_save", {
+			$.post(baseUrl+"/config/role_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)

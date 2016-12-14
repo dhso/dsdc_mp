@@ -6,7 +6,7 @@
 		$.ajaxSetup({
 			async:false
 		});
-		$.post( baseUrl+'/wx/config/qatype_get', {
+		$.post( baseUrl+'/config/qatype_get', {
 	    	pagination:0
 		}, function(data) {
 			qa_type_data = data;
@@ -31,7 +31,7 @@
 	    };
 	    
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/qacontent_get',
+		    url:baseUrl+'/config/qacontent_get',
 		    columns:[[
 				{field:'checkbox',checkbox:true},
 		        {field:'qac_id',title:'ID',width:35},
@@ -90,7 +90,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/qacontent_save", {
+			$.post(baseUrl+"/config/qacontent_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)

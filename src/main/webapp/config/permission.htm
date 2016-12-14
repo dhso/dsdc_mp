@@ -3,7 +3,7 @@
 <script>
 	(function(divId){
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/permission_get',
+		    url:baseUrl+'/config/permission_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'id',title:'ID',width:35},
@@ -61,7 +61,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/permission_save", {
+			$.post(baseUrl+"/config/permission_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)

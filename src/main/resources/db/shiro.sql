@@ -12,7 +12,7 @@ CREATE TABLE `shiro_permissions` (
   `available` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_permissions_permission` (`permission`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -21,7 +21,7 @@ CREATE TABLE `shiro_permissions` (
 
 LOCK TABLES `shiro_permissions` WRITE;
 /*!40000 ALTER TABLE `shiro_permissions` DISABLE KEYS */;
-INSERT INTO `shiro_permissions` VALUES (1,'premission','权限',1),(2,'monitor','监控',1),(3,'wechat','微信',1);
+INSERT INTO `shiro_permissions` VALUES (1,'premission','权限',1),(2,'monitor','监控',1),(3,'data','数据',1),(4,'config','配置',1);
 /*!40000 ALTER TABLE `shiro_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -39,7 +39,7 @@ CREATE TABLE `shiro_roles` (
   `available` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_roles_role` (`role`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `shiro_roles_permissions` (
 
 LOCK TABLES `shiro_roles_permissions` WRITE;
 /*!40000 ALTER TABLE `shiro_roles_permissions` DISABLE KEYS */;
-INSERT INTO `shiro_roles_permissions` VALUES (1,1),(1,2),(1,3),(2,1),(2,2),(3,3);
+INSERT INTO `shiro_roles_permissions` VALUES (1,1),(1,2),(1,3),(1,4),(2,1),(2,2),(2,4),(3,3);
 /*!40000 ALTER TABLE `shiro_roles_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `shiro_urls` (
   `url_order` int(11) NOT NULL,
   `is_iframe` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `shiro_urls` (
 
 LOCK TABLES `shiro_urls` WRITE;
 /*!40000 ALTER TABLE `shiro_urls` DISABLE KEYS */;
-INSERT INTO `shiro_urls` VALUES (1,2,1,'/druid/','SQL监控','fa fa-database',1,1),(2,1,2,'/wx/config/role','角色管理','fa fa-user-secret',4,0),(3,1,2,'/wx/config/permission','权限管理','fa fa-ban',3,0),(12,1,2,'/wx/config/url','链接管理','fa fa-link',2,0),(13,1,2,'/wx/config/urltype','链接类型管理','fa fa-link',1,0),(14,3,6,'/wx/config/qacontent','问答管理','fa fa-link',6,0),(15,3,6,'/wx/config/qatype','问答类型','fa fa-link',7,0);
+INSERT INTO `shiro_urls` VALUES (1,2,1,'/druid/','SQL监控','fa fa-database',1,1),(2,1,2,'/config/role','角色管理','fa fa-user-secret',4,0),(3,1,2,'/config/permission','权限管理','fa fa-ban',3,0),(12,1,2,'/config/url','链接管理','fa fa-link',2,0),(13,1,2,'/config/urltype','链接类型管理','fa fa-link',1,0),(15,3,6,'/data/setup','数据向导','fa fa-link',7,0),(16,1,2,'/config/user','用户管理','fa fa-user-secret',5,0),(17,4,7,'/config/conf','配置项管理','fa fa-gear',2,0),(18,4,7,'/config/conftype','配置项类型管理','fa fa-gear',1,0);
 /*!40000 ALTER TABLE `shiro_urls` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `shiro_urls_type` (
   `url_type_name` varchar(50) NOT NULL,
   `url_type_icon` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`url_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `shiro_urls_type` (
 
 LOCK TABLES `shiro_urls_type` WRITE;
 /*!40000 ALTER TABLE `shiro_urls_type` DISABLE KEYS */;
-INSERT INTO `shiro_urls_type` VALUES (1,'监控','fa fa-support'),(2,'权限','fa fa-shield'),(6,'微信','fa fa-wechat');
+INSERT INTO `shiro_urls_type` VALUES (1,'监控','fa fa-support'),(2,'权限','fa fa-shield'),(6,'数据','fa fa-wechat'),(7,'配置','fa fa-gears');
 /*!40000 ALTER TABLE `shiro_urls_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +146,7 @@ CREATE TABLE `shiro_users` (
   `locked` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_users_username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

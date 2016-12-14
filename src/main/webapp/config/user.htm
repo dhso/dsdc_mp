@@ -17,7 +17,7 @@
 	$.ajaxSetup({
 		async:false
 	});
-	$.post( baseUrl+'/wx/config/role_get', {
+	$.post( baseUrl+'/config/role_get', {
     	pagination:0
 	}, function(data) {
 		role_data = data;
@@ -47,7 +47,7 @@
     };
     
 	$(divId).datagrid({
-	    url:baseUrl+'/wx/config/user_get',
+	    url:baseUrl+'/config/user_get',
 	    columns:[[
 			{field:'checkbox',checkbox:true},
 	        {field:'id',title:'ID',width:35},
@@ -109,7 +109,7 @@
 		var insertRows = $(divId).datagrid('getChanges', 'inserted');
 		var updateRows = $(divId).datagrid('getChanges', 'updated');
 		var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-		$.post(baseUrl+"/wx/config/user_save", {
+		$.post(baseUrl+"/config/user_save", {
 			inserted : JSON.stringify(insertRows),
 			updated : JSON.stringify(updateRows),
 			deleted : JSON.stringify(deleteRows)
@@ -140,7 +140,7 @@ function generation(){
 	$('#pw_tool_result').textbox('setValue','正在生成...');
 	var password = $('#pw_tool_password').textbox('getValue');
 	var salt = $('#pw_tool_salt').textbox('getValue');
-	$.post( baseUrl+'/wx/config/password_create', {
+	$.post( baseUrl+'/config/password_create', {
 		password:password,
 		salt:salt
 	}, function(data) {

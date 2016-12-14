@@ -6,7 +6,7 @@
 		$.ajaxSetup({
 			async:false
 		});
-		$.post( baseUrl+'/wx/config/conftype_get', {
+		$.post( baseUrl+'/config/conftype_get', {
 	    	pagination:0
 		}, function(data) {
 			cfg_type_data = data;
@@ -32,7 +32,7 @@
 	    };
 	    
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/conf_get',
+		    url:baseUrl+'/config/conf_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'cfg_id',title:'ID',width:40},
@@ -91,7 +91,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/conf_save", {
+			$.post(baseUrl+"/config/conf_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)

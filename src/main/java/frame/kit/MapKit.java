@@ -3,20 +3,11 @@ package frame.kit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import cn.dreampie.route.core.Params;
 
 public class MapKit {
-	public static HashMap<String, Object> params2Map(Params params) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		for (String key : params.getNames()) {
-			map.put(key, params.get(key));
-		}
-		return map;
-	}
 
 	public static ArrayList<Entry<?, String>> sortSring(Map<?, String> hashMap) {
 		ArrayList<Entry<?, String>> arrayList = new ArrayList<Entry<?, String>>(hashMap.entrySet());

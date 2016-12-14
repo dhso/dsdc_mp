@@ -1,0 +1,89 @@
+<div id="data_setup">
+	<div class="step-body" id="myStep">
+		<div class="step-header">
+			<ul>
+				<li><p>选择数据源</p></li>
+				<li><p>配置规则</p></li>
+				<li><p>配置主键</p></li>
+				<li><p>设置定时</p></li>
+				<li><p>完成</p></li>
+			</ul>
+		</div>
+		<div class="step-content">
+			<div class="step-list">
+				<table id="chose_ds"></table>
+				<div id="pp" style="width:700px;position:relative">
+			        <div style="width:50%;"></div>
+			        <div style="width:50%;"></div>
+			    </div>
+				<a href="javascript:void(0);" id="next1">下一步</a>
+			</div>
+			<div class="step-list">
+				<a href="javascript:void(0);" class="pre-step">上一步</a>
+				<a href="javascript:void(0);" id="next2">下一步</a>
+			</div>
+			<div class="step-list">
+				<a href="javascript:void(0);" class="pre-step">上一步</a>
+				<a href="javascript:void(0);" id="next3">下一步</a>
+			</div>
+			<div class="step-list">
+				<a href="javascript:void(0);" class="pre-step">上一步</a>
+				<a href="javascript:void(0);" id="next4">完成</a>
+			</div>
+			<div class="step-list">
+				<div class="apply-finish">
+					<div class="apply-finish-header">
+						<div class="apply-finish-msg">恭喜您，提交成功！</div>
+					</div>
+					<div class="apply-finish-footer">
+						<p>尊敬的用户，您已提交成功，受理编号为<span id="proNo">LS23423432</span>。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	(function(data_setup){
+		var step;
+		$.ajaxSetup({
+			async:false
+		});
+		LazyLoad.css(['${baseUrl}/static/lib/step/jquery.step.css','${baseUrl}/static/css/data.setup.css']);
+		LazyLoad.js(['${baseUrl}/static/lib/step/jquery.step.js'], function () {
+			step = $("#myStep").step({
+				animate:true,
+				initStep:1,
+				speed:500
+			});
+			$(".pre-step").click(function(event) {
+				step.preStep();
+			});
+			$("#goBtn").click(function(event) {
+				step.goStep(3);
+			});
+			setup1();
+		});
+		$("#next1").click(function(event) {
+			step.nextStep();
+			setup2();
+		});
+		function setup1(){
+			$('#chose_ds').treegrid({
+			    url:'${baseUrl}/static/json/data.setup.1.json',
+			    checkbox: true,
+			    lines: true,
+			    idField:'id',
+			    treeField:'name',
+			    columns:[[
+			        {title:'数据名称',field:'name',width:180},
+			        {title:'数据大小',field:'size',width:180}
+			    ]]
+			});
+		}
+		function setup2(){
+			
+		}
+	})('#data_setup');
+</script>

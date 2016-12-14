@@ -3,7 +3,7 @@
 <script>
 	(function(divId){
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/conftype_get',
+		    url:baseUrl+'/config/conftype_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'cfg_type_id',title:'ID',width:35},
@@ -60,7 +60,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/conftype_save", {
+			$.post(baseUrl+"/config/conftype_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)

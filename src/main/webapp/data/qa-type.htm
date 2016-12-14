@@ -3,7 +3,7 @@
 <script>
 	(function(divId){
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/qatype_get',
+		    url:baseUrl+'/config/qatype_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'qat_id',title:'ID',width:35},
@@ -60,7 +60,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/qatype_save", {
+			$.post(baseUrl+"/config/qatype_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)

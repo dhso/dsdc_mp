@@ -3,7 +3,7 @@
 <script>
 	(function(divId){
 		$(divId).datagrid({
-		    url:baseUrl+'/wx/config/urltype_get',
+		    url:baseUrl+'/config/urltype_get',
 		    columns:[[
 		        {field:'checkbox',checkbox:true},
 		        {field:'url_type_id',title:'ID',width:35},
@@ -61,7 +61,7 @@
 			var insertRows = $(divId).datagrid('getChanges', 'inserted');
 			var updateRows = $(divId).datagrid('getChanges', 'updated');
 			var deleteRows = $(divId).datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/wx/config/urltype_save", {
+			$.post(baseUrl+"/config/urltype_save", {
 				inserted : JSON.stringify(insertRows),
 				updated : JSON.stringify(updateRows),
 				deleted : JSON.stringify(deleteRows)
