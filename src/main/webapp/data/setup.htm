@@ -11,9 +11,12 @@
 		</div>
 		<div class="step-content">
 			<div class="step-list">
-				<table id="chose_ds"></table>
-				<div id="pp" style="width:700px;position:relative">
-			        <div style="width:50%;"></div>
+				<div id="chose_ds_portal">
+			        <div style="width:50%;">
+			        	<div class="portal-panel" data-title="数据源">
+						    <table id="chose_ds"></table>
+						</div>
+			        </div>
 			        <div style="width:50%;"></div>
 			    </div>
 				<a href="javascript:void(0);" id="next1">下一步</a>
@@ -51,7 +54,7 @@
 			async:false
 		});
 		LazyLoad.css(['${baseUrl}/static/lib/step/jquery.step.css','${baseUrl}/static/css/data.setup.css']);
-		LazyLoad.js(['${baseUrl}/static/lib/step/jquery.step.js'], function () {
+		LazyLoad.js(['${baseUrl}/static/lib/step/jquery.step.js','${baseUrl}/static/lib/easyui/ext/jquery.portal.js'], function () {
 			step = $("#myStep").step({
 				animate:true,
 				initStep:1,
@@ -70,6 +73,8 @@
 			setup2();
 		});
 		function setup1(){
+			initPortalPanel();
+			$('#chose_ds_portal').portal();
 			$('#chose_ds').treegrid({
 			    url:'${baseUrl}/static/json/data.setup.1.json',
 			    checkbox: true,
@@ -84,6 +89,15 @@
 		}
 		function setup2(){
 			
+		}
+		function initPortalPanel(){
+			$('.portal-panel').each(function(){
+				console.log($(this));
+				$(this).panel({
+				    width:$(this).parent().width,
+				    title:$(this).attr('data-title')
+				});
+			});
 		}
 	})('#data_setup');
 </script>
