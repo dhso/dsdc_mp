@@ -1,4 +1,5 @@
 <div id="data_setup">
+	<p>数据向导ID: 1231232423</p>
 	<div class="step-body" id="myStep">
 		<div class="step-header">
 			<ul>
@@ -11,27 +12,28 @@
 		</div>
 		<div class="step-content">
 			<div class="step-list">
-				<div id="chose_ds_portal">
-			        <div style="width:50%;">
-			        	<div class="portal-panel" data-title="数据源">
-						    <table id="chose_ds"></table>
-						</div>
-			        </div>
-			        <div style="width:50%;"></div>
+				<table id="chose_ds"></table>
+			    <div class="step-content-footer">
+			    	<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-circle-o-right'" id="next1">下一步</a>
 			    </div>
-				<a href="javascript:void(0);" id="next1">下一步</a>
 			</div>
 			<div class="step-list">
-				<a href="javascript:void(0);" class="pre-step">上一步</a>
-				<a href="javascript:void(0);" id="next2">下一步</a>
+				<div class="step-content-footer">
+					<a href="javascript:void(0);" class="easyui-linkbutton pre-step" data-options="iconCls:'fa fa-arrow-circle-o-left'">上一步</a>
+					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-circle-o-right'" id="next2">下一步</a>
+				</div>
 			</div>
 			<div class="step-list">
-				<a href="javascript:void(0);" class="pre-step">上一步</a>
-				<a href="javascript:void(0);" id="next3">下一步</a>
+				<div class="step-content-footer">
+					<a href="javascript:void(0);" class="easyui-linkbutton pre-step" data-options="iconCls:'fa fa-arrow-circle-o-left'">上一步</a>
+					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-circle-o-right'" id="next3">下一步</a>
+				</div>
 			</div>
 			<div class="step-list">
-				<a href="javascript:void(0);" class="pre-step">上一步</a>
-				<a href="javascript:void(0);" id="next4">完成</a>
+				<div class="step-content-footer">
+					<a href="javascript:void(0);" class="easyui-linkbutton pre-step" data-options="iconCls:'fa fa-arrow-circle-o-left'">上一步</a>
+					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-circle-o-right'" id="next4">完成</a>
+				</div>
 			</div>
 			<div class="step-list">
 				<div class="apply-finish">
@@ -54,7 +56,7 @@
 			async:false
 		});
 		LazyLoad.css(['${baseUrl}/static/lib/step/jquery.step.css','${baseUrl}/static/css/data.setup.css']);
-		LazyLoad.js(['${baseUrl}/static/lib/step/jquery.step.js','${baseUrl}/static/lib/easyui/ext/jquery.portal.js'], function () {
+		LazyLoad.js(['${baseUrl}/static/lib/step/jquery.step.js'], function () {
 			step = $("#myStep").step({
 				animate:true,
 				initStep:1,
@@ -73,14 +75,13 @@
 			setup2();
 		});
 		function setup1(){
-			initPortalPanel();
-			$('#chose_ds_portal').portal();
 			$('#chose_ds').treegrid({
 			    url:'${baseUrl}/static/json/data.setup.1.json',
 			    checkbox: true,
 			    lines: true,
 			    idField:'id',
 			    treeField:'name',
+			    border:false,
 			    columns:[[
 			        {title:'数据名称',field:'name',width:180},
 			        {title:'数据大小',field:'size',width:180}
@@ -92,7 +93,6 @@
 		}
 		function initPortalPanel(){
 			$('.portal-panel').each(function(){
-				console.log($(this));
 				$(this).panel({
 				    width:$(this).parent().width,
 				    title:$(this).attr('data-title')

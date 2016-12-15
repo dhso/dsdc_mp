@@ -90,3 +90,15 @@ function removeTabPanel(divId){
         $(divId).tabs('close', index);
     }
 }
+//获取cookie
+function getCookie(name){
+    var cookies = document.cookie.split(';');
+    if (!cookies.length) return '';
+    for(var i=0; i<cookies.length; i++){
+        var pair = cookies[i].split('=');
+        if ($.trim(pair[0]) == name){
+            return $.trim(pair[1]);
+        }
+    }
+    return '';
+}

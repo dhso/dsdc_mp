@@ -26,6 +26,11 @@ public class DataCtrl extends Controller {
 	}
 
 	@RequiresAuthentication
+	public void report() {
+		render("report.htm");
+	}
+	
+	@RequiresAuthentication
 	public void setup() {
 		render("setup.htm");
 	}
