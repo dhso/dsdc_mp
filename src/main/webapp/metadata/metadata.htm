@@ -1,0 +1,104 @@
+<div id="data_metadata">
+	<table id="data_metadata_table"></table>
+</div>
+
+<script>
+	(function(data_report){
+		$.ajaxSetup({
+			async:false
+		});
+		$("#data_metadata_table").datagrid({
+		    url:baseUrl+'/static/json/metadata.metadata.json',
+		    columns:[[
+		    	{field:'checkbox',checkbox:true},
+		    	{field:'mtd_id',title:'序列',width:60,hidden:true},
+		        {field:'mtd_belong',title:'所属系统',width:200},
+		        {field:'mtd_name',title:'对象名称',width:150},
+		        {field:'mtd_create_date',title:'创建日期',width:150},
+		        {field:'mtd_desc',title:'备注',width:300}
+		    ]],
+		    queryParams:{
+		    	pagination:1
+		    },
+		    fitColumns:true,
+		    border:false,
+		    pageSize:20,
+		    pageList:[20,40,60],
+		    pagination:true,
+		    pagePosition:'top'
+		});
+		
+		$("#data_metadata_table").datagrid('getPager').pagination({
+			displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
+			layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
+			buttons:[{
+				iconCls: 'fa fa-plus',
+				text:'添加',
+				handler: function(){
+					addRow();
+					}
+			},'-',{
+				iconCls: 'fa fa-edit',
+				text:'编辑',
+				handler: function(){
+					editRow();
+					}
+			},'-',{
+				iconCls: 'fa fa-remove',
+				text:'删除',
+				handler: function(){
+					delRow();
+				}
+			},'-',{
+				iconCls: 'fa fa-search',
+				text:'搜索'
+			}]
+	    });
+		showSearch();
+		function showSearch(){
+			$('.fa-search').parents('a').after('<input id="data_metadata_table_search" name="search">');
+			$('#data_metadata_table_search').searchbox({
+			    searcher:function(value,name){
+			        alert(value + "," + name)
+			    },
+			    prompt:'搜索',
+			    width:240
+			});
+			$('.fa-search').parents('a').remove();
+		}
+		
+		function addRow(){
+			$("#data_metadata_table").datagrid('appendRow',{});
+	    }
+		function editRow(){
+			var checkedItems = $("#data_metadata_table").datagrid('getChecked');
+			if(checkedItems.length != 1){
+				$.messager.alert('提示','请选择一项进行编辑!');
+				return;
+			}
+		}
+		
+		function delRow(){
+			var checkedItems = $("#data_metadata_table").datagrid('getChecked');
+			$.each(checkedItems, function(index, element) {
+				var rowIndex = $("#data_metadata_table").datagrid('getRowIndex', element);
+				$("#data_metadata_table").datagrid('deleteRow', rowIndex);
+			});
+			var deleteRows = $("#data_metadata_table").datagrid('getChanges', 'deleted');
+			$.post(baseUrl+"/metadata/delete", {
+				deleted : JSON.stringify(deleteRows)
+			}, function(data) {
+				if (data && data.msgType == 'success'){
+					refreshTable();
+					$.messager.alert(data.msgType, data.msgDesc, 'info');
+				}else{
+					$.messager.alert('错误', '未知错误！', 'error');
+				}
+			});
+		}
+		
+		function refreshTable() {
+			$("#data_metadata_table").datagrid('reload');
+		}
+	})('#data_metadata');
+</script>

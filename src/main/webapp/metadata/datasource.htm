@@ -1,0 +1,117 @@
+<div id="data_datasource">
+	<table id="data_datasource_table"></table>
+</div>
+
+<script>
+	(function(data_report){
+		$.ajaxSetup({
+			async:false
+		});
+		LazyLoad.js(['${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js'], function () {
+			$("#data_datasource_table").datagrid({
+			    url:baseUrl+'/static/json/metadata.datasource.json',
+			    columns:[[
+			    	{field:'checkbox',checkbox:true},
+			    	{field:'mtd_id',title:'序列',width:60,hidden:true},
+			        {field:'mtd_name',title:'系统名称',width:200,editor:'text'},
+			        {field:'mtd_code',title:'系统代码',width:150,editor:'text'},
+			        {field:'mtd_create_date',title:'创建日期',width:150},
+			        {field:'mtd_desc',title:'备注',width:80,editor:'text'}
+			    ]],
+			    queryParams:{
+			    	pagination:1
+			    },
+			    fitColumns:true,
+			    border:false,
+			    pageSize:20,
+			    pageList:[20,40,60],
+			    pagination:true,
+			    pagePosition:'top'
+			}).datagrid('enableCellEditing');
+			
+			$("#data_datasource_table").datagrid('getPager').pagination({
+				displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
+				layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
+				buttons:[{
+					iconCls: 'fa fa-plus',
+					text:'添加',
+					handler: function(){
+						addRow();
+						}
+				},'-',{
+					iconCls: 'fa fa-remove',
+					text:'删除',
+					handler: function(){
+						delRow();
+					}
+				},'-',{
+					iconCls: 'fa fa-save',
+					text:'保存',
+					handler: function(){
+						saveRow();
+						}
+				},'-',{
+					iconCls: 'fa fa-search',
+					text:'搜索'
+				}]
+		    });
+			showSearch();
+		});
+		
+		
+		function showSearch(){
+			$('.fa-search').parents('a').after('<input id="data_datasource_table_search" name="search">');
+			$('#data_datasource_table_search').searchbox({
+			    searcher:function(value,name){
+			        alert(value + "," + name)
+			    },
+			    prompt:'搜索',
+			    width:240
+			});
+			$('.fa-search').parents('a').remove();
+		}
+		
+		function addRow(){
+			endEdit();
+			$("#data_datasource_table").datagrid('appendRow',{});
+	    }
+		
+		function delRow(){
+			endEdit();
+			$.each($("#data_datasource_table").datagrid('getChecked'), function(index, element) {
+				var rowIndex = $("#data_datasource_table").datagrid('getRowIndex', element);
+				$("#data_datasource_table").datagrid('deleteRow', rowIndex);
+			});
+		}
+
+		function saveRow() {
+			endEdit();
+			var insertRows = $("#data_datasource_table").datagrid('getChanges', 'inserted');
+			var updateRows = $("#data_datasource_table").datagrid('getChanges', 'updated');
+			var deleteRows = $("#data_datasource_table").datagrid('getChanges', 'deleted');
+			$.post(baseUrl+"/config/conf_save", {
+				inserted : JSON.stringify(insertRows),
+				updated : JSON.stringify(updateRows),
+				deleted : JSON.stringify(deleteRows)
+			}, function(data) {
+				if (data && data.msgType == 'success'){
+					refreshTable();
+					$.messager.alert(data.msgType, data.msgDesc, 'info');
+				}else{
+					$.messager.alert('错误', '未知错误！', 'error');
+				}
+			});
+		}
+
+		function endEdit() {
+			var editCell = $("#data_datasource_table").datagrid('cell');
+			if (editCell) {
+				$("#data_datasource_table").datagrid('endEdit', editCell.index);
+			}
+		}
+		
+		function refreshTable() {
+			$("#data_datasource_table").datagrid('reload');
+		}
+	})('#data_datasource');
+</script>

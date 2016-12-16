@@ -13,10 +13,18 @@ import frame.plugin.collerbind.Coller;
 /**
  * @author hadong
  */
-@Coller(value = { "/data" }, path = "data")
+@Coller(value = { "/metadata" }, path = "metadata")
 public class DataCtrl extends Controller {
+	public void datasource() {
+		render("datasource.htm");
+	}
+	
 	public void metadata() {
 		render("metadata.htm");
+	}
+	
+	public void mapping() {
+		render("mapping.htm");
 	}
 
 	public void setup() {

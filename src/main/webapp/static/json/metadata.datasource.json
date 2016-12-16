@@ -1,0 +1,19 @@
+{
+	"total": "10",
+	"rows": [
+		{
+			"mtd_id": 1,
+			"mtd_name": "社保",
+			"mtd_code": "DS_SB",
+			"mtd_create_date": "2016-12-01 12:10:11",
+			"mtd_desc": "社保系统"
+		},
+		{
+			"mtd_id": 2,
+			"mtd_name": "税务",
+			"mtd_code": "DS_SW",
+			"mtd_create_date": "2016-12-01 12:10:11",
+			"mtd_desc": "税务系统"
+		}
+	]
+}
