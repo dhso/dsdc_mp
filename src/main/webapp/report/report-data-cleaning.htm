@@ -1,0 +1,30 @@
+<div id="report-data-cleaning">
+	<div id="report-data-cleaning-chart" style="width:100%;height:240px;"></div>
+</div>
+
+<script>
+	(function(data_report){
+		$.ajaxSetup({
+			async:false
+		});
+		//LazyLoad.css(['${baseUrl}/static/css/data.report.css']);
+		LazyLoad.js(['${baseUrl}/static/lib/echarts/echarts.min.js'], function () {
+			var myChart = echarts.init(document.getElementById('report-data-cleaning-chart'));
+			var option = {
+		            tooltip: {},
+		            xAxis: {
+		                data: ["清洗模块","数量","新识别数量"]
+		            },
+		            yAxis: {},
+		            series: [{
+		                type: 'bar',
+		                data: [5, 20, 36]
+		            }]
+		        };
+			myChart.setOption(option);
+			window.onresize = function () {
+			    myChart.resize();
+			};
+		});
+	})('#report-data-cleaning');
+</script>

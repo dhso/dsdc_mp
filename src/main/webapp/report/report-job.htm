@@ -1,0 +1,50 @@
+<div id="report_job">
+	<table id="report_job_table"></table>
+	<div id="report_job_table_toolbar">
+		<input id="report_job_table_toolbar_search" name="jobSearch">
+	</div>
+</div>
+<script>
+	(function(divId){
+		$.ajaxSetup({
+			async:false
+		});
+	    
+		$("#report_job_table").datagrid({
+		    url:baseUrl+'/static/json/report.job.json',
+		    columns:[[
+		        {field:'job_name',title:'任务名称',width:200},
+		        {field:'job_crontab',title:'预置时间',width:150},
+		        {field:'job_recent_time',title:'最近执行时间',width:150},
+		        {field:'job_time_consuming',title:'耗时（分钟）',width:80},
+		        {field:'job_result',title:'结果',width:400}
+		    ]],
+		    queryParams:{
+		    	pagination:1
+		    },
+		    border:false,
+		    pageSize:10,
+		    pageList:[10,20,30],
+		    pagination:true,
+		    pagePosition:'top'
+		});
+		
+		$("#report_job_table").datagrid('getPager').pagination({
+			displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
+			layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
+			buttons:'#report_job_table_toolbar'
+	    });
+		
+		$('#report_job_table_toolbar_search').searchbox({
+		    searcher:function(value,name){
+		        alert(value + "," + name)
+		    },
+		    prompt:'搜索',
+		    width:240
+		});
+		
+		function refreshTable() {
+			$("#report_job_table").datagrid('reload');
+		}
+	})('#report_job');
+</script>

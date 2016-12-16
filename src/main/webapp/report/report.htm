@@ -1,4 +1,4 @@
-<div id="data_report">
+<div id="report">
 	<div id="report_portal">
 		<div style="width:70%"></div>
     	<div style="width:30%"></div>
@@ -6,7 +6,7 @@
 </div>
 
 <script>
-	(function(data_report){
+	(function(divId){
 		$.ajaxSetup({
 			async:false
 		});
@@ -23,14 +23,14 @@
 	        });
 	        var state = getCookie('portal-state');
 	        if (!state){
-	            state = 'p1,p2:p3,p4';
+	            state = 'p1,p4:p2,p3';
 	        }
 	        addPanels(state);
 	        $('#report_portal').portal('resize');
 		});
         var panels = [
-            {id:'p1',title:'Job状态报告',height:200,href:'portal_p1.html'},
-            {id:'p2',title:'系统状态报告',href:'portal_p2.html'},
+            {id:'p1',title:'脚本状态报告',height:335,href:'${baseUrl}/report/job',iconCls:'fa fa-dashboard'},
+            {id:'p2',title:'系统状态报告',href:'${baseUrl}/report/data_cleaning',iconCls:'fa fa-area-chart'},
             {id:'p3',title:'提示',height:200,href:'portal_p3.html'},
             {id:'p4',title:'帮助',height:200,href:'portal_p4.html'}
         ];
@@ -71,5 +71,5 @@
                 }
             }
         }
-	})('#data_report');
+	})('#report');
 </script>
