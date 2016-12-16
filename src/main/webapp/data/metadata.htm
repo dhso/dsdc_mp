@@ -1,0 +1,63 @@
+<div id="data_metadata">
+	<table id="data_metadata_table"></table>
+	<div id="data_metadata_table_toolbar">
+		<a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus'">新增元数据</a>
+		<input id="data_metadata_table_toolbar_search" name="search">
+	</div>
+</div>
+
+<script>
+	(function(data_report){
+		$.ajaxSetup({
+			async:false
+		});
+	    
+		$("#data_metadata_table").datagrid({
+		    url:baseUrl+'/static/json/data.metadata.json',
+		    columns:[[
+		        {field:'mtd_sshy',title:'所属行业',width:200},
+		        {field:'mtd_dxmc',title:'对象名称',width:150},
+		        {field:'mtd_create_date',title:'创建日期',width:150},
+		        {field:'mtd_desc',title:'备注',width:80},
+		        {field:'mtd_operation',title:'操作',width:120,align:'center',
+		            formatter:function(value,rec){
+		                var btn = '<a class="operation-edit warning-hover" data-id="'+rec.mtd_id+'" href="javascript:void(0)"></a>';
+		                btn += '<a class="operation-delete danger-hover" data-id="'+rec.mtd_id+'" href="javascript:void(0)"></a>';
+		                return btn;
+		            }
+		        }
+		    ]],
+		    queryParams:{
+		    	pagination:1
+		    },
+		    singleSelect:true,
+		    border:false,
+		    pageSize:10,
+		    pageList:[10,20,30],
+		    pagination:true,
+		    pagePosition:'top',
+		    onLoadSuccess:function(data){
+		        $('.operation-edit').linkbutton({text:'编辑',plain:true,iconCls:'fa fa-edit'});
+		        $('.operation-delete').linkbutton({text:'删除',plain:true,iconCls:'fa fa-remove'});
+		    }
+		});
+		
+		$("#data_metadata_table").datagrid('getPager').pagination({
+			displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
+			layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
+			buttons:'#data_metadata_table_toolbar'
+	    });
+		
+		$('#data_metadata_table_toolbar_search').searchbox({
+		    searcher:function(value,name){
+		        alert(value + "," + name)
+		    },
+		    prompt:'搜索',
+		    width:240
+		});
+		
+		function refreshTable() {
+			$("#report_job_table").datagrid('reload');
+		}
+	})('#data_metadata');
+</script>

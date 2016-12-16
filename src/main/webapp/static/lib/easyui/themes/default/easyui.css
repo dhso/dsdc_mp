@@ -505,9 +505,9 @@
   padding: 0;
 }
 .l-btn-plain:hover {
-  background: #e6e6e6;
+  background: transparent;
   color: #00438a;
-  border: 1px solid #ddd;
+  border: 1px solid transparent;
   -moz-border-radius: 5px 5px 5px 5px;
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;

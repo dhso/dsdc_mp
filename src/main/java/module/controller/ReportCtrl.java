@@ -19,18 +19,18 @@ import frame.plugin.collerbind.Coller;
 public class ReportCtrl extends Controller {
 
 	@RequiresAuthentication
-	public void index() {
-		render("report.htm");
+	public void portal() {
+		render("portal.htm");
 	}
 	
 	@RequiresAuthentication
 	public void job() {
-		render("report-job.htm");
+		render("job.htm");
 	}
 	
 	@RequiresAuthentication
 	public void data_cleaning() {
-		render("report-data-cleaning.htm");
+		render("data-cleaning.htm");
 	}
 
 }
