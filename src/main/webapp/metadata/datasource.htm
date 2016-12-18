@@ -1,5 +1,29 @@
 <div id="data_datasource">
 	<table id="data_datasource_table"></table>
+	<div id="data_datasource_add_dialog" class="easyui-dialog pd-10" data-options="modal:true,closed:true,title:'添加数据来源',width:300,minimizable:false,maximizable:false,collapsible:false,buttons:'#data_datasource_add_dialog_buttons'">
+		<label class="mg-bottom-5">数据来源名称</label>
+		<input id="data_datasource_add_dialog_name" class="easyui-textbox" name="addname" data-options="width:260">
+		<label class="mg-top-10 mg-bottom-5">数据来源代码</label>
+		<input id="data_datasource_add_dialog_code" class="easyui-textbox mg-top-10" name="addcode" data-options="width:260">
+		<label class="mg-top-10 mg-bottom-5">数据来源备注</label>
+		<input id="data_datasource_add_dialog_desc" class="easyui-textbox mg-top-10" name="adddesc" data-options="multiline:true,width:260,height:60">
+	</div>
+	<div id="data_datasource_add_dialog_buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:alert('save')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#data_datasource_add_dialog').dialog('close')">关闭</a>
+	</div>
+	<div id="data_datasource_edit_dialog" class="easyui-dialog pd-10" data-options="modal:true,closed:true,title:'编辑数据来源',width:300,minimizable:false,maximizable:false,collapsible:false,buttons:'#data_datasource_edit_dialog_buttons'">
+		<label class="mg-bottom-5">数据来源名称</label>
+		<input id="data_datasource_edit_dialog_name" class="easyui-textbox" name="editname" data-options="width:260">
+		<label class="mg-top-10 mg-bottom-5">数据来源代码</label>
+		<input id="data_datasource_edit_dialog_code" class="easyui-textbox mg-top-10" name="editcode" data-options="width:260">
+		<label class="mg-top-10 mg-bottom-5">数据来源备注</label>
+		<input id="data_datasource_edit_dialog_desc" class="easyui-textbox mg-top-10" name="editdesc" data-options="multiline:true,width:260,height:60">
+	</div>
+	<div id="data_datasource_edit_dialog_buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:alert('save')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#data_datasource_edit_dialog').dialog('close')">关闭</a>
+	</div>
 </div>
 
 <script>
@@ -7,92 +31,117 @@
 		$.ajaxSetup({
 			async:false
 		});
-		LazyLoad.js(['${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js'], function () {
-			$("#data_datasource_table").datagrid({
-			    url:baseUrl+'/static/json/metadata.datasource.json',
-			    columns:[[
-			    	{field:'checkbox',checkbox:true},
-			    	{field:'mtd_id',title:'序列',width:60,hidden:true},
-			        {field:'mtd_name',title:'系统名称',width:200,editor:'text'},
-			        {field:'mtd_code',title:'系统代码',width:150,editor:'text'},
-			        {field:'mtd_create_date',title:'创建日期',width:150},
-			        {field:'mtd_desc',title:'备注',width:80,editor:'text'}
-			    ]],
-			    queryParams:{
-			    	pagination:1
-			    },
-			    fitColumns:true,
-			    border:false,
-			    pageSize:20,
-			    pageList:[20,40,60],
-			    pagination:true,
-			    pagePosition:'top'
-			}).datagrid('enableCellEditing');
-			
-			$("#data_datasource_table").datagrid('getPager').pagination({
-				displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
-				layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
-				buttons:[{
-					iconCls: 'fa fa-plus',
-					text:'添加',
-					handler: function(){
-						addRow();
-						}
-				},'-',{
-					iconCls: 'fa fa-remove',
-					text:'删除',
-					handler: function(){
-						delRow();
-					}
-				},'-',{
-					iconCls: 'fa fa-save',
-					text:'保存',
-					handler: function(){
-						saveRow();
-						}
-				},'-',{
-					iconCls: 'fa fa-search',
-					text:'搜索'
-				}]
-		    });
-			showSearch();
+		$("#data_datasource_table").datagrid({
+		    url:baseUrl+'/static/json/metadata.datasource.json',
+		    columns:[[
+		    	{field:'checkbox',checkbox:true},
+		    	{field:'mtd_id',title:'序列',width:60,hidden:true},
+		        {field:'mtd_name',title:'系统名称',width:200,editor:'text'},
+		        {field:'mtd_code',title:'系统代码',width:150,editor:'text'},
+		        {field:'mtd_create_date',title:'创建日期',width:150},
+		        {field:'mtd_desc',title:'备注',width:80,editor:'text'}
+		    ]],
+		    queryParams:{
+		    	pagination:1
+		    },
+		    fitColumns:true,
+		    border:false,
+		    pageSize:20,
+		    pageList:[20,40,60],
+		    pagination:true,
+		    pagePosition:'top'
 		});
 		
-		
-		function showSearch(){
-			$('.fa-search').parents('a').after('<input id="data_datasource_table_search" name="search">');
-			$('#data_datasource_table_search').searchbox({
-			    searcher:function(value,name){
-			        alert(value + "," + name)
-			    },
-			    prompt:'搜索',
-			    width:240
-			});
-			$('.fa-search').parents('a').remove();
-		}
+		$("#data_datasource_table").datagrid('getPager').pagination({
+			displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
+			layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
+			buttons:[{
+				iconCls: 'fa fa-plus',
+				text:'添加',
+				handler: function(){
+					addRow();
+					}
+			},'-',{
+				iconCls: 'fa fa-edit',
+				text:'编辑',
+				handler: function(){
+					editRow();
+					}
+			},'-',{
+				iconCls: 'fa fa-remove',
+				text:'删除',
+				handler: function(){
+					delRow();
+				}
+			},'-',{
+				iconCls: 'fa fa-search',
+				text:'搜索'
+			}]
+	    });
+		//search
+		$('.fa-search').parents('a').after('<input id="data_datasource_table_search" name="search">');
+		$('#data_datasource_table_search').searchbox({
+		    searcher:function(value,name){
+		        alert(value + "," + name)
+		    },
+		    prompt:'搜索',
+		    width:240
+		});
+		$('.fa-search').parents('a').remove();
 		
 		function addRow(){
-			endEdit();
-			$("#data_datasource_table").datagrid('appendRow',{});
+			$('#data_datasource_add_dialog').dialog('open');
 	    }
 		
 		function delRow(){
-			endEdit();
-			$.each($("#data_datasource_table").datagrid('getChecked'), function(index, element) {
-				var rowIndex = $("#data_datasource_table").datagrid('getRowIndex', element);
-				$("#data_datasource_table").datagrid('deleteRow', rowIndex);
+			var checkedRows = $("#data_datasource_table").datagrid('getChecked');
+			if(checkedRows.length  < 1){
+				$.messager.alert('提示', '请选择一项或多项进行删除操作！');
+				return;
+			}
+			var ids=[],names=[];
+			$.each(checkedRows,function(idx,ele){
+				ids.push(ele.mtd_id);
+				names.push(ele.mtd_name);
+			});
+			$.messager.confirm('注意','请确定要删除以下数据：<br>'+ names,function(r){
+			    if (r){
+			    	$.post(baseUrl+"/metadata/datasource/delete", {
+						'ids': ids.join()
+					}, function(data) {
+						if (data && data.msgType == 'success'){
+							refreshTable();
+						}else{
+							$.messager.alert('错误', '未知错误！', 'error');
+						}
+					});
+			    }
 			});
 		}
 
+		function editRow() {
+			var checkedRows = $("#data_datasource_table").datagrid('getChecked');
+			if(checkedRows.length  != 1){
+				$.messager.alert('提示', '请选择一项进行编辑操作！');
+				return;
+			}
+			$.post(baseUrl+"/metadata/datasource/get", {
+				'id': checkedRows[0].mtd_id
+			}, function(data) {
+				$('#data_datasource_edit_dialog_name').textbox('setValue',checkedRows[0].mtd_name);
+				$('#data_datasource_edit_dialog_code').textbox('setValue',checkedRows[0].mtd_code);
+				$('#data_datasource_edit_dialog_desc').textbox('setValue',checkedRows[0].mtd_desc);
+				$('#data_datasource_edit_dialog').dialog('open');
+				if (data && data.msgType == 'success'){
+				}else{
+					//$.messager.alert('错误', '未知错误！', 'error');
+				}
+			});
+		}	
+		
 		function saveRow() {
-			endEdit();
-			var insertRows = $("#data_datasource_table").datagrid('getChanges', 'inserted');
-			var updateRows = $("#data_datasource_table").datagrid('getChanges', 'updated');
-			var deleteRows = $("#data_datasource_table").datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/config/conf_save", {
-				inserted : JSON.stringify(insertRows),
-				updated : JSON.stringify(updateRows),
-				deleted : JSON.stringify(deleteRows)
+			$.post(baseUrl+"/metadata/datasource/save", {
+				id:1
 			}, function(data) {
 				if (data && data.msgType == 'success'){
 					refreshTable();
@@ -103,13 +152,6 @@
 			});
 		}
 
-		function endEdit() {
-			var editCell = $("#data_datasource_table").datagrid('cell');
-			if (editCell) {
-				$("#data_datasource_table").datagrid('endEdit', editCell.index);
-			}
-		}
-		
 		function refreshTable() {
 			$("#data_datasource_table").datagrid('reload');
 		}
