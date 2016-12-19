@@ -1,9 +1,57 @@
 <div id="data_metadata">
 	<table id="data_metadata_table"></table>
+	<div id="data_metadata_add_dialog" class="easyui-dialog pd-10" data-options="modal:true,closed:true,title:'添加元数据',minimizable:false,maximizable:false,collapsible:false,buttons:'#data_metadata_add_dialog_buttons'">
+		<div class="easyui-layout" data-options="fit:true,minWidth:600,minHeight:350,border:false">
+            <div data-options="region:'west',width:170,border:false">
+                <label class="mg-bottom-5">数据来源</label>
+				<input class="easyui-combobox" name="adddatasource" data-options="url:'${baseUrl}/static/json/metadata.select.ds.json',method:'get',valueField:'id',textField:'text',panelHeight:'auto',width:160">
+				<label class="mg-top-10 mg-bottom-5">元数据名称</label>
+				<input id="data_metadata_add_dialog_name" class="easyui-textbox" name="addname" data-options="width:160">
+				<label class="mg-top-10 mg-bottom-5">元数据代码</label>
+				<input id="data_metadata_add_dialog_code" class="easyui-textbox mg-top-10" name="addcode" data-options="width:160">
+				<label class="mg-top-10 mg-bottom-5">元数据存储路径</label>
+				<input id="data_metadata_add_dialog_path" class="easyui-textbox mg-top-10" name="addpath" data-options="multiline:true,width:160,height:40">
+				<label class="mg-top-10 mg-bottom-5">元数据分隔符</label>
+				<input id="data_metadata_add_dialog_split" class="easyui-textbox mg-top-10" name="addsplit" data-options="width:160">
+            </div>
+            <div data-options="region:'center',border:false">
+            	<label class="mg-bottom-5">数据字段</label>
+                <table id="data_metadata_add_table_field"></table>
+            </div>
+        </div>
+	</div>
+	<div id="data_metadata_add_dialog_buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:alert('save')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#data_metadata_add_dialog').dialog('close')">关闭</a>
+	</div>
+	<div id="data_metadata_edit_dialog" class="easyui-dialog pd-10" data-options="modal:true,closed:true,title:'编辑元数据',minimizable:false,maximizable:false,collapsible:false,buttons:'#data_metadata_edit_dialog_buttons'">
+		<div class="easyui-layout" data-options="fit:true,minWidth:600,minHeight:350,border:false">
+            <div data-options="region:'west',width:170,border:false">
+                <label class="mg-bottom-5">数据来源</label>
+				<input class="easyui-combobox" name="editdatasource" data-options="url:'${baseUrl}/static/json/metadata.select.ds.json',method:'get',valueField:'id',textField:'text',panelHeight:'auto',width:160">
+				<label class="mg-top-10 mg-bottom-5">元数据名称</label>
+				<input id="data_metadata_edit_dialog_name" class="easyui-textbox" name="editname" data-options="width:160">
+				<label class="mg-top-10 mg-bottom-5">元数据代码</label>
+				<input id="data_metadata_edit_dialog_code" class="easyui-textbox mg-top-10" name="editcode" data-options="width:160">
+				<label class="mg-top-10 mg-bottom-5">元数据存储路径</label>
+				<input id="data_metadata_edit_dialog_path" class="easyui-textbox mg-top-10" name="editpath" data-options="multiline:true,width:160,height:40">
+				<label class="mg-top-10 mg-bottom-5">元数据分隔符</label>
+				<input id="data_metadata_edit_dialog_split" class="easyui-textbox mg-top-10" name="editsplit" data-options="width:160">
+            </div>
+            <div data-options="region:'center',border:false">
+            	<label class="mg-bottom-5">数据字段</label>
+                <table id="data_metadata_edit_table_field"></table>
+            </div>
+        </div>
+	</div>
+	<div id="data_metadata_edit_dialog_buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:alert('save')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#data_metadata_edit_dialog').dialog('close')">关闭</a>
+	</div>
 </div>
-
+<script type="text/javascript" src="${baseUrl}/static/lib/easyui/ext/datagrid-cellediting.js"></script>
 <script>
-	(function(data_report){
+	(function(data_metadata){
 		$.ajaxSetup({
 			async:false
 		});
@@ -54,49 +102,229 @@
 				text:'搜索'
 			}]
 	    });
-		showSearch();
-		function showSearch(){
-			$('.fa-search').parents('a').after('<input id="data_metadata_table_search" name="search">');
-			$('#data_metadata_table_search').searchbox({
-			    searcher:function(value,name){
-			        alert(value + "," + name)
-			    },
-			    prompt:'搜索',
-			    width:240
-			});
-			$('.fa-search').parents('a').remove();
-		}
+		
+		$('.fa-search').parents('a').after('<input id="data_metadata_table_search" name="search">');
+		$('#data_metadata_table_search').searchbox({
+		    searcher:function(value,name){
+		        alert(value + "," + name)
+		    },
+		    prompt:'搜索',
+		    width:240
+		});
+		$('.fa-search').parents('a').remove();
+		
 		
 		function addRow(){
-			$("#data_metadata_table").datagrid('appendRow',{});
+			$('#data_metadata_add_dialog').dialog('open');
+			loadAddTableField();
 	    }
+		
 		function editRow(){
-			var checkedItems = $("#data_metadata_table").datagrid('getChecked');
-			if(checkedItems.length != 1){
-				$.messager.alert('提示','请选择一项进行编辑!');
+			var checkedRows = $("#data_metadata_table").datagrid('getChecked');
+			if(checkedRows.length  != 1){
+				$.messager.alert('提示', '请选择一项进行编辑操作！');
 				return;
 			}
-		}
-		
-		function delRow(){
-			var checkedItems = $("#data_metadata_table").datagrid('getChecked');
-			$.each(checkedItems, function(index, element) {
-				var rowIndex = $("#data_metadata_table").datagrid('getRowIndex', element);
-				$("#data_metadata_table").datagrid('deleteRow', rowIndex);
-			});
-			var deleteRows = $("#data_metadata_table").datagrid('getChanges', 'deleted');
-			$.post(baseUrl+"/metadata/delete", {
-				deleted : JSON.stringify(deleteRows)
+			$.post(baseUrl+"/metadata/datasource/get", {
+				'id': checkedRows[0].mtd_id
 			}, function(data) {
+				$('#data_metadata_edit_dialog_name').textbox('setValue',checkedRows[0].mtd_name);
+				$('#data_metadata_edit_dialog_code').textbox('setValue',checkedRows[0].mtd_code);
+				$('#data_metadata_edit_dialog_desc').textbox('setValue',checkedRows[0].mtd_desc);
+				$('#data_metadata_edit_dialog').dialog('open');
+				loadEditTableField(checkedRows[0].mtd_id);
 				if (data && data.msgType == 'success'){
-					refreshTable();
-					$.messager.alert(data.msgType, data.msgDesc, 'info');
 				}else{
-					$.messager.alert('错误', '未知错误！', 'error');
+					//$.messager.alert('错误', '未知错误！', 'error');
 				}
 			});
 		}
 		
+		function delRow(){
+			var checkedRows = $("#data_metadata_table").datagrid('getChecked');
+			if(checkedRows.length  < 1){
+				$.messager.alert('提示', '请选择一项或多项进行删除操作！');
+				return;
+			}
+			var ids=[],names=[];
+			$.each(checkedRows,function(idx,ele){
+				ids.push(ele.mtd_id);
+				names.push(ele.mtd_name);
+			});
+			$.messager.confirm('注意','请确定要删除以下数据：<br>'+ names,function(r){
+			    if (r){
+			    	$.post(baseUrl+"/metadata/datasource/delete", {
+						'ids': ids.join()
+					}, function(data) {
+						if (data && data.msgType == 'success'){
+							refreshTable();
+						}else{
+							$.messager.alert('错误', '未知错误！', 'error');
+						}
+					});
+			    }
+			});
+		}
+		
+		function loadAddTableField(){
+			var fed_type_data = [];
+			$.post( baseUrl+'/config/conftype_get', {
+		    	pagination:0
+			}, function(data) {
+				fed_type_data = data;
+			});
+			var fed_type_editor = {
+		            type:'combobox',
+		            options:{
+		                valueField:'cfg_type_id',
+		                textField:'cfg_type_name',
+		                data:fed_type_data
+		            }
+		        };
+			var check_editor={
+		    		type:'checkbox',
+		    		options:{on:'1',off:'0'}
+		    };
+			var fed_type_formatter = function(value,row,index){
+				$.each(fed_type_data,function(index,element){
+					if(element.cfg_type_id == value){
+						value = element.cfg_type_name;
+						return;
+					}
+				});
+		        return value;
+		    };
+			$('#data_metadata_add_table_field').datagrid({
+			    columns:[[
+			    	{field:'checkbox',checkbox:true},
+			    	{field:'fed_id',title:'序列',width:60,hidden:true},
+			        {field:'fed_name',title:'字段名称',width:80,editor:'text'},
+			        {field:'fed_code',title:'字段代码',width:80,editor:'text'},
+			        {field:'fed_type',title:'字段类型',width:80,formatter:fed_type_formatter,editor:fed_type_editor},
+			        {field:'fed_format',title:'字段格式',width:80,formatter:fed_type_formatter,editor:fed_type_editor},
+			        {field:'fed_defval',title:'默认值',width:60,editor:'text'},
+			        {field:'fed_defval_auto',title:'默认值补全',width:100,editor:'text'},
+			        {field:'fed_isdic',title:'字典字段',width:60,editor:check_editor,align:'center'},
+			        {field:'fed_iscln',title:'参与清洗',width:60,editor:check_editor,align:'center'}
+			    ]],
+			    fitColumns:true,
+			    border:false,
+			    toolbar:[{
+					iconCls: 'fa fa-plus',
+					text:'添加',
+					handler: function(){
+						addAddField();
+						}
+				},'-',{
+					iconCls: 'fa fa-remove',
+					text:'删除',
+					handler: function(){
+						delAddField();
+					}
+				}]
+			}).datagrid('enableCellEditing');
+		}
+		
+		function addAddField(){
+			endAddEdit();
+			$("#data_metadata_add_table_field").datagrid('appendRow',{});
+	    }
+		
+		function delAddField(){
+			endAddEdit();
+			$.each($("#data_metadata_add_table_field").datagrid('getChecked'), function(index, element) {
+				var rowIndex = $("#data_metadata_add_table_field").datagrid('getRowIndex', element);
+				$("#data_metadata_add_table_field").datagrid('deleteRow', rowIndex);
+			});
+		}
+		function endAddEdit() {
+			var editCell = $("#data_metadata_add_table_field").datagrid('cell');
+			if (editCell) {
+				$("#data_metadata_add_table_field").datagrid('endEdit', editCell.index);
+			}
+		}
+		
+		function loadEditTableField(id){
+			var fed_type_data = [];
+			$.post( baseUrl+'/config/conftype_get', {
+		    	pagination:0
+			}, function(data) {
+				fed_type_data = data;
+			});
+			var fed_type_editor = {
+		            type:'combobox',
+		            options:{
+		                valueField:'cfg_type_id',
+		                textField:'cfg_type_name',
+		                data:fed_type_data
+		            }
+		        };
+			var check_editor={
+		    		type:'checkbox',
+		    		options:{on:'1',off:'0'}
+		    };
+			var fed_type_formatter = function(value,row,index){
+				$.each(fed_type_data,function(index,element){
+					if(element.cfg_type_id == value){
+						value = element.cfg_type_name;
+						return;
+					}
+				});
+		        return value;
+		    };
+			$('#data_metadata_edit_table_field').datagrid({
+			    url:baseUrl+'/static/json/metadata.field.json',
+			    columns:[[
+			    	{field:'checkbox',checkbox:true},
+			    	{field:'fed_id',title:'序列',width:60,hidden:true},
+			        {field:'fed_name',title:'字段名称',width:80,editor:'text'},
+			        {field:'fed_code',title:'字段代码',width:80,editor:'text'},
+			        {field:'fed_type',title:'字段类型',width:80,formatter:fed_type_formatter,editor:fed_type_editor},
+			        {field:'fed_format',title:'字段格式',width:80,formatter:fed_type_formatter,editor:fed_type_editor},
+			        {field:'fed_defval',title:'默认值',width:60,editor:'text'},
+			        {field:'fed_defval_auto',title:'默认值补全',width:100,editor:'text'},
+			        {field:'fed_isdic',title:'字典字段',width:60,editor:check_editor,align:'center'},
+			        {field:'fed_iscln',title:'参与清洗',width:60,editor:check_editor,align:'center'}
+			    ]],
+			    queryParams:{
+			    	id:id
+			    },
+			    fitColumns:true,
+			    border:false,
+			    toolbar:[{
+					iconCls: 'fa fa-plus',
+					text:'添加',
+					handler: function(){
+						addEditField();
+						}
+				},'-',{
+					iconCls: 'fa fa-remove',
+					text:'删除',
+					handler: function(){
+						delEditField();
+					}
+				}]
+			}).datagrid('enableCellEditing');
+		}
+		
+		function addEditField(){
+			endEditEdit();
+			$("#data_metadata_edit_table_field").datagrid('appendRow',{});
+	    }
+		
+		function delEditField(){
+			endEditEdit();
+			$.each($("#data_metadata_edit_table_field").datagrid('getChecked'), function(index, element) {
+				var rowIndex = $("#data_metadata_edit_table_field").datagrid('getRowIndex', element);
+				$("#data_metadata_edit_table_field").datagrid('deleteRow', rowIndex);
+			});
+		}
+		function endEditEdit() {
+			var editCell = $("#data_metadata_edit_table_field").datagrid('cell');
+			if (editCell) {
+				$("#data_metadata_edit_table_field").datagrid('endEdit', editCell.index);
+			}
+		}
 		function refreshTable() {
 			$("#data_metadata_table").datagrid('reload');
 		}

@@ -27,7 +27,7 @@
 </div>
 
 <script>
-	(function(data_report){
+	(function(data_datasource){
 		$.ajaxSetup({
 			async:false
 		});
@@ -93,6 +93,26 @@
 			$('#data_datasource_add_dialog').dialog('open');
 	    }
 		
+		function editRow() {
+			var checkedRows = $("#data_datasource_table").datagrid('getChecked');
+			if(checkedRows.length  != 1){
+				$.messager.alert('提示', '请选择一项进行编辑操作！');
+				return;
+			}
+			$.post(baseUrl+"/metadata/datasource/get", {
+				'id': checkedRows[0].mtd_id
+			}, function(data) {
+				$('#data_datasource_edit_dialog_name').textbox('setValue',checkedRows[0].mtd_name);
+				$('#data_datasource_edit_dialog_code').textbox('setValue',checkedRows[0].mtd_code);
+				$('#data_datasource_edit_dialog_desc').textbox('setValue',checkedRows[0].mtd_desc);
+				$('#data_datasource_edit_dialog').dialog('open');
+				if (data && data.msgType == 'success'){
+				}else{
+					//$.messager.alert('错误', '未知错误！', 'error');
+				}
+			});
+		}
+		
 		function delRow(){
 			var checkedRows = $("#data_datasource_table").datagrid('getChecked');
 			if(checkedRows.length  < 1){
@@ -116,39 +136,6 @@
 						}
 					});
 			    }
-			});
-		}
-
-		function editRow() {
-			var checkedRows = $("#data_datasource_table").datagrid('getChecked');
-			if(checkedRows.length  != 1){
-				$.messager.alert('提示', '请选择一项进行编辑操作！');
-				return;
-			}
-			$.post(baseUrl+"/metadata/datasource/get", {
-				'id': checkedRows[0].mtd_id
-			}, function(data) {
-				$('#data_datasource_edit_dialog_name').textbox('setValue',checkedRows[0].mtd_name);
-				$('#data_datasource_edit_dialog_code').textbox('setValue',checkedRows[0].mtd_code);
-				$('#data_datasource_edit_dialog_desc').textbox('setValue',checkedRows[0].mtd_desc);
-				$('#data_datasource_edit_dialog').dialog('open');
-				if (data && data.msgType == 'success'){
-				}else{
-					//$.messager.alert('错误', '未知错误！', 'error');
-				}
-			});
-		}	
-		
-		function saveRow() {
-			$.post(baseUrl+"/metadata/datasource/save", {
-				id:1
-			}, function(data) {
-				if (data && data.msgType == 'success'){
-					refreshTable();
-					$.messager.alert(data.msgType, data.msgDesc, 'info');
-				}else{
-					$.messager.alert('错误', '未知错误！', 'error');
-				}
 			});
 		}
 
