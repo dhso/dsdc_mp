@@ -1,0 +1,129 @@
+<div id="data_mapping" class="pd-10">
+	<div class="easyui-layout" data-options="fit:true,border:true,minHeight:500">
+         <div data-options="region:'west',width:250,border:false">
+			<label class="mg-bottom-5">数据向导</label>
+			<ul id="data_guide"></ul>
+         </div>
+         <div data-options="region:'center',border:false" class="pd-left-10">
+         	<label class="mg-bottom-5">映射表</label>
+         	 <table id="data_mapping_table"></table>
+         	 <div id="d_area" style="width:500px;height:500px;background: #ccc;">
+         	 </div>
+         </div>
+     </div>
+</div>
+<script>
+	(function(data_mapping){
+		$.ajaxSetup({
+			async:false
+		});
+		
+		$("#data_guide").tree({
+		    url:baseUrl+'/static/json/metadata.field.json'
+		});
+		$('#data_guide .tree-node').draggable({
+            revert: true,
+            proxy: 'clone',
+            onStartDrag:function(){
+                $(this).draggable('options').cursor = 'not-allowed';
+            },
+            onStopDrag:function(){
+                $(this).draggable('options').cursor='move';
+            }
+        });
+		$('#d_area').droppable({
+            onDragEnter:function(e,source){
+            	console.log(source);
+                $(source).draggable('options').cursor='move';
+            },
+            onDragLeave:function(e,source){
+                $(source).draggable('options').cursor='not-allowed';
+            },
+            onDrop:function(e,source){
+            	 var node = $('#data_guide').tree('getNode', source);
+                 $(this).append("<div>node.id:" + node.id + ", node.text:" + node.text + "</div>");
+            }
+        });
+		
+		$("#data_mapping_table").datagrid({
+		    url:baseUrl+'/static/json/metadata.datasource.json',
+		    columns:[[
+		    	{field:'checkbox',checkbox:true},
+		    	{field:'mtd_id',title:'序列',width:60,hidden:true},
+		        {field:'mtd_k1',title:'KEY1',width:200},
+		        {field:'mtd_v1',title:'VAL1',width:200},
+		        {field:'mtd_k2',title:'KEY2',width:200},
+		        {field:'mtd_v2',title:'VAL2',width:200}
+		    ]],
+		    queryParams:{
+		    	pagination:1
+		    },
+		    border:false,
+		    pageSize:20,
+		    pageList:[20,40,60],
+		    pagination:true,
+		    pagePosition:'top'
+		});
+		
+		$("#data_mapping_table").datagrid('getPager').pagination({
+			displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
+			layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
+			buttons:[{
+				iconCls: 'fa fa-plus',
+				text:'添加',
+				handler: function(){
+					addRow();
+					}
+			},'-',{
+				iconCls: 'fa fa-remove',
+				text:'删除',
+				handler: function(){
+					delRow();
+				}
+			}]
+	    });
+		
+		function addRow(){
+			endEdit();
+			$("#data_mapping_table").datagrid('appendRow',{});
+	    }
+		
+		function delRow(){
+			endEdit();
+			var checkedRows = $("#data_mapping_table").datagrid('getChecked');
+			if(checkedRows.length  < 1){
+				$.messager.alert('提示', '请选择一项或多项进行删除操作！');
+				return;
+			}
+			var ids=[],names=[];
+			$.each(checkedRows,function(idx,ele){
+				ids.push(ele.mtd_id);
+				names.push(ele.mtd_name);
+			});
+			$.messager.confirm('注意','请确定要删除以下数据：<br>'+ names,function(r){
+			    if (r){
+			    	$.post(baseUrl+"/metadata/datasource/delete", {
+						'ids': ids.join()
+					}, function(data) {
+						if (data && data.msgType == 'success'){
+							refreshTable();
+						}else{
+							$.messager.alert('错误', '未知错误！', 'error');
+						}
+					});
+			    }
+			});
+		}
+		
+		function endEdit() {
+			var editCell = $("#data_mapping_table").datagrid('cell');
+			if (editCell) {
+				$("#data_mapping_table").datagrid('endEdit', editCell.index);
+			}
+		}
+
+		function refreshTable() {
+			$("#data_mapping_table").datagrid('reload');
+		}
+	})('#data_mapping');
+</script>
