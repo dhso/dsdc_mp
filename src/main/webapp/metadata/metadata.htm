@@ -1,7 +1,7 @@
 <div id="data_metadata">
 	<table id="data_metadata_table"></table>
 	<div id="data_metadata_add_dialog" class="easyui-dialog pd-10" data-options="modal:true,closed:true,title:'添加元数据',minimizable:false,maximizable:false,collapsible:false,buttons:'#data_metadata_add_dialog_buttons'">
-		<div class="easyui-layout" data-options="fit:true,minWidth:600,minHeight:350,border:false">
+		<div class="easyui-layout" data-options="fit:true,minWidth:600,maxWidth:800,minHeight:350,border:false">
             <div data-options="region:'west',width:170,border:false">
                 <label class="mg-bottom-5">数据来源</label>
 				<input class="easyui-combobox" name="adddatasource" data-options="url:'${baseUrl}/static/json/metadata.select.ds.json',method:'get',valueField:'id',textField:'text',panelHeight:'auto',width:160">
@@ -25,7 +25,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#data_metadata_add_dialog').dialog('close')">关闭</a>
 	</div>
 	<div id="data_metadata_edit_dialog" class="easyui-dialog pd-10" data-options="modal:true,closed:true,title:'编辑元数据',minimizable:false,maximizable:false,collapsible:false,buttons:'#data_metadata_edit_dialog_buttons'">
-		<div class="easyui-layout" data-options="fit:true,minWidth:600,minHeight:350,border:false">
+		<div class="easyui-layout" data-options="fit:true,minWidth:600,maxWidth:800,minHeight:350,border:false">
             <div data-options="region:'west',width:170,border:false">
                 <label class="mg-bottom-5">数据来源</label>
 				<input class="easyui-combobox" name="editdatasource" data-options="url:'${baseUrl}/static/json/metadata.select.ds.json',method:'get',valueField:'id',textField:'text',panelHeight:'auto',width:160">

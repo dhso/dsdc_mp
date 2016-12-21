@@ -1,87 +1,114 @@
-<div id="data_mapping" class="pd-10">
-	<div class="easyui-layout" data-options="fit:true,border:true,minHeight:500">
+<div id="data_mapping" class="pd-10 full-screen">
+	<div class="easyui-layout" data-options="fit:true,border:true">
          <div data-options="region:'west',width:250,border:false">
 			<label class="mg-bottom-5">数据向导</label>
-			<ul id="data_guide"></ul>
+			<ul id="data_mapping_guide"></ul>
          </div>
          <div data-options="region:'center',border:false" class="pd-left-10">
          	<label class="mg-bottom-5">映射表</label>
-         	 <table id="data_mapping_table"></table>
-         	 <div id="d_area" style="width:500px;height:500px;background: #ccc;">
-         	 </div>
+         	<div id="data_mapping_view" class="full-screen"></div>
          </div>
      </div>
 </div>
+<script type="text/javascript" src="${baseUrl}/static/lib/goofunc/gooflow.js"></script>
 <script>
 	(function(data_mapping){
 		$.ajaxSetup({
 			async:false
 		});
 		
-		$("#data_guide").tree({
-		    url:baseUrl+'/static/json/metadata.field.json'
+		LazyLoad.css(['${baseUrl}/static/lib/goofunc/gooflow.css']);
+		
+		$.extend($.fn.tree.methods, {
+				getLevel:function(jq,target){
+				var l = $(target).parentsUntil("ul.tree","ul");
+				return l.length+1;
+			}
 		});
-		$('#data_guide .tree-node').draggable({
-            revert: true,
-            proxy: 'clone',
-            onStartDrag:function(){
-                $(this).draggable('options').cursor = 'not-allowed';
-            },
-            onStopDrag:function(){
-                $(this).draggable('options').cursor='move';
-            }
-        });
-		$('#d_area').droppable({
+		
+		$("#data_mapping_guide").tree({
+		    url:baseUrl+'/static/json/metadata.field.json',
+		    lines:true
+		});
+		
+		$('#data_mapping_guide .tree-node').each(function(i,e){
+			if( $('#data_mapping_guide').tree("getLevel",e) == 2 ){
+				$(e).draggable({
+		            revert: true,
+		            proxy: function(source){
+		        		return $('<div class="proxy"></div>').html($(source).html()).appendTo('body');
+		            },
+		            onStartDrag:function(){
+		                $(this).draggable('options').cursor = 'not-allowed';
+		            },
+		            onStopDrag:function(){
+		                $(this).draggable('options').cursor='move';
+		            }
+		        });
+			}
+		});
+		
+		$.createGooFlow($("#data_mapping_view"),{
+			width:$("#data_mapping_view").width()-265,
+			height:$("#data_mapping_view").height(),
+			haveHead:false,
+			haveTool:false,
+			haveGroup:false,
+			useOperStack:false
+		});
+		
+		$('#data_mapping_view').droppable({
             onDragEnter:function(e,source){
-            	console.log(source);
                 $(source).draggable('options').cursor='move';
             },
             onDragLeave:function(e,source){
                 $(source).draggable('options').cursor='not-allowed';
             },
             onDrop:function(e,source){
-            	 var node = $('#data_guide').tree('getNode', source);
-                 $(this).append("<div>node.id:" + node.id + ", node.text:" + node.text + "</div>");
+            	if($(source).hasClass('tree-node')){
+            		drawTable(source, $(source).draggable('proxy').offset());
+            	}
             }
         });
 		
-		$("#data_mapping_table").datagrid({
-		    url:baseUrl+'/static/json/metadata.datasource.json',
-		    columns:[[
-		    	{field:'checkbox',checkbox:true},
-		    	{field:'mtd_id',title:'序列',width:60,hidden:true},
-		        {field:'mtd_k1',title:'KEY1',width:200},
-		        {field:'mtd_v1',title:'VAL1',width:200},
-		        {field:'mtd_k2',title:'KEY2',width:200},
-		        {field:'mtd_v2',title:'VAL2',width:200}
-		    ]],
-		    queryParams:{
-		    	pagination:1
-		    },
-		    border:false,
-		    pageSize:20,
-		    pageList:[20,40,60],
-		    pagination:true,
-		    pagePosition:'top'
+		$('body').on('click','.db-table i.fa-trash',function(){
+			$(this).parent('table').remove();
 		});
 		
-		$("#data_mapping_table").datagrid('getPager').pagination({
-			displayMsg:'位置: {from} 到 {to} 行，共计 {total} 项',
-			layout:['list','sep','first','prev','sep','links','sep','next','last','sep','refresh'],
-			buttons:[{
-				iconCls: 'fa fa-plus',
-				text:'添加',
-				handler: function(){
-					addRow();
-					}
-			},'-',{
-				iconCls: 'fa fa-remove',
-				text:'删除',
-				handler: function(){
-					delRow();
+		function drawTable(source, position){
+			var cnodes = $('#data_mapping_guide').tree('getChildren', source);
+			if(cnodes.length > 0){
+				var fnode = $('#data_mapping_guide').tree('getNode', source);
+				if($('#data_mapping_view_table_'+fnode.id).length > 0){
+					$.messager.alert('提示', '该数据表已经存在！');
+					return;
 				}
-			}]
-	    });
+				var table = $('<table id="data_mapping_view_table_'+fnode.id+'" class="db-table"></table>');
+				table.append('<thead><tr><td>'+fnode.text+'</td></tr></thead>');
+				table.append('<tbody></tbody>');
+				for(var i in cnodes){
+					table.find('tbody').append('<tr><td>'+cnodes[i].text+'</td></tr>');
+				}
+				table.append('<i class="fa fa-trash"></i>');
+				$('#data_mapping_view').append(table);
+				$('#data_mapping_view_table_'+fnode.id).draggable({
+				    handle:$('#data_mapping_view_table_'+fnode.id+' thead'),
+				    onDrag:function(e){
+						var d = e.data;
+						$('#data_mapping_view_table_'+fnode.id).attr('data-left',d.left).attr('data-top',d.top);
+			            if (d.left < 0){d.left = 0}
+			            if (d.top < 0){d.top = 0}
+			            if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
+			                d.left = $(d.parent).width() - $(d.target).outerWidth();
+			            }
+			            if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
+			                d.top = $(d.parent).height() - $(d.target).outerHeight();
+			            }
+				    }
+				});
+				$('#data_mapping_view_table_'+fnode.id).css('position','absolute').css('left',position.left-480).css('top',position.top-150);;
+			 }
+		}
 		
 		function addRow(){
 			endEdit();
@@ -125,5 +152,6 @@
 		function refreshTable() {
 			$("#data_mapping_table").datagrid('reload');
 		}
+		
 	})('#data_mapping');
 </script>

@@ -92,3 +92,32 @@ a:focus {
 .float-clear {
 	clear: both;
 }
+
+.full-screen {
+	width: 100%;
+	height: 95%;
+}
+
+.db-table {
+	border: 1px solid #ddd;
+	min-width: 100px;
+}
+.db-table i{
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    color: #666;
+    cursor: pointer;
+}
+
+.db-table thead {
+	background-color: #ccc;
+	color: #000;
+	font-weight: bold;
+	text-indent: 2px;
+}
+
+.db-table tbody {
+	color: #666;
+	text-indent: 2px;
+}
