@@ -94,20 +94,22 @@ a:focus {
 }
 
 .full-screen {
-	width: 100%;
+	width: 95%;
 	height: 95%;
 }
 
 .db-table {
 	border: 1px solid #ddd;
 	min-width: 100px;
+	background-color: #fff;
 }
-.db-table i{
-    position: absolute;
-    right: -8px;
-    top: -8px;
-    color: #666;
-    cursor: pointer;
+
+.db-table i {
+	position: absolute;
+	right: -14px;
+    top: 0px;
+	color: #666;
+	cursor: pointer;
 }
 
 .db-table thead {
@@ -120,4 +122,18 @@ a:focus {
 .db-table tbody {
 	color: #666;
 	text-indent: 2px;
+}
+
+.db-table td{
+	cursor: pointer;
+}
+.border-dotted {
+	border: 1px dotted #ccc;
+}
+.db-table td:hover{
+	background-color: #ededed;
+	color: #000;
+}
+.db-table .td-link{
+	background-color: #808080;
 }

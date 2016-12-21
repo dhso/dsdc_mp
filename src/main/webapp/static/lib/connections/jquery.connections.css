@@ -1,0 +1,22 @@
+.connection {
+	border: 2px solid;
+	border-radius: 7em;
+	color: rgb(128, 128, 128);
+	color: rgba(0, 0, 0, 0.5);
+	cursor: pointer;
+}
+
+.connection.odd {
+	border-radius: 100%;
+}
+
+.connection.first {
+	color: black;
+	border: 5px dotted;
+}
+
+.inner {
+	border: 4px solid;
+	border-radius: 16px;
+	color: #668;
+}
