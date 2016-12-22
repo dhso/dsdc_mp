@@ -76,16 +76,53 @@
 				colorLink(this,'#808080');
 			});
 			$.repeat().add('connection').each($).connections('update').wait(0);
+			
+			$.post( baseUrl+'/static/json/metadata.mapping.table.view.json', {
+		    	pagination:0
+			}, function(data) {
+				if(data){
+					data = JSON.parse(data);
+				}
+				if(data.tables){
+					for(var i in data.tables){
+						drawTableFromJson(data.tables[i].id, data.tables[i].left, data.tables[i].top)
+					}
+				}
+				if(data.mappings){
+					for(var i in data.mappings){
+						connectWith('#data_mapping_view_table_' + data.mappings[i].from +'~td', '#data_mapping_view_table_' + data.mappings[i].to +'~td', 'connection')
+					}
+				}
+			});
 		});
+		
+		function connectWith(from, to, cls){
+			$('#data_mapping_view').connections({
+				from: from,
+				to: to,
+				within:'#data_mapping_view',
+				class: cls
+			});
+		}
 		
 		function colorLink(dom, color){
 			var data = $.data(dom,'connection');
 			$(dom).css('color',color);
-			data.node_from.css('background-color',color);
-			data.node_from.prev().css('color',color)
-			data.node_to.css('background-color',color);
-			data.node_to.prev().css('color',color)
+			if(data){
+				data.node_from.css('background-color',color);
+				data.node_from.prev().css('color',color)
+				data.node_to.css('background-color',color);
+				data.node_to.prev().css('color',color)
+			}
 		}
+		function drawTableFromJson(id, x, y){
+			var node = $('#data_mapping_guide').tree('find', id);
+			var position = {};
+			position.left = x + 480;
+			position.top = y + 150;
+			drawTable(node.target, position);
+		}
+		
 		function drawTable(source, position){
 			var cnodes = $('#data_mapping_guide').tree('getChildren', source);
 			if(cnodes.length > 0){
