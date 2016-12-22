@@ -4,6 +4,7 @@
 	color: rgb(128, 128, 128);
 	color: rgba(0, 0, 0, 0.5);
 	cursor: pointer;
+	z-index:99;
 }
 
 .connection.odd {

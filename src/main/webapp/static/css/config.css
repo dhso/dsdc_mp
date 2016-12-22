@@ -94,7 +94,6 @@ a:focus {
 }
 
 .full-screen {
-	width: 95%;
 	height: 95%;
 }
 
@@ -104,14 +103,6 @@ a:focus {
 	background-color: #fff;
 }
 
-.db-table i {
-	position: absolute;
-	right: -14px;
-    top: 0px;
-	color: #666;
-	cursor: pointer;
-}
-
 .db-table thead {
 	background-color: #ccc;
 	color: #000;
@@ -119,21 +110,61 @@ a:focus {
 	text-indent: 2px;
 }
 
+.db-table thead:hover {
+	background-color: #55f;
+	color: #fff;
+}
+
 .db-table tbody {
 	color: #666;
 	text-indent: 2px;
 }
 
-.db-table td{
+.db-table tbody td {
 	cursor: pointer;
 }
-.border-dotted {
-	border: 1px dotted #ccc;
-}
-.db-table td:hover{
+
+.db-table tbody td:hover {
 	background-color: #ededed;
 	color: #000;
 }
-.db-table .td-link{
+
+.db-table tbody td.drop-over {
+	background: #FBEC88;
+}
+
+.db-table .td-link {
 	background-color: #808080;
+}
+
+.db-table i {
+	position: absolute;
+	color: #666;
+	cursor: pointer;
+	z-index:9999;
+	width: 12px;
+    height: 12px;
+    text-align: center;
+}
+
+.db-table i.fa-arrows{
+	left: -16px;
+	top: 4px;
+}
+
+.db-table i.fa-trash{
+	left: -16px;
+	top: 25px;
+}
+.db-table i:hover {
+	color: #55f;
+}
+
+.border-dotted {
+	border: 1px dotted #ccc;
+}
+
+.overflow-scroll {
+	overflow: scroll;
+	position: relative;
 }

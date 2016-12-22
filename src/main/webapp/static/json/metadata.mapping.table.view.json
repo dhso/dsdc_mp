@@ -2,18 +2,18 @@
 	"tables": [
 		{
 			"id": 11,
-			"left": 187,
-			"top": 65
+			"left": 70,
+			"top": 44
 		},
 		{
 			"id": 12,
-			"left": 446,
-			"top": 51
+			"left": 276,
+			"top": 193
 		},
 		{
 			"id": 21,
-			"left": 184,
-			"top": 247
+			"left": 24,
+			"top": 200
 		}
 	],
 	"mappings": [

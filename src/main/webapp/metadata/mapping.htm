@@ -6,7 +6,7 @@
          </div>
          <div data-options="region:'center',border:false" class="pd-left-10">
          	<label class="mg-bottom-5">映射表</label>
-         	<div id="data_mapping_view" class="full-screen border-dotted"></div>
+         	<div id="data_mapping_view" class="full-screen overflow-scroll"></div>
          </div>
      </div>
 </div>
@@ -32,45 +32,32 @@
 		
 		$('#data_mapping_guide .tree-node').each(function(i,e){
 			if( $('#data_mapping_guide').tree("getLevel",e) == 2 ){
-				$(e).draggable({
-		            revert: true,
-		            proxy: function(source){
-		        		return $('<div class="proxy"></div>').html($(source).html()).appendTo('body');
-		            },
-		            onStartDrag:function(){
-		                $(this).draggable('options').cursor = 'not-allowed';
-		            },
-		            onStopDrag:function(){
-		                $(this).draggable('options').cursor='move';
-		            }
-		        });
+				domDraggable($(e));
 			}
 		});
-		$('#data_mapping_view').droppable({
-            onDragEnter:function(e,source){
-                $(source).draggable('options').cursor='move';
-            },
-            onDragLeave:function(e,source){
-                $(source).draggable('options').cursor='not-allowed';
-            },
-            onDrop:function(e,source){
-            	if($(source).hasClass('tree-node')){
-            		drawTable(source, $(source).draggable('proxy').offset());
-            	}
-            }
+		
+		domDroppable($('#data_mapping_view'), '#data_mapping_guide .tree-node', function(e,source){
+        	if($(source).hasClass('tree-node')){
+        		drawTable(source, $(source).draggable('proxy').offset());
+        	}
         });
 		
 		LazyLoad.js(['${baseUrl}/static/lib/connections/jquery.connections.js','${baseUrl}/static/lib/connections/jquery-timing.min.js'], function (){
-			$('body').on('click','.db-table i.fa-trash',function(){
+			$('#data_mapping_view').on('click','.db-table i.fa-trash',function(){
 				$(this).parent('table').remove();
 			});
 			
-			$('html').on('dblclick','connection',function(){
-				colorLink(this,'#808080');
-				$(this).connections('remove');
+			$('#data_mapping_view').on('contextmenu','connection',function(e){
+				e.preventDefault();
+				var data = $.data(e.target,'connection');
+				$.messager.confirm('注意','请确定要删除<br>从: '+data.node_from.parents('table').find('thead').text() + '-' + data.node_from.prev().text()+'<br>到: '+data.node_to.parents('table').find('thead').text() + '-'+data.node_to.prev().text()+'  的连接?',function(r){
+				    if (r){
+				    	$(e.target).connections('remove');
+				    }
+				});
 			});
 			
-			$('html').on('mouseenter','connection',function(){
+			$('#data_mapping_view').on('mouseenter','connection',function(){
 				colorLink(this,'#55f');
 			}).on('mouseleave','connection',function(){
 				colorLink(this,'#808080');
@@ -96,6 +83,40 @@
 			});
 		});
 		
+		function domDraggable(dom){
+			dom.draggable({
+	            revert: true,
+	            proxy: function(source){
+	        		return $('<div class="proxy"></div>').html($(source).html()).appendTo('body');
+	            },
+	            onStartDrag:function(){
+	                $(this).draggable('options').cursor = 'not-allowed';
+	            },
+	            onStopDrag:function(){
+	                $(this).draggable('options').cursor='move';
+	            }
+	        });
+		}
+		
+		function domDroppable(dom, accept, onDropFunc){
+			dom.droppable({
+				accept: accept,
+				onDragEnter:function(e,source){
+					$(this).addClass('drop-over');
+	                $(source).draggable('options').cursor='move';
+	            },
+	            onDragLeave:function(e,source){
+	            	$(this).removeClass('drop-over');
+	                $(source).draggable('options').cursor='not-allowed';
+	            },
+	            onDrop:function(e,source){
+	            	$(this).removeClass('drop-over');
+	            	if($.isFunction(onDropFunc)){
+	            		onDropFunc(e,source);
+	            	}
+	            }
+		    });
+		}
 		function connectWith(from, to, cls){
 			$('#data_mapping_view').connections({
 				from: from,
@@ -118,8 +139,8 @@
 		function drawTableFromJson(id, x, y){
 			var node = $('#data_mapping_guide').tree('find', id);
 			var position = {};
-			position.left = x + 480;
-			position.top = y + 150;
+			position.top = x+170;
+			position.left = y+460;
 			drawTable(node.target, position);
 		}
 		
@@ -138,23 +159,30 @@
 					table.find('tbody').append('<tr><td id="data_mapping_view_table_'+fnode.id+'_'+cnodes[i].id+'">'+cnodes[i].text+'</td><td class="td-link"></td></tr>');
 				}
 				table.append('<i class="fa fa-trash"></i>');
+				table.append('<i class="fa fa-arrows"></i>');
 				$('#data_mapping_view').append(table);
 				$('#data_mapping_view_table_'+fnode.id).draggable({
-				    handle:$('#data_mapping_view_table_'+fnode.id+' thead'),
+				    handle:$('#data_mapping_view_table_'+fnode.id+' i.fa-arrows'),
 				    onDrag:function(e){
 						var d = e.data;
 						$('#data_mapping_view_table_'+fnode.id).attr('data-left',d.left).attr('data-top',d.top);
-			            if (d.left < 10){d.left = 10}
-			            if (d.top < 25){d.top = 25}
-			            if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
-			                d.left = $(d.parent).width() - $(d.target).outerWidth();
-			            }
-			            if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
-			                d.top = $(d.parent).height() - $(d.target).outerHeight();
-			            }
+			            if (d.left < 10){d.left = 16}
+			            if (d.top < 10){d.top = 16}
 				    }
 				});
-				$('#data_mapping_view_table_'+fnode.id).css('position','absolute').css('left',position.left-480).css('top',position.top-150);;
+				$('#data_mapping_view_table_'+fnode.id).css('position','absolute').css('left',position.left-460).css('top',position.top-170);
+				table.find('tbody td').each(function(i, e){
+					domDraggable($(e));
+					domDroppable($(e), '.db-table td', function(e,source){
+						if($(source)[0].tagName == 'TD'){
+							if($(source).attr('id').split('_',5).sort().toString() == $(e.target).attr('id').split('_',5).sort().toString()){
+								$.messager.alert('提示', '同一数据表自身不能映射！');
+								return;
+							}
+							connectWith('#'+$(source).attr('id')+'~td', '#'+$(e.target).attr('id')+'~td', 'connection')
+			        	}
+			        });
+				});
 			 }
 		}
 		
