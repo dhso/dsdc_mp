@@ -1,0 +1,26 @@
+{
+	"total": "10",
+	"rows": [
+		{
+			"obj_id": 1,
+			"obj_name": "人员",
+			"obj_ref": [1,2],
+			"obj_create_date": "2016-12-01 12:10:11",
+			"obj_desc": "社保参保人员"
+		},
+		{
+			"obj_id": 2,
+			"obj_name": "单位",
+			"obj_ref": [1],
+			"obj_create_date": "2016-12-01 12:10:11",
+			"obj_desc": "社保养老缴费记录"
+		},
+		{
+			"obj_id": 3,
+			"obj_name": "税务",
+			"obj_ref": [2],
+			"obj_create_date": "2016-12-01 12:10:11",
+			"obj_desc": "税务纳税人"
+		}
+	]
+}
